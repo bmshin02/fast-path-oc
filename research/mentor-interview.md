@@ -1,6 +1,6 @@
 # Mentor interview: ADU permitting
 
-**Who:** Mike Brown, who now works with cities on ADU permitting. He built Crossbeam Permits, which won Anthropic's first global hackathon. He gave his name for attribution.
+**Who:** Mike Brown, who now works with cities on ADU permitting. He built CrossBeam, which won first place in Anthropic's "Built with Opus 4.6" Claude Code hackathon (see crossbeam-comparison.md). He gave his name for attribution.
 **When:** 2026-11-07, about 5 minutes at the event. Asked by Person B.
 **Method:** short scripted questions. The notes below summarize a rough speech-to-text transcript. Quotes are paraphrased unless marked.
 

@@ -115,9 +115,15 @@ Fetched sources are cached for one day, so we don't hit the same page on every r
 
 *Update this table before the demo.*
 
-## Early finding
+## Early findings
 
-Anaheim's checklist requires an owner-occupancy covenant for **all** JADUs, citing 65852.2 and 65852.22, neither of which has current text on leginfo. Current Gov 66333(b) requires owner-occupancy only when the JADU shares sanitation with the main house. That's a **possible conflict to confirm with city staff or counsel**, not a ruling. Details are in [cities.md](fast-path-check/reference/cities.md).
+**HCD already told Anaheim to fix these citations.** In a March 24, 2025 findings letter, HCD said Anaheim's ADU ordinance cites 65852.2, 65852.22 and 65852.26, sections "deleted by SB 477," and that "the City must amend the Ordinance to refer to the correct code sections." Anaheim's November 2025 ADU checklist still cites 65852.2 and 65852.22. HCD's January 2025 letter to Irvine flagged the same stale citations, a 120-day review timeline (state law allows 60, Gov 66317), and deed restrictions on all ADUs. Details are in [research/hcd-letters.md](research/hcd-letters.md).
+
+**A possible JADU overreach.** Anaheim's checklist requires an owner-occupancy covenant for **all** JADUs, citing 65852.2 and 65852.22, neither of which has current text on leginfo. Current Gov 66333(b) requires owner-occupancy only when the JADU shares sanitation with the main house. That's a **possible conflict to confirm with city staff or counsel**, not a ruling. HCD's 2025 letter to Anaheim didn't raise it. Details are in [cities.md](fast-path-check/reference/cities.md).
+
+## How this differs from CrossBeam
+
+[CrossBeam](https://cc-crossbeam.vercel.app), built by our mentor Mike Brown, won Anthropic's "Built with Opus 4.6" hackathon. It works **after plan check**: it reads a city's corrections letter and the construction plans, then drafts responses. Fast Path Check works **before submittal**: it checks whether the city's own checklist matches current state law, finds the approval path and its legal clock, and lists package gaps. The two fit together. *CrossBeam helps you answer the city's corrections; Fast Path Check checks whether the city's own rules are current before you submit.* More in [research/crossbeam-comparison.md](research/crossbeam-comparison.md).
 
 ## Where it gets things wrong
 
@@ -146,7 +152,7 @@ Results: *TBD, to be logged as tests are run.*
 
 ## Real-user evidence
 
-We interviewed **Mike Brown**, who works with cities on ADU permitting and built Crossbeam Permits, winner of Anthropic's first global hackathon, on 2026-11-07. Full notes are in [research/mentor-interview.md](research/mentor-interview.md). These are one practitioner's estimates, not measured data:
+We interviewed **Mike Brown**, who works with cities on ADU permitting and built CrossBeam, first-place winner of Anthropic's "Built with Opus 4.6" Claude Code hackathon, on 2026-11-07. Full notes are in [research/mentor-interview.md](research/mentor-interview.md). These are one practitioner's estimates, not measured data:
 
 - **"More than 90%" of first-time ADU applications in Laguna Beach are incomplete.** Common misses are a soils report, a grading plan and a fire plan.
 - **3–4 correction rounds is typical.** Cities often push back on completeness first, because the state clock only starts once an application is complete.

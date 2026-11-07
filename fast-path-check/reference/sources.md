@@ -50,6 +50,8 @@ Each section was checked by hand in a browser on 2026-11-07. Web fetch gets a 40
 | SB 35 Guidelines (final update) | https://www.hcd.ca.gov/policy-research/docs/SB-35-Guidelines-Update-Final.pdf | Streamlined multifamily rules |
 | SMAP dashboard (says it's updated daily from 6/30/2025) | https://www.hcd.ca.gov/planning-and-community-development/streamlined-ministerial-approval-process-dashboard | Whether SB 35/423 streamlining applies in a given city |
 | Draft AB 2011 Guidelines | https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/draft-ab-2011-guidelines.pdf | Corridor / office-to-housing rules (still a draft) |
+| HCD ordinance-review letters (direct PDFs) | `https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/<city>-adu-findings-<MMDDYY>.pdf`. Found by web search. Web fetch returns raw PDF bytes, so extract the text before reading | Whether HCD has already found a city's ADU ordinance out of compliance. Anaheim (3/24/25) and Irvine (1/7/25, 3/27/25) are summarized in `research/hcd-letters.md` |
+| HCD enforcement letters dashboard | https://www.hcd.ca.gov/hau/enforcement-letters | Index of all HCD letters (embedded app, hard to read automatically) |
 | Statutory determinations index | https://www.hcd.ca.gov/planning-and-community-development/statutory-determinations | Finding newer guidance. It had **no SB 684 / SB 1123 guidance** as of 2026-11-07 |
 
 ## Data: Housing Element Annual Progress Reports (data.ca.gov)

@@ -33,6 +33,9 @@ Each section was checked by hand in a browser. Automated fetches get a 403.
 | [SB 35 Guidelines (final update)](https://www.hcd.ca.gov/policy-research/docs/SB-35-Guidelines-Update-Final.pdf) | 2026-11-07 |
 | [SMAP dashboard](https://www.hcd.ca.gov/planning-and-community-development/streamlined-ministerial-approval-process-dashboard) | 2026-11-07 |
 | [Draft AB 2011 Guidelines](https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/draft-ab-2011-guidelines.pdf) | 2026-11-07 |
+| [Anaheim ADU/SB 9 findings letter, Mar 24, 2025](https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf) | 2026-11-07 |
+| [Irvine ADU findings letter, Jan 7, 2025](https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-findings-010725.pdf) and [technical assistance letter, Mar 27, 2025](https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-ta-032725.pdf) | 2026-11-07 |
+| [HCD enforcement letters dashboard](https://www.hcd.ca.gov/hau/enforcement-letters) | 2026-11-07 |
 | [Statutory determinations index](https://www.hcd.ca.gov/planning-and-community-development/statutory-determinations) | 2026-11-07 |
 
 ## Datasets
