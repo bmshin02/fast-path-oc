@@ -8,6 +8,7 @@ import type { FillRequest, PdfFieldInfo, ServerEvent, TranscriptLine } from "./p
 import type { FillSession } from "./session";
 import type { FillEvent, FormField, FormSource } from "./types";
 import { TOO_LARGE_MESSAGE } from "./upload";
+import { loadMemory, rememberFields } from "../context/store";
 
 /** An error whose message is written for the person using the site. */
 export class FillError extends Error {}
@@ -58,9 +59,12 @@ export function createRealSession(source: FormSource): FillSession {
     return { form, pdfFields: source.fileKind === "pdf" ? await readPdfFields(bytes) : undefined };
   }
 
+  const formName = source.kind === "upload" ? source.file.name : source.form.title;
+
   async function* turn(): AsyncGenerator<FillEvent> {
     const { form, pdfFields } = await (prepared ??= prepare());
-    const request: FillRequest = { form, pdfFields, fields, transcript };
+    // Facts from earlier forms in this visit, so Claude pre-fills instead of re-asking.
+    const request: FillRequest = { form, pdfFields, fields, transcript, memory: loadMemory() };
 
     let res: Response;
     try {
@@ -109,6 +113,8 @@ export function createRealSession(source: FormSource): FillSession {
       }
       if (done) break;
     }
+    // Remember after every turn (not only at the end), so an abandoned form still helps the next.
+    rememberFields(fields, formName);
   }
 
   return {

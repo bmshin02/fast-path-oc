@@ -95,7 +95,7 @@ ${reference("sources")}
 ${reference("cities")}`;
 }
 
-function requestText(parsed: ParsedDoc, note?: string, checkSmap?: boolean): string {
+function requestText(parsed: ParsedDoc, note?: string, checkSmap?: boolean, context?: string): string {
   const items = parsed.items.map(({ id, text, page, citations, kind }) => ({ id, page, kind, citations, text }));
   return [
     `Today is ${today()}.`,
@@ -109,6 +109,7 @@ function requestText(parsed: ParsedDoc, note?: string, checkSmap?: boolean): str
     isAduProject(parsed)
       ? "The HCD ADU Handbook (Mar 2026) is attached above."
       : "No handbook attached; use the HCD guidance in sources.md for this path.",
+    context ? `\n${context}\n` : "",
     note ? `Note from the coordinator (this is a re-run): ${note}` : "",
     "",
     `Checklist items (${items.length}). Return one audit row per id:`,
@@ -188,7 +189,7 @@ function enforceGuardrails(result: ComplianceResult, parsed: ParsedDoc, emit: Em
   return { ...result, checkedOn: today(), items, unverified };
 }
 
-export const runCompliance: RunCompliance = async ({ parsed, note, checkSmap }, emit) => {
+export const runCompliance: RunCompliance = async ({ parsed, note, checkSmap, context }, emit) => {
   emit({
     type: "progress",
     agent: "compliance",
@@ -215,7 +216,7 @@ export const runCompliance: RunCompliance = async ({ parsed, note, checkSmap }, 
       cache_control: { type: "ephemeral", ttl: "1h" },
     });
   }
-  content.push({ type: "text", text: requestText(parsed, note, checkSmap) });
+  content.push({ type: "text", text: requestText(parsed, note, checkSmap, context) });
 
   const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content }];
   const system: Anthropic.Beta.BetaTextBlockParam[] = [

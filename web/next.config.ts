@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
     "/api/check": ["../fast-path-check/SKILL.md", "../fast-path-check/reference/**/*.md"],
     // /api/tools/oc reads the Orange County scorecard and HCD letter data at request time.
     "/api/tools/oc": ["../data/oc-adu-scorecard.json", "../data/oc-hcd-letters.json"],
+    // Batch audits run the same agents per file (skill files) plus per-city facts (data).
+    "/api/batch/doc": [
+      "../fast-path-check/SKILL.md",
+      "../fast-path-check/reference/**/*.md",
+      "../data/oc-adu-scorecard.json",
+      "../data/oc-hcd-letters.json",
+    ],
+    "/api/batch/report": ["../fast-path-check/SKILL.md", "../fast-path-check/reference/**/*.md"],
   },
   cacheComponents: true,
   partialPrefetching: true,

@@ -229,7 +229,13 @@ export type RunParser = (
 ) => Promise<ParsedDoc>;
 
 export type RunCompliance = (
-  args: { parsed: ParsedDoc; note?: string; checkSmap?: boolean },
+  args: {
+    parsed: ParsedDoc;
+    note?: string;
+    checkSmap?: boolean;
+    /** Facts already collected for this city (lib/batch/city-context.ts), so batch runs don't re-research it per document. */
+    context?: string;
+  },
   emit: Emit,
 ) => Promise<ComplianceResult>;
 

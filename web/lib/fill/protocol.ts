@@ -23,6 +23,11 @@ export type FillRequest = {
   fields: FormField[];
   /** The conversation so far, oldest first. */
   transcript: TranscriptLine[];
+  /**
+   * Facts learned on earlier forms in this visit (lib/context/memory.ts), so this form can
+   * pre-fill instead of re-asking. Optional: older clients just don't send it.
+   */
+  memory?: { facts: unknown[] };
 };
 
 /** One line of the NDJSON stream the route sends back. */
