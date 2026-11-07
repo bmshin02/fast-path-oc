@@ -1,0 +1,18 @@
+{
+  "_note": "HAND-WRITTEN SAMPLE for producer tests, based on fast-path-check/reference/cities.md. Replace with the parser's real output (anaheim-parsed.json).",
+  "isChecklist": true,
+  "containsPersonalInfo": false,
+  "city": "Anaheim",
+  "projectType": "adu",
+  "docTitle": "Accessory Dwelling Unit Submittal Requirements Checklist (Z412, Nov 2025)",
+  "docDate": "2025-11",
+  "items": [
+    { "id": "p1-1", "text": "Sewer deficiency verification from Public Works. Email request; allow up to four days.", "page": 1, "citations": [], "kind": "requirement" },
+    { "id": "p1-2", "text": "Meter spot report, if adding, upgrading or moving an electric meter.", "page": 1, "citations": [], "kind": "document" },
+    { "id": "p1-3", "text": "New address request.", "page": 1, "citations": [], "kind": "document" },
+    { "id": "p1-4", "text": "JADUs only: owner-occupancy covenant, required by AMC 18.38.015.110 and authorized by the California Government Code Sections 65852.2 and 65852.22. Drafted by the City Attorney and recorded before permit issuance.", "page": 1, "citations": ["AMC 18.38.015.110", "Gov. Code 65852.2", "Gov. Code 65852.22"], "kind": "requirement" },
+    { "id": "p1-5", "text": "Title report (prepared within the last 6 months).", "page": 1, "citations": [], "kind": "document" },
+    { "id": "p1-6", "text": "Grant deed.", "page": 1, "citations": [], "kind": "document" }
+  ],
+  "package": null
+}

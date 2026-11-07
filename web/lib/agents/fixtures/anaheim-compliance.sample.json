@@ -1,0 +1,106 @@
+{
+  "_note": "HAND-WRITTEN SAMPLE for producer tests. Replace with the compliance agent's real output (anaheim-compliance.json).",
+  "checkedOn": "2026-11-07",
+  "path": {
+    "name": "ADU / JADU (ministerial)",
+    "statute": "Gov. Code 66314–66331 (ADU), 66333 (JADU)",
+    "clock": "60 days from a complete application",
+    "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+  },
+  "items": [
+    {
+      "id": "p1-1",
+      "status": "uncited",
+      "newCitation": null,
+      "note": "Local utility sign-off; runs outside the 60-day planning clock.",
+      "sourceUrl": null
+    },
+    {
+      "id": "p1-2",
+      "status": "uncited",
+      "newCitation": null,
+      "note": "Local utility sign-off.",
+      "sourceUrl": null
+    },
+    {
+      "id": "p1-3",
+      "status": "uncited",
+      "newCitation": null,
+      "note": "Administrative step.",
+      "sourceUrl": null
+    },
+    {
+      "id": "p1-4",
+      "status": "stale",
+      "newCitation": "Gov. Code 66310–66342",
+      "note": "Gov. Code 65852.2 was renumbered by SB 477 (2024).",
+      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+    },
+    {
+      "id": "p1-4",
+      "status": "stale",
+      "newCitation": "Gov. Code 66333",
+      "note": "Gov. Code 65852.22 was renumbered by SB 477 (2024).",
+      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+    },
+    {
+      "id": "p1-4",
+      "status": "possible_conflict",
+      "newCitation": null,
+      "note": "Requiring owner-occupancy for all JADUs looks stricter than Gov. 66333(b), which applies it only when the JADU shares sanitation with the main house. Possible conflict, confirm with city staff or counsel.",
+      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+    },
+    {
+      "id": "p1-5",
+      "status": "uncited",
+      "newCitation": null,
+      "note": "Supports the JADU covenant.",
+      "sourceUrl": null
+    },
+    {
+      "id": "p1-6",
+      "status": "uncited",
+      "newCitation": null,
+      "note": "Supports the JADU covenant.",
+      "sourceUrl": null
+    }
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "step": "Request sewer deficiency verification from Public Works",
+      "fee": null,
+      "time": "up to 4 days",
+      "outsidePlanningClock": true,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+    },
+    {
+      "order": 2,
+      "step": "Meter spot report (if changing the electric meter)",
+      "fee": null,
+      "time": "2–3 business days",
+      "outsidePlanningClock": true,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+    },
+    {
+      "order": 3,
+      "step": "Submit for building plan check",
+      "fee": "unknown (fee page returns 403)",
+      "time": "60 days (state clock)",
+      "outsidePlanningClock": false,
+      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+    }
+  ],
+  "hcdLetters": [],
+  "hcdLettersNote": "unknown: HCD's enforcement dashboard is an embedded app. Ask HAUportal@hcd.ca.gov for copies.",
+  "timelines": [
+    {
+      "metric": "ADU building-permit units, 2025 (APR Table A2)",
+      "value": "441",
+      "source": "data.ca.gov APR Table A2, checked 2026-11-07"
+    }
+  ],
+  "unverified": [
+    "Anaheim ADU fees: fee page returns 403 to automated fetches."
+  ]
+}

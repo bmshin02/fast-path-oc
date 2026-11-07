@@ -1,0 +1,21 @@
+{
+  "_note": "HAND-WRITTEN SAMPLE (two-city test). Based on the Irvine ADU project page in cities.md.",
+  "isChecklist": true,
+  "containsPersonalInfo": false,
+  "city": "Irvine",
+  "projectType": "adu",
+  "docTitle": "ADU Permit Application Package (updated 2025)",
+  "docDate": "2025",
+  "items": [
+    { "id": "p1-1", "text": "ADU Verification Form (request from the Planning team).", "page": 1, "citations": [], "kind": "document" },
+    { "id": "p1-2", "text": "ADU Permit Application (RADU), required for all ADUs and JADUs.", "page": 1, "citations": [], "kind": "document" },
+    { "id": "p1-3", "text": "Development Standards Checklist for the site plan.", "page": 1, "citations": [], "kind": "document" },
+    { "id": "p1-4", "text": "Covenant, notarized and recorded with the OC Recorder.", "page": 1, "citations": [], "kind": "requirement" }
+  ],
+  "package": [
+    { "itemId": "p1-1", "status": "present", "note": "" },
+    { "itemId": "p1-2", "status": "present", "note": "" },
+    { "itemId": "p1-3", "status": "missing", "note": "No site plan checklist in the package." },
+    { "itemId": "p1-4", "status": "cant_tell", "note": "Covenant mentioned but no recording number." }
+  ]
+}
