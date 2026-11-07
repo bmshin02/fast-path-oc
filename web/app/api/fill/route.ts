@@ -13,12 +13,15 @@ import type { FillRequest, ServerEvent } from "@/lib/fill/protocol";
 import { mergeFields } from "@/lib/fill/server/merge";
 import { SYSTEM_PROMPT, TURN_SCHEMA, turnText, type Turn } from "@/lib/fill/server/prompt";
 import { summarizeFields } from "@/lib/fill/summary";
+import { TOO_LARGE_MESSAGE } from "@/lib/fill/upload";
 
 // Web searches can make a turn take a while.
 export const maxDuration = 120;
 
 const MODEL = "claude-opus-5-5";
-const MAX_BODY_BYTES = 6 * 1024 * 1024; // a 4 MB upload is ~5.4 MB as base64
+// Vercel rejects bodies over 4.5 MB before this route runs; match it so local
+// dev fails the same way. The browser caps uploads at 3 MB (~4 MB as base64).
+const MAX_BODY_BYTES = 4.5 * 1024 * 1024;
 
 const client = new Anthropic(); // reads ANTHROPIC_API_KEY from the environment
 
@@ -32,7 +35,7 @@ export async function POST(request: Request) {
     );
   }
   if (Number(request.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {
-    return Response.json({ message: "That file is too large. Please use a file under 4 MB." }, { status: 413 });
+    return Response.json({ message: TOO_LARGE_MESSAGE }, { status: 413 });
   }
 
   let body: FillRequest;

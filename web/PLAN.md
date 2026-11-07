@@ -111,7 +111,7 @@ Each step ends with something to check at http://localhost:3000. Don't start the
   *Check:* the app runs and shows a blank Fast Track page.
 - [x] **1. Landing page** (redesigned with the unslop + frontend-design skills): headline, one-line explanation, upload icon, disclaimer.
   *Check:* wording and look; it works at phone width.
-- [x] **2. Pick or upload a form**: the upload button plus a list of the forms above. PDF and Word (.docx) only, up to 4 MB. Choosing a form goes to `/fill`.
+- [x] **2. Pick or upload a form**: the upload button plus a list of the forms above. PDF and Word (.docx) only, up to 3 MB (sent as base64, so it stays under Vercel's 4.5 MB request limit). Choosing a form goes to `/fill`.
   *Check:* each way in reaches `/fill` with the right form.
 - [x] **3. Questions page on mock data**: chat UI, progress line, a scripted conversation driven by `FillEvent`s from `web/lib/fill/mock.ts`.
   *Check:* the conversation feels right, including the "age → 18" example.

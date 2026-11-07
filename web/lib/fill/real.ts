@@ -7,6 +7,7 @@ import { readPdfFields } from "./pdf-fields";
 import type { FillRequest, PdfFieldInfo, ServerEvent, TranscriptLine } from "./protocol";
 import type { FillSession } from "./session";
 import type { FillEvent, FormField, FormSource } from "./types";
+import { TOO_LARGE_MESSAGE } from "./upload";
 
 /** An error whose message is written for the person using the site. */
 export class FillError extends Error {}
@@ -52,6 +53,8 @@ export function createRealSession(source: FormSource): FillSession {
     } catch {
       throw new FillError("Couldn't reach Fast Track. Check your internet connection and try again.");
     }
+    // Vercel's own 413 page isn't JSON, so name the problem here.
+    if (res.status === 413) throw new FillError(TOO_LARGE_MESSAGE);
     if (!res.ok || !res.body) {
       const data = (await res.json().catch(() => null)) as { message?: string } | null;
       throw new FillError(data?.message ?? "Something went wrong on our side. Please try again.");

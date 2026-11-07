@@ -6,6 +6,7 @@ import {
   ACCEPT_ATTR,
   checkUpload,
   isAcceptableDragType,
+  MAX_UPLOAD_MB,
   type UploadKind,
 } from "@/lib/fill/upload";
 
@@ -77,7 +78,7 @@ export function UploadZone({
         </p>
         <p className="mt-2 max-w-md text-lg leading-7 text-secondary">
           Choose a PDF or Word document from your computer, or drag it here.
-          Files up to 4 MB.
+          Files up to {MAX_UPLOAD_MB} MB.
         </p>
 
         <button

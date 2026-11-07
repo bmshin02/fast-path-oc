@@ -4,9 +4,12 @@
 // we can't read them, so the user is told how to re-save them.
 // Everything else is filtered out of the file picker and can't be dropped.
 
-// Vercel caps a request body at 4.5 MB, and step 5 sends the file to our
-// server, so stay under that. City forms are usually well below 1 MB.
-export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+// Vercel caps a request body at 4.5 MB, and each turn sends the file to our
+// server as base64, which is 4/3 the size. 3 MB becomes 4 MB, leaving room
+// for the field list and conversation. City forms are usually well below 1 MB.
+export const MAX_UPLOAD_MB = 3;
+export const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024;
+export const TOO_LARGE_MESSAGE = `That file is too large. Please use a file under ${MAX_UPLOAD_MB} MB.`;
 
 export type UploadKind = "pdf" | "docx";
 
@@ -62,7 +65,7 @@ export async function checkUpload(file: File): Promise<UploadCheck> {
   }
   if (file.size > MAX_UPLOAD_BYTES) {
     const mb = (file.size / 1024 / 1024).toFixed(1);
-    return { ok: false, message: `"${file.name}" is ${mb} MB. Choose a file under 4 MB.` };
+    return { ok: false, message: `"${file.name}" is ${mb} MB. Choose a file under ${MAX_UPLOAD_MB} MB.` };
   }
 
   // Check the file's first bytes so a renamed file can't slip through.
