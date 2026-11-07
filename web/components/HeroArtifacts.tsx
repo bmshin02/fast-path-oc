@@ -1,6 +1,10 @@
 import { Check } from "lucide-react";
+import { ChatBubble } from "@/components/fill/FillSessionView";
+import { DocField } from "@/components/fill/FormDocument";
+import { demoSummary } from "@/lib/fill/demo";
 
 // Small product cards floating around the hero headline, as on steep.app.
+// Each is a piece of the real fill page (the same components and wording).
 // Decorative only (the same content is in the product view below), so they're
 // hidden from screen readers and only shown on wide screens.
 
@@ -9,48 +13,26 @@ const card =
 
 export function HeroArtifacts() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 hidden min-[1360px]:block">
-      {/* Left, upper: a filled field */}
-      <div className={`${card} top-20 left-4 w-[260px]`}>
-        <div className="flex items-baseline justify-between">
-          <span className="text-sm text-muted">Property address</span>
-          <span className="text-[13px] text-muted">From you</span>
-        </div>
-        <p className="mt-2 border-b border-border-strong pb-1.5 font-mono text-base">
-          14 Sample Court
-        </p>
-        <div className="mt-4 flex items-baseline justify-between">
-          <span className="text-sm text-muted">School district</span>
-          <span className="text-[13px] text-muted">Looked up</span>
-        </div>
-        <p className="mt-2 border-b border-border-strong pb-1.5 font-mono text-base">
-          Irvine Unified
-        </p>
+    <div aria-hidden inert className="pointer-events-none absolute inset-0 hidden min-[1360px]:block">
+      {/* Left, upper: two lines from the paper sheet */}
+      <div className={`${card} top-20 left-4 flex w-[280px] flex-col gap-4`}>
+        <DocField label="Project address" value="14 Sample Court, Irvine 92618" source="From you" />
+        <DocField label="Current use" value="Single-family home" source="Looked up" />
       </div>
 
-      {/* Right: the finished result, the page's one peach moment */}
-      <div
-        className={`${card} top-44 right-4 w-[260px] bg-peach ring-0 [animation-delay:120ms]`}
-      >
+      {/* Right: the result page's "your form is ready" card, the one peach moment */}
+      <div className={`${card} top-44 right-4 w-[280px] bg-peach ring-0 [animation-delay:120ms]`}>
         <span className="grid h-9 w-9 place-items-center rounded-full bg-sienna text-peach">
           <Check className="h-5 w-5" strokeWidth={2.25} />
         </span>
-        <p className="mt-4 text-lg leading-7 font-medium text-sienna">
-          Done, I filled 14 of 16 fields
-        </p>
-        <p className="mt-1 text-[15px] leading-6 text-sienna">
-          2 need your signature
-        </p>
+        <p className="mt-4 font-serif text-2xl leading-8 text-sienna">Your form is ready</p>
+        <p className="mt-1 text-[15px] leading-6 text-sienna">{demoSummary}</p>
       </div>
 
-      {/* Left, lower: a question and its answer */}
-      <div className={`${card} bottom-8 left-20 w-[300px] [animation-delay:240ms]`}>
-        <p className="text-base leading-6 text-foreground">
-          How many square feet will the new unit be?
-        </p>
-        <p className="mt-3 ml-auto w-fit rounded-2xl rounded-br-md bg-primary-fill px-4 py-2 text-base text-on-primary">
-          About 640
-        </p>
+      {/* Left, lower: a question and its answer, as chat bubbles */}
+      <div className={`${card} bottom-8 left-20 flex w-[320px] flex-col gap-3 bg-fog [animation-delay:240ms]`}>
+        <ChatBubble from="fast-track">About how many square feet will the new unit be?</ChatBubble>
+        <ChatBubble from="you">About 640</ChatBubble>
       </div>
     </div>
   );

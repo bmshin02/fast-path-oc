@@ -74,17 +74,26 @@ function Rows({
   );
 }
 
-/** Narrow column on the left of the chat: every uploaded form and its status. */
-export function FileChecklist(props: {
+/**
+ * Narrow column on the left of the chat: every uploaded form and its status.
+ * "sidebar" sits inside the questions window; "card" stands on its own.
+ */
+export function FileChecklist({
+  variant = "card",
+  ...props
+}: {
   items: ChecklistItem[];
   viewing: number;
   onSelect?: (index: number) => void;
+  variant?: "card" | "sidebar";
 }) {
   const done = props.items.filter((i) => i.status === "done").length;
   return (
     <nav
       aria-label="Your forms"
-      className="flex min-h-0 flex-col overflow-hidden rounded-[24px] bg-background ring-1 ring-border"
+      className={`flex min-h-0 flex-1 flex-col overflow-hidden bg-background ${
+        variant === "card" ? "rounded-[24px] ring-1 ring-border" : ""
+      }`}
     >
       <div className="border-b border-border px-4 py-4">
         <h2 className="text-lg font-medium">Your forms</h2>
@@ -109,7 +118,7 @@ export function FileChecklistCompact(props: {
   const position = props.items.findIndex((i) => i.status === "current");
   const shown = position >= 0 ? position : props.viewing;
   return (
-    <div className="border-b border-border">
+    <div>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}

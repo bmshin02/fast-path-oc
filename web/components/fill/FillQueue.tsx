@@ -36,9 +36,10 @@ export function FillQueue({ sources, mock }: { sources: FormSource[]; mock: bool
     setViewing(i);
     window.scrollTo({ top: 0 });
   };
-  const checklist = multi ? <FileChecklist items={items} viewing={working ? current : viewing} onSelect={select} /> : undefined;
+  const checklistProps = { items, viewing: working ? current : viewing, onSelect: select };
+  const checklist = multi ? <FileChecklist {...checklistProps} /> : undefined;
   const checklistCompact = multi ? (
-    <FileChecklistCompact items={items} viewing={working ? current : viewing} onSelect={select} />
+    <FileChecklistCompact {...checklistProps} />
   ) : undefined;
 
   if (working) {
@@ -47,7 +48,7 @@ export function FillQueue({ sources, mock }: { sources: FormSource[]; mock: bool
         key={current}
         source={sources[current]}
         mock={mock}
-        checklist={checklist}
+        checklist={multi ? <FileChecklist {...checklistProps} variant="sidebar" /> : undefined}
         checklistCompact={checklistCompact}
         onDone={(result) => {
           setResults((rs) => rs.map((r, i) => (i === current ? result : r)));
@@ -117,7 +118,7 @@ export function FillQueue({ sources, mock }: { sources: FormSource[]; mock: bool
             See the conversation
             <ChevronDown className="h-5 w-5 transition-transform duration-150 group-open:rotate-180" aria-hidden />
           </summary>
-          <div className="relative flex flex-col gap-4 border-t border-border p-5 sm:p-7">
+          <div className="relative flex flex-col gap-3 rounded-b-[24px] border-t border-border bg-fog p-5 sm:p-7">
             <ChatMessages messages={result.messages} />
           </div>
         </details>
