@@ -1,76 +1,57 @@
 @import "tailwindcss";
 
-/* Direction: the permit counter. Cool paper neutrals, one ballpoint-ink accent.
-   The sample form sheet stays paper-white in both themes. */
+/* Look: steep.app (agreed by the team). White paper canvas, serif headlines,
+   ink-black pill actions, one peach accent.
+   Readability first: many users may be elderly, so the site is light-only,
+   body text is 18px, and every grey used for text passes WCAG AA (most AAA). */
 
 :root {
-  --background: #f5f7fa;
-  --surface: #ffffff;
-  --raised: #eceff4;
-  --foreground: #111827;
-  --secondary: #4b5565;
-  --muted: #6b7487;
-  --border: rgb(17 24 39 / 0.09);
-  --accent: #2346b0;
-  --accent-hover: #1b3891;
-  --accent-soft: #e6ecfa;
-  --on-accent: #ffffff;
-  --primary-fill: #111827;
+  color-scheme: light;
+
+  --background: #ffffff;
+  --fog: #fafafb; /* alternating section background */
+  --mist: #f2f2f3; /* card and input fills */
+  --foreground: #17191c; /* 17:1 on white */
+  --secondary: #3d414a; /* 10:1, body copy */
+  --muted: #565a64; /* 7:1, meta text */
+  --border: #e3e4e8;
+  --border-strong: #c9cbd1;
+
+  --peach: #fbe1d1; /* the one warm surface */
+  --sienna: #5d2a1a; /* ink on peach */
+
+  --primary-fill: #17191c;
   --on-primary: #ffffff;
-
-  --paper: #fdfdfb;
-  --paper-line: rgb(17 24 39 / 0.14);
-  --paper-text: #1f2430;
-  --paper-muted: #6b7180;
-  --ink: #2346b0;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b0d14;
-    --surface: #11141c;
-    --raised: #1a1e28;
-    --foreground: #eef0f5;
-    --secondary: #a3a9b8;
-    --muted: #7a8296;
-    --border: rgb(238 240 245 / 0.08);
-    --accent: #93acff;
-    --accent-hover: #adc0ff;
-    --accent-soft: #1a2240;
-    --on-accent: #0b0d14;
-    --primary-fill: #eef0f5;
-    --on-primary: #0b0d14;
-  }
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-raised: var(--raised);
+  --color-fog: var(--fog);
+  --color-mist: var(--mist);
   --color-foreground: var(--foreground);
   --color-secondary: var(--secondary);
   --color-muted: var(--muted);
   --color-border: var(--border);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-soft: var(--accent-soft);
-  --color-on-accent: var(--on-accent);
+  --color-border-strong: var(--border-strong);
+  --color-peach: var(--peach);
+  --color-sienna: var(--sienna);
   --color-primary-fill: var(--primary-fill);
   --color-on-primary: var(--on-primary);
-  --color-paper: var(--paper);
-  --color-paper-line: var(--paper-line);
-  --color-paper-text: var(--paper-text);
-  --color-paper-muted: var(--paper-muted);
-  --color-ink: var(--ink);
-  --font-sans: var(--font-public-sans);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-source-serif);
   --font-mono: var(--font-plex-mono);
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  font-size: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-public-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 @keyframes rise {

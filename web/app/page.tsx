@@ -1,22 +1,23 @@
 import Link from "next/link";
-import { ArrowUpFromLine, FileText } from "lucide-react";
+import { ArrowRight, ArrowUpFromLine, FileText } from "lucide-react";
 import { Disclaimer } from "@/components/Disclaimer";
 import { FormPreview } from "@/components/FormPreview";
+import { HeroArtifacts } from "@/components/HeroArtifacts";
 import { SiteHeader } from "@/components/SiteHeader";
 import { sampleForms } from "@/lib/fill/forms";
 
 const steps = [
   {
-    title: "Upload the form",
-    text: "A PDF from your city, or one of the forms below.",
+    title: "Upload your form",
+    text: "Add a housing form from your city as a PDF, or pick one of ours below.",
   },
   {
-    title: "Answer what only you know",
-    text: "Fast Track looks up the rest from official sources and asks follow-ups when something is unclear.",
+    title: "Answer a few questions",
+    text: "Fast Track looks up what it can and only asks you what it can't find. If something is unclear, it asks a follow-up.",
   },
   {
     title: "Check it and download",
-    text: "See every filled field and where its answer came from, then download the PDF.",
+    text: "See every filled field and where each answer came from, then download your filled form.",
   },
 ];
 
@@ -26,100 +27,123 @@ export default function Home() {
       <SiteHeader />
 
       <main className="flex-1">
-        <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-4 pt-12 pb-16 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 lg:pt-24 lg:pb-28">
-          <div className="max-w-[600px]">
-            <h1 className="text-[40px] leading-[1.06] font-semibold tracking-[-0.02em] sm:text-[52px] sm:tracking-[-0.03em]">
-              Fill in housing permit forms by answering a few questions
-            </h1>
-            <p className="mt-6 max-w-[36rem] text-lg leading-7 text-secondary">
-              Upload a city form, like Irvine&apos;s ADU application. Fast Track
-              asks only what it can&apos;t look up, fills in the rest, and gives
-              you back the PDF to check.
-            </p>
+        {/* Hero */}
+        <section className="relative overflow-hidden">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-[720px] bg-[radial-gradient(60%_55%_at_50%_45%,#fde8da_0%,#fdf1ea_45%,rgba(255,255,255,0)_75%)]"
+          />
+          <div className="relative mx-auto max-w-[1440px] px-4 sm:px-6">
+            <HeroArtifacts />
+            <div className="relative mx-auto flex max-w-[860px] flex-col items-center pt-16 pb-20 text-center sm:pt-28 sm:pb-32">
+              <h1 className="font-serif text-[52px] leading-[1.08] font-normal tracking-[-0.02em] sm:text-[72px] sm:tracking-[-0.025em]">
+                Welcome to Fast Track
+              </h1>
+              <p className="mt-6 max-w-[40rem] text-[22px] leading-[1.5] text-secondary sm:text-2xl">
+                A way to speed up your housing project by 2x. Upload your
+                housing form, answer a few questions, and get it back filled
+                in.
+              </p>
 
-            <Link
-              href="/fill"
-              className="group mt-10 flex items-center gap-4 rounded-xl border border-dashed border-muted/50 bg-surface p-5 transition-colors duration-150 hover:border-accent focus-visible:border-accent focus-visible:outline-none active:scale-[0.99]"
-            >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary-fill text-on-primary transition-colors duration-150 group-hover:bg-accent group-hover:text-on-accent">
-                <ArrowUpFromLine className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-              </span>
-              <span>
-                <span className="block font-medium">Upload a PDF form</span>
-                <span className="mt-0.5 block text-sm text-muted">
-                  Any California city housing form
-                </span>
-              </span>
-            </Link>
-
-            <Link
-              href={`/fill?form=${sampleForms[0].id}`}
-              className="mt-4 inline-flex rounded text-sm text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-150 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              Or try it on Irvine&apos;s ADU application
-            </Link>
+              <div className="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
+                <Link
+                  href="/fill"
+                  className="inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-primary-fill px-8 text-lg font-medium text-on-primary transition-colors duration-150 hover:bg-[#2c2f34] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground active:scale-[0.98] sm:w-auto"
+                >
+                  <ArrowUpFromLine className="h-5 w-5" strokeWidth={2} aria-hidden />
+                  Upload a document
+                </Link>
+                <Link
+                  href={`/fill?form=${sampleForms[0].id}`}
+                  className="inline-flex h-14 w-full items-center justify-center rounded-full border border-foreground/80 px-8 text-lg font-medium text-foreground transition-colors duration-150 hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground active:scale-[0.98] sm:w-auto"
+                >
+                  Try a sample form
+                </Link>
+              </div>
+              <p className="mt-5 text-base text-muted">
+                Works with PDF forms from California cities
+              </p>
+            </div>
           </div>
-
-          <FormPreview />
         </section>
 
-        <section className="border-t border-border">
-          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 lg:py-24">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-[-0.01em]">
-                How it works
-              </h2>
-              <ol className="mt-8 space-y-6">
-                {steps.map((step, i) => (
-                  <li key={step.title} className="flex gap-4">
-                    <span className="mt-px font-mono text-sm text-muted tabular-nums">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <h3 className="font-medium">{step.title}</h3>
-                      <p className="mt-1 text-[15px] leading-6 text-secondary">
-                        {step.text}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
+        {/* Product view */}
+        <section className="px-4 pb-24 sm:px-6">
+          <div className="mx-auto max-w-[1200px]">
+            <FormPreview />
+          </div>
+        </section>
 
-            <div>
-              <h2 className="text-2xl font-semibold tracking-[-0.01em]">
-                Forms ready to try
-              </h2>
-              <ul className="mt-8 divide-y divide-border rounded-xl border border-border bg-surface">
-                {sampleForms.map((form) => (
-                  <li key={form.id}>
-                    <Link
-                      href={`/fill?form=${form.id}`}
-                      className="flex items-center gap-3 px-4 py-3.5 transition-colors duration-150 first:rounded-t-xl last:rounded-b-xl hover:bg-raised focus-visible:bg-raised focus-visible:outline-none"
-                    >
-                      <FileText className="h-[18px] w-[18px] shrink-0 text-muted" strokeWidth={1.5} aria-hidden />
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[15px]">
-                          {form.title}
-                        </span>
-                        <span className="block text-[13px] text-muted">
-                          {form.city}, {form.pages}{" "}
-                          {form.pages === 1 ? "page" : "pages"}
-                        </span>
+        {/* How it works */}
+        <section id="how-it-works" className="scroll-mt-20 bg-fog px-4 py-20 sm:px-6 sm:py-24">
+          <div className="mx-auto max-w-[1200px]">
+            <h2 className="font-serif text-[40px] leading-[1.15] font-normal tracking-[-0.015em] sm:text-[52px]">
+              How it works
+            </h2>
+            <ol className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+              {steps.map((step, i) => (
+                <li
+                  key={step.title}
+                  className="rounded-[24px] bg-background p-7 ring-1 ring-border"
+                >
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-mist text-lg font-medium tabular-nums">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-5 text-[22px] leading-7 font-medium">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-lg leading-7 text-secondary">
+                    {step.text}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Forms */}
+        <section id="forms" className="scroll-mt-20 px-4 py-20 sm:px-6 sm:py-24">
+          <div className="mx-auto max-w-[1200px]">
+            <h2 className="font-serif text-[40px] leading-[1.15] font-normal tracking-[-0.015em] sm:text-[52px]">
+              Forms ready to try
+            </h2>
+            <p className="mt-4 max-w-[40rem] text-lg leading-7 text-secondary">
+              Real city forms you can practice with. Please use made-up
+              details.
+            </p>
+            <ul className="mt-10 divide-y divide-border overflow-hidden rounded-[24px] ring-1 ring-border">
+              {sampleForms.map((form) => (
+                <li key={form.id}>
+                  <Link
+                    href={`/fill?form=${form.id}`}
+                    className="group flex items-center gap-4 px-5 py-5 transition-colors duration-150 hover:bg-fog focus-visible:bg-fog focus-visible:outline-none sm:px-7"
+                  >
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-mist">
+                      <FileText className="h-5 w-5 text-secondary" strokeWidth={1.75} aria-hidden />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-lg leading-6 font-medium">
+                        {form.title}
                       </span>
-                      <span className="shrink-0 text-[13px] text-muted">
-                        {form.fillable ? "Fills the original" : "Makes a new PDF"}
+                      <span className="mt-0.5 block text-base text-muted">
+                        {form.city}, {form.pages}{" "}
+                        {form.pages === 1 ? "page" : "pages"}
                       </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </span>
+                    <span className="hidden shrink-0 items-center gap-2 text-base font-medium sm:flex">
+                      Fill this form
+                      <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" strokeWidth={2} aria-hidden />
+                    </span>
+                    <ArrowRight className="h-5 w-5 shrink-0 sm:hidden" strokeWidth={2} aria-hidden />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-border px-4 py-8">
+      <footer className="border-t border-border px-4 py-10">
         <Disclaimer />
       </footer>
     </div>

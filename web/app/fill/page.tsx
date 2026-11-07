@@ -8,11 +8,11 @@ export default function FillPage() {
     <div className="flex flex-1 flex-col">
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-3 px-4 py-14 text-center sm:px-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="font-serif text-4xl font-normal">
           Questions page
         </h1>
-        <p className="text-muted">Coming in the next steps.</p>
-        <Link href="/" className="text-accent underline underline-offset-4">
+        <p className="text-lg text-secondary">Coming in the next steps.</p>
+        <Link href="/" className="text-lg font-medium underline underline-offset-4">
           Back to home
         </Link>
       </main>
