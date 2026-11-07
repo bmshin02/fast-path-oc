@@ -21,6 +21,25 @@ function toBase64(bytes: ArrayBuffer): string {
   return btoa(binary);
 }
 
+const MODEL_KEY = "fast-track-model";
+
+/**
+ * The ?model= choice for /api/fill (sonnet | opus). Page links drop query params, so a
+ * choice in the address is remembered for this tab; ?model=default clears it. The server
+ * checks the value; a wrong one comes back as a plain error message.
+ */
+function modelQuery(): string {
+  try {
+    const fromUrl = new URLSearchParams(window.location.search).get("model");
+    if (fromUrl === "default") sessionStorage.removeItem(MODEL_KEY);
+    else if (fromUrl) sessionStorage.setItem(MODEL_KEY, fromUrl);
+    const choice = fromUrl && fromUrl !== "default" ? fromUrl : sessionStorage.getItem(MODEL_KEY);
+    return choice ? `?model=${encodeURIComponent(choice)}` : "";
+  } catch {
+    return ""; // storage blocked: just use the server's default
+  }
+}
+
 export function createRealSession(source: FormSource): FillSession {
   const curated = source.kind === "sample" && source.form.id === "irvine-adu-application";
   let fields: FormField[] = curated ? irvineAduFields() : [];
@@ -45,7 +64,7 @@ export function createRealSession(source: FormSource): FillSession {
 
     let res: Response;
     try {
-      res = await fetch("/api/fill", {
+      res = await fetch(`/api/fill${modelQuery()}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(request),

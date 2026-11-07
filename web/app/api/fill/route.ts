@@ -14,6 +14,7 @@ import { mergeFields } from "@/lib/fill/server/merge";
 import { SYSTEM_PROMPT, TURN_SCHEMA, turnText, type Turn } from "@/lib/fill/server/prompt";
 import { summarizeFields } from "@/lib/fill/summary";
 import { TOO_LARGE_MESSAGE } from "@/lib/fill/upload";
+import { MODEL_CHOICES, parseModelChoice } from "@/lib/models";
 
 // Web searches can make a turn take a while.
 export const maxDuration = 120;
@@ -40,6 +41,15 @@ export async function POST(request: Request) {
     return Response.json({ message: TOO_LARGE_MESSAGE }, { status: 413 });
   }
 
+  // ?model=sonnet | opus overrides MODEL for this turn (the /fill page forwards it).
+  let model: string;
+  try {
+    const choice = parseModelChoice(new URL(request.url).searchParams.get("model"));
+    model = choice ? MODEL_CHOICES[choice] : MODEL;
+  } catch (err) {
+    return Response.json({ message: (err as Error).message }, { status: 400 });
+  }
+
   let body: FillRequest;
   try {
     body = (await request.json()) as FillRequest;
@@ -60,7 +70,7 @@ export async function POST(request: Request) {
     async start(controller) {
       const send = (ev: ServerEvent) => controller.enqueue(encoder.encode(`${JSON.stringify(ev)}\n`));
       try {
-        await runTurn(body, doc, send);
+        await runTurn(body, doc, model, send);
       } catch (err) {
         console.error("[api/fill]", err);
         send({ type: "error", message: friendlyError(err) });
@@ -71,13 +81,14 @@ export async function POST(request: Request) {
   });
 
   return new Response(stream, {
-    headers: { "content-type": "application/x-ndjson; charset=utf-8", "cache-control": "no-store" },
+    headers: { "content-type": "application/x-ndjson; charset=utf-8", "cache-control": "no-store", "x-fast-track-model": model },
   });
 }
 
 async function runTurn(
   body: FillRequest,
   doc: { block: DocBlock; label: string; curated: boolean },
+  model: string,
   send: (ev: ServerEvent) => void,
 ) {
   const firstTurn = body.transcript.length === 0;
@@ -98,7 +109,7 @@ async function runTurn(
   // A turn that uses web search can pause; send it back so it continues.
   for (let attempt = 0; attempt < 4; attempt++) {
     const stream = client.beta.messages.stream({
-      model: MODEL,
+      model,
       max_tokens: 32000,
       // If a safety check declines the request, the API re-runs it on a
       // suitable fallback model inside the same call.

@@ -9,9 +9,14 @@
 //   package      optional applicant package PDF
 //   site         site-mode listing text
 //
+// Optional query parameter:
+//   ?model=sonnet | opus   run every agent on that model (default: each agent's own model,
+//                          see DEFAULT_MODELS in lib/agents/client.ts). Anything else is a 400.
+//
 // MOCK=1 in the env streams the canned report from lib/agents/mock.ts with no API calls.
 
 import { ProjectType, type CheckInput, type ProgressEvent } from "@/lib/agents/schemas";
+import { parseModelChoice, type ModelChoice } from "@/lib/models";
 
 export const maxDuration = 300;
 
@@ -51,7 +56,9 @@ async function readInput(req: Request): Promise<CheckInput> {
 
 export async function POST(req: Request) {
   let input: CheckInput;
+  let model: ModelChoice | undefined;
   try {
+    model = parseModelChoice(new URL(req.url).searchParams.get("model"));
     input = await readInput(req);
   } catch (err) {
     return Response.json({ error: (err as Error).message }, { status: 400 });
@@ -77,7 +84,16 @@ export async function POST(req: Request) {
           emit({ type: "result", outcome: { kind: "report", report: mockReport } });
         } else {
           const { runMaster } = await import("@/lib/agents/master");
-          const outcome = await runMaster(input, emit);
+          const { withModel, modelFor } = await import("@/lib/agents/client");
+          const outcome = await withModel(model, async () => {
+            const roles = ["coordinator", "parser", "compliance", "producer"] as const;
+            emit({
+              type: "progress",
+              agent: "master",
+              message: `Models${model ? ` (?model=${model})` : ""}: ${roles.map((r) => `${r} ${modelFor(r)}`).join(", ")}`,
+            });
+            return runMaster(input, emit);
+          });
           emit({ type: "result", outcome });
         }
       } catch (err) {
