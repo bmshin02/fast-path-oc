@@ -113,6 +113,13 @@ We joined the state's APR data with HCD's letters for every OC city and the coun
 - ADU permits grew from **297 units in 2018 to 3,071 in 2025** (14,083 in total).
 - Data gaps are reported, not hidden: Huntington Beach reports zero certificates of occupancy, and Irvine reports only 15 ADU permits.
 
+## Many files at once
+
+The model only ever holds **one document plus a small, capped summary of the rest**, so 20 files work as well as one ([details](web/lib/context/README.md)):
+
+- **Filling several forms (`/fill`):** what the applicant told us on one form is remembered for the next (in this browser tab only), so later forms pre-fill instead of re-asking. Signatures, dates and ID numbers are never remembered. Long chats are condensed so each turn stays small.
+- **Checking up to 20 checklists (`/audit`):** each file is checked in its own request, 3 at a time, with duplicates skipped and results kept for this tab. Each city's known HCD letters and APR data are reused instead of re-researched per file. The summary across files is computed in code from compact digests (about 7k tokens for 20 files vs about 23k for the full results), and the marked-up form is built only when a file is opened. Try it without an API key at `/audit?mock=1`.
+
 ## Deterministic checks
 
 Alongside the Claude agents, [`web/lib/features/`](web/lib/features/README.md) has tools that need no model and can't hallucinate (27 tests):

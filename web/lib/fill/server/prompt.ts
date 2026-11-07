@@ -2,6 +2,8 @@
 
 import type { FillRequest } from "../protocol";
 import type { FormField } from "../types";
+import { memoryForPrompt, sanitizeMemory } from "../../context/memory";
+import { compactTranscript } from "../../context/transcript";
 
 export const SYSTEM_PROMPT = `You are Fast Track, a helper that fills in California city housing forms (permit applications, checklists, affidavits) together with the applicant. Many applicants are older adults, so be warm, patient and plain-spoken.
 
@@ -14,6 +16,12 @@ How to work:
 - If the applicant says they don't know, leave that field empty and move on.
 - Mark anything you inferred rather than were told with a note that starts "ASSUMPTION:" and says how to fix it.
 - Keep the conversation short: aim for about 10 questions or fewer, and finish as soon as everything you can fill is filled.
+
+Facts from earlier forms:
+- The applicant may be filling several forms in one visit. <known_from_earlier_forms> lists what they already told us (or we looked up, with its source) on earlier forms. On the first turn, fill every field those facts answer, keeping the fact's source ("user" or "research", with its sourceUrl), and add a note "From your earlier form: <form name>".
+- Never ask again for something listed there. If a fact only partly fits (for example a full address when the form wants just the city), use the part that fits.
+- In the first turn's message, say in one short sentence how many answers you filled from earlier forms, so the applicant knows they can correct them.
+- If a fact clearly conflicts with this form (a different property, a different project), ask once instead of using it.
 
 Never:
 - Fill a signature, initials, or the date of signing. Leave them empty; the applicant does those by hand.
@@ -111,9 +119,10 @@ export function turnText(req: FillRequest, formLabel: string, curated: boolean):
     ...(f.pdfField ? { pdfField: f.pdfField } : {}),
     ...(f.options ? { options: f.options } : {}),
   }));
-  const conversation = req.transcript.length
-    ? req.transcript.map((l) => `${l.from === "you" ? "Applicant" : "Fast Track"}: ${l.text}`).join("\n")
-    : "(nothing yet: this is the start)";
+  // Long conversations are condensed so each turn's prompt stays bounded (lib/context/transcript.ts).
+  const conversation = compactTranscript(req.transcript).text;
+  // Facts from earlier forms, sanitized and capped: the browser sends them, we never store them.
+  const memory = memoryForPrompt(sanitizeMemory(req.memory));
 
   const parts = [
     `<form>${formLabel}</form>`,
@@ -124,6 +133,9 @@ export function turnText(req: FillRequest, formLabel: string, curated: boolean):
     req.pdfFields?.length
       ? `<pdf_form_fields>\n${JSON.stringify(req.pdfFields)}\n</pdf_form_fields>`
       : "<pdf_form_fields>(none: this form has no fillable boxes)</pdf_form_fields>",
+    memory
+      ? `<known_from_earlier_forms>\n${memory}\n</known_from_earlier_forms>`
+      : "<known_from_earlier_forms>(none: this is the first form)</known_from_earlier_forms>",
     `<conversation>\n${conversation}\n</conversation>`,
     `<today>${new Date().toISOString().slice(0, 10)}</today>`,
     "Decide the next step and reply in the JSON format.",
