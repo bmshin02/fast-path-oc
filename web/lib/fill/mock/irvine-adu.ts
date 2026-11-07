@@ -93,7 +93,8 @@ export function irvineAduScript(): Script {
       {
         id: "owner",
         fieldIds: ["owner-name", "owner-address", "applicant-address"],
-        ask: () => "Are you the owner of this property? Please answer yes or no.",
+        ask: () => "Are you the owner of this property?",
+        choices: ["Yes", "No"],
         handle: (a, ctx) => {
           const owner = yesNo(a);
           if (owner === null) return { followUp: "Sorry, I didn't catch that. Do you own this property? Yes or no." };
@@ -175,6 +176,7 @@ export function irvineAduScript(): Script {
         id: "stories",
         fieldIds: ["stories"],
         ask: () => "Will the new unit be one story or two?",
+        choices: ["One story", "Two stories"],
         handle: (a) => {
           const t = a.toLowerCase();
           const n = /\b(1|one|single)\b/.test(t) ? "1" : /\b(2|two)\b/.test(t) ? "2" : null;

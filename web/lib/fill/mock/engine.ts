@@ -18,6 +18,8 @@ export type Fill = {
 export type StepResult = {
   /** Ask this instead of moving on (the answer was unclear). */
   followUp?: string;
+  /** Two answer buttons for the follow-up. */
+  followUpChoices?: string[];
   status?: string[];
   fill?: Fill[];
   message?: string;
@@ -32,6 +34,8 @@ export type Step = {
   id: string;
   fieldIds: string[];
   ask: (ctx: Ctx) => string;
+  /** Two answer buttons instead of a text box. */
+  choices?: string[];
   /** `earlier` holds this step's previous answers when a follow-up was asked. */
   handle: (answer: string, ctx: Ctx, earlier: string[]) => StepResult;
   skip?: (ctx: Ctx) => boolean;
@@ -87,7 +91,7 @@ export function createMockSession(source: FormSource): FillSession {
     const step = script.steps[index];
     if (step) {
       await sleep(400);
-      yield { type: "question", text: step.ask(ctx), fieldIds: step.fieldIds };
+      yield { type: "question", text: step.ask(ctx), fieldIds: step.fieldIds, choices: step.choices };
       return;
     }
 
@@ -117,7 +121,7 @@ export function createMockSession(source: FormSource): FillSession {
       if (result.followUp) {
         earlier.push(answer);
         await sleep(500);
-        yield { type: "question", text: result.followUp, fieldIds: step.fieldIds };
+        yield { type: "question", text: result.followUp, fieldIds: step.fieldIds, choices: result.followUpChoices ?? step.choices };
         return;
       }
       ctx.answers[step.id] = answer;

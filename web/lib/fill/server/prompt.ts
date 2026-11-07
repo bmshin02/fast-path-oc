@@ -32,6 +32,7 @@ Fields:
 Replying:
 - message: optional short text to show before your question, for example a one-line introduction on the first turn or a quick acknowledgement. null if not needed.
 - question: the next question for the applicant, or null when you are done.
+- choices: when the question has exactly two possible answers (yes or no, one story or two, attached or detached), give those two answers as short button labels, for example ["Yes", "No"], and phrase the question so either button is a complete answer. The applicant will tap a button instead of typing. For any other question, null.
 - done: true when you have nothing more to ask. Then question is null and summary is one or two plain sentences of anything the applicant should still do (for example "Ask your builder whether the unit will have solar panels."), or null.`;
 
 const nullable = (schema: object) => ({ anyOf: [schema, { type: "null" }] });
@@ -40,10 +41,11 @@ const nullable = (schema: object) => ({ anyOf: [schema, { type: "null" }] });
 export const TURN_SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["message", "fields", "question", "done", "summary"],
+  required: ["message", "fields", "question", "choices", "done", "summary"],
   properties: {
     message: nullable({ type: "string" }),
     question: nullable({ type: "string" }),
+    choices: nullable({ type: "array", items: { type: "string" } }),
     done: { type: "boolean" },
     summary: nullable({ type: "string" }),
     fields: {
@@ -92,6 +94,7 @@ export type Turn = {
   message: string | null;
   fields: TurnField[];
   question: string | null;
+  choices: string[] | null;
   done: boolean;
   summary: string | null;
 };

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // The mark is a ticked form box: the one thing this product does.
-export function SiteHeader() {
+export function SiteHeader({ minimal = false }: { minimal?: boolean }) {
   return (
     <header className="w-full bg-background/90 backdrop-blur-sm">
       <div className="mx-auto flex h-20 max-w-[1200px] items-center justify-between gap-6 px-4 sm:px-6">
@@ -25,6 +25,7 @@ export function SiteHeader() {
           Fast Track
         </Link>
 
+        {!minimal && (
         <nav className="flex items-center gap-2 sm:gap-6">
           <a
             href="#how-it-works"
@@ -45,6 +46,7 @@ export function SiteHeader() {
             Get started
           </Link>
         </nav>
+        )}
       </div>
     </header>
   );
