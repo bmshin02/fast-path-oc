@@ -1,0 +1,60 @@
+{
+  "about": "HCD's written findings on Anaheim's and Irvine's ADU (and Anaheim's SB 9) ordinances, as structured data. Used as an answer key to score Fast Path Check audits (web/lib/features/hcd-score.ts). Summaries are ours, paraphrased from the letters; read the letters for exact wording. HCD reviewed each city's ORDINANCE, not its checklist, so only findings whose subject appears in the document being audited are in scope for scoring.",
+  "checkedOn": "2026-11-07",
+  "letters": [
+    {
+      "id": "anaheim-2025-03-24",
+      "city": "ANAHEIM",
+      "date": "2025-03-24",
+      "kind": "findings",
+      "reviewed": "ADU Ordinance No. 6570 (adopted 2024-03-19) and SB 9 Ordinance No. 6524 (adopted 2022-01-11)",
+      "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf",
+      "responseDue": "30 days (the letter's text says 'April 23, 2024', apparently a typo for 2025)",
+      "findings": [
+        { "id": "ADU-1", "topic": "Statutory numbering", "localSection": null, "statutes": ["66310-66342"], "summary": "Cites 65852.2, 65852.22 and 65852.26, which SB 477 deleted; must cite Chapter 13 (66310-66342).", "detect": { "staleSections": ["65852.2", "65852.22", "65852.26"] } },
+        { "id": "ADU-2", "topic": "Unit allowance", "localSection": "18.38.015.030", "statutes": ["66314", "66322", "66323"], "summary": "Limits on the number of ADUs/JADUs conflict with the units state law requires cities to allow.", "detect": { "keywords": ["unit allowance", "number of (adus|units)", "66323"] } },
+        { "id": "ADU-3", "topic": "Location constraints", "localSection": "Table 38-A", "statutes": ["66316", "66321"], "summary": "Location limits on detached units go beyond what state law permits.", "detect": { "keywords": ["location", "66316"] } },
+        { "id": "ADU-4", "topic": "Sprinklers", "localSection": "18.38.015.0602", "statutes": ["66314", "66323"], "summary": "Sprinkler rule must reflect state limits (an ADU can't trigger sprinklers in the primary dwelling).", "detect": { "keywords": ["sprinkler"] } },
+        { "id": "ADU-5", "topic": "Subjective language", "localSection": "18.38.015.0702", "statutes": ["66313", "66314"], "summary": "Uses subjective standards; only objective standards are allowed.", "detect": { "keywords": ["subjective", "objective standard"] } },
+        { "id": "ADU-6", "topic": "Local historic inventory", "localSection": "18.38.015.090", "statutes": ["66314"], "summary": "Historic-inventory rule goes beyond the state's historic-resource provisions.", "detect": { "keywords": ["historic"] } },
+        { "id": "ADU-7", "topic": "Separate sale", "localSection": "18.38.015.1051, .120", "statutes": ["66341", "66342"], "summary": "Ban on separate sale must note the 66341 nonprofit exception; 66342 allows an optional condo-style ordinance.", "detect": { "keywords": ["separate (sale|conveyance)", "sold separately", "66341"] } },
+        { "id": "ADU-8", "topic": "Legal establishment", "localSection": "18.38.011.130", "statutes": ["66332"], "summary": "Treats unpermitted existing ADUs as unlawful; state law limits denying permits for unpermitted ADUs.", "detect": { "keywords": ["unpermitted", "legal(ly)? establish", "66332", "66311\\.7"] } },
+        { "id": "ADU-9", "topic": "Granny unit conversions", "localSection": "18.38.015.1401", "statutes": ["66313"], "summary": "Conversion rule must align with the state definition of an ADU.", "detect": { "keywords": ["granny", "in-law"] } },
+        { "id": "ADU-10", "topic": "Approval and denial process", "localSection": "18.38.015.150", "statutes": ["66317"], "summary": "Says applications not approved in 60 days are denied; a denial must come with a full written list of deficiencies and how to fix them (66317(b)).", "detect": { "keywords": ["66317", "approved within", "shall be denied", "full set of comments"] } },
+        { "id": "SB9-1", "topic": "ADU/JADU preemption (ADU ordinance)", "localSection": "18.38.015.0502", "statutes": ["65852.21", "66411.7"], "summary": "Limits ADUs/JADUs on SB 9 lots in ways state law doesn't allow.", "detect": { "keywords": ["sb 9", "65852\\.21", "66411\\.7"] } },
+        { "id": "SB9-2", "topic": "ADU/JADU preemption (SB 9 ordinance)", "localSection": "18.38.255.0203", "statutes": ["65852.21", "66411.7"], "summary": "Same issue in the SB 9 ordinance.", "detect": { "keywords": ["sb 9", "65852\\.21"] } },
+        { "id": "SB9-3", "topic": "SB 9 unit allowances", "localSection": "18.38.255.0202", "statutes": ["65852.21"], "summary": "Unit allowances must follow 65852.21(a).", "detect": { "keywords": ["65852\\.21"] } },
+        { "id": "SB9-4", "topic": "SB 9 objective standards", "localSection": "18.38.255.050", "statutes": ["65852.21"], "summary": "Standards must be objective as defined in 65852.21(i)(2).", "detect": { "keywords": ["objective standard"] } },
+        { "id": "SB9-5", "topic": "SB 9 setbacks", "localSection": "18.38.255.060", "statutes": ["66411.7"], "summary": "Setback rule conflicts with SB 9's limits.", "detect": { "keywords": ["setback"] } },
+        { "id": "SB9-6", "topic": "SB 9 public hearings", "localSection": "18.38.255.090", "statutes": ["65852.21"], "summary": "SB 9 approvals must be ministerial, without discretionary hearings.", "detect": { "keywords": ["hearing", "ministerial"] } },
+        { "id": "SB9-7", "topic": "SB 9 objective standards (zoning code)", "localSection": "18.62.110.020", "statutes": ["65852.21", "66326"], "summary": "Further subjective standards that must be made objective.", "detect": { "keywords": ["objective standard"] } }
+      ]
+    },
+    {
+      "id": "irvine-2025-01-07",
+      "city": "IRVINE",
+      "date": "2025-01-07",
+      "kind": "findings",
+      "reviewed": "ADU Ordinance No. 18-05",
+      "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-findings-010725.pdf",
+      "responseDue": "2025-02-07",
+      "followUp": { "date": "2025-03-27", "kind": "technical assistance", "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-ta-032725.pdf", "summary": "Irvine didn't amend Ord. 18-05 and will rely on State ADU Law directly; it may restrict separate sale of ADUs." },
+      "findings": [
+        { "id": "ADU-1", "topic": "Statutory numbering", "localSection": null, "statutes": ["66310-66342"], "summary": "Cites 65852.2, 65852.22 and 65852.26, which SB 477 deleted.", "detect": { "staleSections": ["65852.2", "65852.22", "65852.26"] } },
+        { "id": "ADU-2", "topic": "Mandatory approvals", "localSection": null, "statutes": ["66323"], "summary": "Doesn't provide for the ADU/JADU combinations 66323(a) requires cities to approve ministerially.", "detect": { "keywords": ["66323", "ministerial"] } },
+        { "id": "ADU-3", "topic": "Definitions", "localSection": "1-2-1", "statutes": ["66313", "66314", "66321"], "summary": "Definitions (e.g. of garages and ADUs) conflict with state definitions.", "detect": { "keywords": ["definition"] } },
+        { "id": "ADU-4", "topic": "Residential zoning", "localSection": "3-26-3, 3-26-5", "statutes": ["66314"], "summary": "Limits ADUs to lots with single-family homes; state law allows them in zones permitting single-family or multifamily use.", "detect": { "keywords": ["multifamily", "zon(e|ing)"] } },
+        { "id": "ADU-5", "topic": "Owner-occupancy and deed restrictions", "localSection": "3-26-4, 3-26-5, 3-26-7", "statutes": ["66315"], "summary": "Requires an owner-occupant applicant and deed restrictions on all ADUs; 66315 prohibits these (except limiting rentals to 30+ days).", "detect": { "keywords": ["owner.?occup", "deed restrict", "covenant", "66315"] } },
+        { "id": "ADU-6", "topic": "Review timelines", "localSection": "3-26-4", "statutes": ["66317"], "summary": "Allows 120 days to decide; 66317 requires 60 days from a complete application.", "detect": { "keywords": ["66317", "120 days", "60 days"] } },
+        { "id": "ADU-7", "topic": "Nonconforming conditions", "localSection": "3-26-5, 3-26-7", "statutes": ["66322"], "summary": "Requires fixing nonconforming conditions (e.g. parking) as a condition of ADU approval.", "detect": { "keywords": ["nonconforming"] } },
+        { "id": "ADU-8", "topic": "Objective standards and lot size", "localSection": "3-26-5", "statutes": ["66314"], "summary": "5,000 sq ft minimum lot size, size caps by lot size, and subjective design standards.", "detect": { "keywords": ["lot size", "subjective", "objective standard"] } },
+        { "id": "ADU-9", "topic": "Setbacks", "localSection": "3-26-5", "statutes": ["66314", "66321"], "summary": "Setbacks exceed the state's 4-foot side and rear limit.", "detect": { "keywords": ["setback"] } },
+        { "id": "ADU-10", "topic": "Local building standards", "localSection": "3-26-5", "statutes": ["66314"], "summary": "Local building standards go beyond what state law allows for ADUs.", "detect": { "keywords": ["building standard"] } },
+        { "id": "ADU-11", "topic": "Sprinklers and ADU size", "localSection": "3-26-5", "statutes": ["66314", "66321"], "summary": "Must state that an ADU can't trigger sprinklers in the primary dwelling (66314(d)(12)); size limits conflict with state minimums.", "detect": { "keywords": ["sprinkler"] } },
+        { "id": "ADU-12", "topic": "ADU height", "localSection": "3-26-5", "statutes": ["66321"], "summary": "Height limits are below the state minimums.", "detect": { "keywords": ["height"] } },
+        { "id": "ADU-13", "topic": "Parking", "localSection": "3-26-6", "statutes": ["66314", "66322"], "summary": "Parking requirements conflict with the state's exemptions.", "detect": { "keywords": ["parking"] } },
+        { "id": "ADU-14", "topic": "Separate conveyance", "localSection": "3-26-7", "statutes": ["66326", "66341"], "summary": "Separate-sale rule must reflect the state exceptions.", "detect": { "keywords": ["separate (sale|conveyance)", "sold separately", "66341"] } }
+      ]
+    }
+  ]
+}

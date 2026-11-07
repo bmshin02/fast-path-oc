@@ -1,0 +1,947 @@
+{
+  "builtFrom": [
+    "data/oc-adu-apr.json",
+    "data/oc-hcd-letters.json"
+  ],
+  "aprFetchedOn": "2026-11-07",
+  "rows": [
+    {
+      "jurisdiction": "ALISO VIEJO",
+      "adu": {
+        "permitUnitsTotal": 3,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 2
+        },
+        "coUnitsTotal": 1,
+        "permitToCoMedianDays": 379,
+        "permitToCoN": 1
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2024-06-25",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/aliso-viejo-adu-findings-062524.pdf",
+          "summary": "Ord. 2023-235 noncompliant: deed restriction must go; height, parking, window line-of-sight, subjective design, interior dimensions."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 1 project."
+      ]
+    },
+    {
+      "jurisdiction": "ANAHEIM",
+      "adu": {
+        "permitUnitsTotal": 1866,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 441
+        },
+        "coUnitsTotal": 850,
+        "permitToCoMedianDays": 278,
+        "permitToCoN": 806
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2025-03-24",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf",
+          "summary": "ADU Ord. 6570 and SB 9 Ord. 6524 noncompliant (10 ADU + 7 SB 9 findings), incl. deleted 65852.2/.22/.26 citations. See data/hcd-findings.json."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 2,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "BREA",
+      "adu": {
+        "permitUnitsTotal": 112,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 27
+        },
+        "coUnitsTotal": 44,
+        "permitToCoMedianDays": 251,
+        "permitToCoN": 44
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "BUENA PARK",
+      "adu": {
+        "permitUnitsTotal": 350,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 179
+        },
+        "coUnitsTotal": 292,
+        "permitToCoMedianDays": 239,
+        "permitToCoN": 119
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2025-05-28",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/buena-park-adu-findings-052825.pdf",
+          "summary": "Ord. 1736 noncompliant: SB 1211 multifamily limits, AB 2533 (66332), deleted SB 477 citations, setbacks, ADU combinations."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 2,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "COSTA MESA",
+      "adu": {
+        "permitUnitsTotal": 420,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 89
+        },
+        "coUnitsTotal": 204,
+        "permitToCoMedianDays": 316,
+        "permitToCoN": 148
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2024-09-11",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/costa-mesa-adu-findings-091124.pdf",
+          "summary": "Ord. 2023-03 noncompliant: deleted SB 477 citations, conflict with the 60-day decision rule, one-ADU limit, JADU limits."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 2,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "CYPRESS",
+      "adu": {
+        "permitUnitsTotal": 85,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 20
+        },
+        "coUnitsTotal": 47,
+        "permitToCoMedianDays": 252,
+        "permitToCoN": 37
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "DANA POINT",
+      "adu": {
+        "permitUnitsTotal": 66,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 13
+        },
+        "coUnitsTotal": 44,
+        "permitToCoMedianDays": 388,
+        "permitToCoN": 41
+      },
+      "hcd": {
+        "letters": 5,
+        "latest": {
+          "date": "2025-09-30",
+          "kind": "city_response",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/dana-point-nov-response-093025.pdf",
+          "summary": "City's response: maintains compliance but says the council amended the ordinance."
+        },
+        "latestKind": "city_response",
+        "enforcement": true,
+        "formalFindings": 2,
+        "closedCompliant": false
+      },
+      "flags": [
+        "HCD enforcement letter on record."
+      ]
+    },
+    {
+      "jurisdiction": "FOUNTAIN VALLEY",
+      "adu": {
+        "permitUnitsTotal": 416,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 65
+        },
+        "coUnitsTotal": 287,
+        "permitToCoMedianDays": 227,
+        "permitToCoN": 249
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2024-12-06",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/fountain-valley-adu-findings-120624.pdf",
+          "summary": "Ord. 1603 noncompliant: outdated citations, sprinklers, covenant on separate sale / rental term (unauthorized standard)."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "FULLERTON",
+      "adu": {
+        "permitUnitsTotal": 2291,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 589
+        },
+        "coUnitsTotal": 1054,
+        "permitToCoMedianDays": 316,
+        "permitToCoN": 287
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "GARDEN GROVE",
+      "adu": {
+        "permitUnitsTotal": 2603,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 434
+        },
+        "coUnitsTotal": 1533,
+        "permitToCoMedianDays": 273,
+        "permitToCoN": 1415
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2026-03-30",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/garden-grove-adu-findings-03302026.pdf",
+          "summary": "Ord. 2966 (adopted 2025-08-12) noncompliant: conversions, minimum sizes, setbacks/separation, discretionary design review, equipment screening."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "HUNTINGTON BEACH",
+      "adu": {
+        "permitUnitsTotal": 496,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 87
+        },
+        "coUnitsTotal": 0,
+        "permitToCoMedianDays": null,
+        "permitToCoN": 0
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2023-02-21",
+          "kind": "notice_of_potential_violation",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/HAU/HuntingtonBeachNOPV-ADU-022123.pdf",
+          "summary": "Warned that halting ADU and SB 9 permit processing would violate state law (council later reversed course)."
+        },
+        "latestKind": "notice_of_potential_violation",
+        "enforcement": true,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Reports ADU permits but zero certificates of occupancy: likely a reporting gap.",
+        "HCD enforcement letter on record."
+      ]
+    },
+    {
+      "jurisdiction": "IRVINE",
+      "adu": {
+        "permitUnitsTotal": 15,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 8
+        },
+        "coUnitsTotal": 42,
+        "permitToCoMedianDays": 483,
+        "permitToCoN": 6
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2025-03-27",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-ta-032725.pdf",
+          "summary": "Irvine will rely on State ADU Law instead of amending; may restrict separate sale."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 6 projects."
+      ]
+    },
+    {
+      "jurisdiction": "LA HABRA",
+      "adu": {
+        "permitUnitsTotal": 372,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 29
+        },
+        "coUnitsTotal": 201,
+        "permitToCoMedianDays": 210,
+        "permitToCoN": 100
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2022-04-08",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/policy-research/docs/ordinance-review-letters/lahabraaduordinanceresponse040822.pdf",
+          "summary": "Ord. 1835: utility rules, separate-sale ban, corner-lot setbacks, building separation."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "LA PALMA",
+      "adu": {
+        "permitUnitsTotal": 21,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 4
+        },
+        "coUnitsTotal": 5,
+        "permitToCoMedianDays": 192,
+        "permitToCoN": 7
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 7 projects.",
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "LAGUNA BEACH",
+      "adu": {
+        "permitUnitsTotal": 456,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 66
+        },
+        "coUnitsTotal": 214,
+        "permitToCoMedianDays": 336,
+        "permitToCoN": 178
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "LAGUNA HILLS",
+      "adu": {
+        "permitUnitsTotal": 27,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 15
+        },
+        "coUnitsTotal": 20,
+        "permitToCoMedianDays": 191,
+        "permitToCoN": 8
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2025-08-19",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/laguna-hills-adu-ta-081925.pdf",
+          "summary": "2019 ordinance; relying on State ADU Law alone isn't enough, HCD recommends repealing the outdated ordinance."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 8 projects."
+      ]
+    },
+    {
+      "jurisdiction": "LAGUNA NIGUEL",
+      "adu": {
+        "permitUnitsTotal": 56,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 14
+        },
+        "coUnitsTotal": 31,
+        "permitToCoMedianDays": 294,
+        "permitToCoN": 25
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2024-08-22",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/laguna-niguel-adu-findings-08222024.pdf",
+          "summary": "2023 ordinance noncompliant: outdated citations, one-ADU limit, deed restriction, owner-occupancy, JADU rental term."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 2,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "LAGUNA WOODS",
+      "adu": {
+        "permitUnitsTotal": null,
+        "permitUnitsLatestYear": null,
+        "coUnitsTotal": null,
+        "permitToCoMedianDays": null,
+        "permitToCoN": 0
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2025-12-05",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/laguna-woods-adu-ta-12052025.pdf",
+          "summary": "Ordinance on file is from 2020 and may be out of compliance; lists law changes."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No ADU rows in APR Table A2.",
+        "HCD says the ordinance on file dates from 2020."
+      ]
+    },
+    {
+      "jurisdiction": "LAKE FOREST",
+      "adu": {
+        "permitUnitsTotal": 88,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 28
+        },
+        "coUnitsTotal": 61,
+        "permitToCoMedianDays": 284,
+        "permitToCoN": 52
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2022-10-17",
+          "kind": "compliance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/Lake-Forest-ADU-101722.pdf",
+          "summary": "Ord. 355 satisfactorily addresses HCD's concerns; matter closed."
+        },
+        "latestKind": "compliance",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": true
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "LOS ALAMITOS",
+      "adu": {
+        "permitUnitsTotal": 21,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 7
+        },
+        "coUnitsTotal": 25,
+        "permitToCoMedianDays": 303,
+        "permitToCoN": 12
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2025-12-05",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/los-alamitos-adu-ta-12052025.pdf",
+          "summary": "December 2025 batch letter on outdated ADU ordinances (found by URL pattern; not read)."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "MISSION VIEJO",
+      "adu": {
+        "permitUnitsTotal": 150,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 35
+        },
+        "coUnitsTotal": 61,
+        "permitToCoMedianDays": 248,
+        "permitToCoN": 41
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "NEWPORT BEACH",
+      "adu": {
+        "permitUnitsTotal": 250,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 57
+        },
+        "coUnitsTotal": 184,
+        "permitToCoMedianDays": 345,
+        "permitToCoN": 104
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2024-10-01",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/newport-beach-adu-findings-100124.pdf",
+          "summary": "Ord. 2023-2 noncompliant: nonconforming conditions, one-per-lot limit, multi-unit lots, height/size, JADU minimum size."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "ORANGE",
+      "adu": {
+        "permitUnitsTotal": 459,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 88
+        },
+        "coUnitsTotal": 319,
+        "permitToCoMedianDays": 236,
+        "permitToCoN": 200
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2022-10-11",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/OrangeADUOrdinanceResponse101122.pdf",
+          "summary": "Ord. 03-21: JADU efficiency kitchen, design exceptions, bedroom counts, separate-sale exception."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "ORANGE COUNTY",
+      "adu": {
+        "permitUnitsTotal": 372,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 101
+        },
+        "coUnitsTotal": 280,
+        "permitToCoMedianDays": 314,
+        "permitToCoN": 189
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2025-12-05",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/orange-county-adu-ta-12052025.pdf",
+          "summary": "County ordinance on file is from 2020; lists changes incl. deed-restriction ban, HOA limits, 15-business-day completeness."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "HCD says the ordinance on file dates from 2020."
+      ]
+    },
+    {
+      "jurisdiction": "PLACENTIA",
+      "adu": {
+        "permitUnitsTotal": 134,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 30
+        },
+        "coUnitsTotal": 61,
+        "permitToCoMedianDays": 251,
+        "permitToCoN": 57
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2023-11-27",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/placentia-adu-ta-112723.pdf",
+          "summary": "Complaint: city required HOA approval for completeness; HCD says third-party (HOA) involvement violates State ADU Law."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "RANCHO SANTA MARGARITA",
+      "adu": {
+        "permitUnitsTotal": 13,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 6
+        },
+        "coUnitsTotal": 6,
+        "permitToCoMedianDays": 0,
+        "permitToCoN": 4
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2022-08-10",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/RanchoSantaMargaritaADUResponse081022.pdf",
+          "summary": "Ord. 21-02: 220 sq ft minimum (efficiency units allowed at 150), height tied to primary structure."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 4 projects.",
+        "Median permit→CO of 0 days: dates look copied, not real milestones."
+      ]
+    },
+    {
+      "jurisdiction": "SAN CLEMENTE",
+      "adu": {
+        "permitUnitsTotal": 183,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 37
+        },
+        "coUnitsTotal": 129,
+        "permitToCoMedianDays": 271,
+        "permitToCoN": 124
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "SAN JUAN CAPISTRANO",
+      "adu": {
+        "permitUnitsTotal": 117,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 14
+        },
+        "coUnitsTotal": 50,
+        "permitToCoMedianDays": 319,
+        "permitToCoN": 40
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2022-02-23",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/SanJuanCapistranoADU022322.pdf",
+          "summary": "Ord. 1077: efficiency kitchen, fees, separate conveyance, bedroom cap, design rules, historic, utilities."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "SANTA ANA",
+      "adu": {
+        "permitUnitsTotal": 1124,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 258
+        },
+        "coUnitsTotal": 706,
+        "permitToCoMedianDays": 287,
+        "permitToCoN": 682
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "SEAL BEACH",
+      "adu": {
+        "permitUnitsTotal": 16,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 8
+        },
+        "coUnitsTotal": 12,
+        "permitToCoMedianDays": 407,
+        "permitToCoN": 7
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2024-08-20",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/seal-beach-adu-findings-08202024.pdf",
+          "summary": "Ord. 1706 noncompliant: deleted SB 477 citations, one ADU category per lot, 50% size cap, deed restriction, owner-occupancy."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 2,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 7 projects."
+      ]
+    },
+    {
+      "jurisdiction": "STANTON",
+      "adu": {
+        "permitUnitsTotal": 186,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 35
+        },
+        "coUnitsTotal": 120,
+        "permitToCoMedianDays": 275,
+        "permitToCoN": 100
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "TUSTIN",
+      "adu": {
+        "permitUnitsTotal": 107,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 34
+        },
+        "coUnitsTotal": 51,
+        "permitToCoMedianDays": 221,
+        "permitToCoN": 46
+      },
+      "hcd": {
+        "letters": 0,
+        "latest": null,
+        "latestKind": null,
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "No HCD ADU letter found (that doesn't mean none exists)."
+      ]
+    },
+    {
+      "jurisdiction": "VILLA PARK",
+      "adu": {
+        "permitUnitsTotal": 40,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 2
+        },
+        "coUnitsTotal": 4,
+        "permitToCoMedianDays": 273,
+        "permitToCoN": 3
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2024-12-24",
+          "kind": "findings",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/villa-park-adu-findings-122424.pdf",
+          "summary": "Ord. 2023-630 noncompliant: SB 1211/AB 2533 changes, outdated numbering, rear setback, parking exceptions."
+        },
+        "latestKind": "findings",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": [
+        "Permit→CO median rests on only 3 projects."
+      ]
+    },
+    {
+      "jurisdiction": "WESTMINSTER",
+      "adu": {
+        "permitUnitsTotal": 1014,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 215
+        },
+        "coUnitsTotal": 741,
+        "permitToCoMedianDays": 211,
+        "permitToCoN": 601
+      },
+      "hcd": {
+        "letters": 2,
+        "latest": {
+          "date": "2023-12-18",
+          "kind": "findings_response",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/westminster-resp-reg-adu-findings-121823.pdf",
+          "summary": "HCD reply on JADUs: only allowed in single-family zones."
+        },
+        "latestKind": "findings_response",
+        "enforcement": false,
+        "formalFindings": 1,
+        "closedCompliant": false
+      },
+      "flags": []
+    },
+    {
+      "jurisdiction": "YORBA LINDA",
+      "adu": {
+        "permitUnitsTotal": 154,
+        "permitUnitsLatestYear": {
+          "year": 2025,
+          "units": 34
+        },
+        "coUnitsTotal": 90,
+        "permitToCoMedianDays": 258,
+        "permitToCoN": 59
+      },
+      "hcd": {
+        "letters": 1,
+        "latest": {
+          "date": "2025-12-05",
+          "kind": "technical_assistance",
+          "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/yorba-linda-adu-ta-12052025.pdf",
+          "summary": "Ordinance on file is from 2020 and may be out of compliance; lists law changes."
+        },
+        "latestKind": "technical_assistance",
+        "enforcement": false,
+        "formalFindings": 0,
+        "closedCompliant": false
+      },
+      "flags": [
+        "HCD says the ordinance on file dates from 2020."
+      ]
+    }
+  ]
+}

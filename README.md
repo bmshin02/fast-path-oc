@@ -121,6 +121,25 @@ Fetched sources are cached for one day, so we don't hit the same page on every r
 
 **A possible JADU overreach.** Anaheim's checklist requires an owner-occupancy covenant for **all** JADUs, citing 65852.2 and 65852.22, neither of which has current text on leginfo. Current Gov 66333(b) requires owner-occupancy only when the JADU shares sanitation with the main house. That's a **possible conflict to confirm with city staff or counsel**, not a ruling. HCD's 2025 letter to Anaheim didn't raise it. Details are in [cities.md](fast-path-check/reference/cities.md).
 
+## Orange County, all 35 jurisdictions
+
+We joined the state's APR data with HCD's letters for every OC city and the county ([research/oc-adu-scorecard.md](research/oc-adu-scorecard.md)):
+
+- **25 of 35 jurisdictions** have at least one HCD letter on their ADU rules (37 letters in total). The same problems recur: citations SB 477 deleted, and deed restrictions or owner-occupancy rules on ADUs.
+- **Dana Point** has two HCD notices of violation and the slowest permit-to-occupancy time in the county (388-day median). **Huntington Beach** got a notice of potential violation for moving to stop ADU permits. The overlap between enforcement and slowness is a correlation, not proof of cause.
+- ADU permits grew from **297 units in 2018 to 3,071 in 2025** (14,083 in total).
+- Data gaps are reported, not hidden: Huntington Beach reports zero certificates of occupancy, and Irvine reports only 15 ADU permits.
+
+## Deterministic checks
+
+Alongside the Claude agents, [`web/lib/features/`](web/lib/features/README.md) has tools that need no model and can't hallucinate (27 tests):
+
+- **Citation scanner**, built from HCD's official conversion table. It catches both stale citations in Anaheim's checklist and maps chains like 65852.2(f) → 66324 → 66311.5.
+- **Gov 66317 shot clock:** completeness deadline (15 business days), deemed complete, no new items on resubmittal, 60-day decision or deemed approved. It can draft a polite rights letter with placeholders.
+- **Scored against HCD's own findings:** on Anaheim's checklist, the scanner and the agent output both catch HCD's in-scope finding (statutory numbering). `web/scripts/score-hcd.ts` runs it.
+- **Delay-cost calculator** using the mentor's mortgage math, and a **source monitor** that flags when a PDF we rely on changes or a blocked site becomes fetchable.
+- API: `POST /api/tools/citations`, `POST /api/tools/shot-clock`, `POST /api/tools/delay-cost`, `GET /api/tools/oc?city=`.
+
 ## How this differs from CrossBeam
 
 [CrossBeam](https://cc-crossbeam.vercel.app), built by our mentor Mike Brown, won Anthropic's "Built with Opus 4.6" hackathon. It works **after plan check**: it reads a city's corrections letter and the construction plans, then drafts responses. Fast Path Check works **before submittal**: it checks whether the city's own checklist matches current state law, finds the approval path and its legal clock, and lists package gaps. The two fit together. *CrossBeam helps you answer the city's corrections; Fast Path Check checks whether the city's own rules are current before you submit.* More in [research/crossbeam-comparison.md](research/crossbeam-comparison.md).
@@ -128,7 +147,7 @@ Fetched sources are cached for one day, so we don't hit the same page on every r
 ## Where it gets things wrong
 
 - Leginfo blocks automated fetches, so statute text comes from hand-checked entries, HCD guidance and web search, not a live read of the code.
-- HCD's enforcement letters sit in an embedded dashboard. The tool often has to say "unknown" for letters about a city.
+- HCD's enforcement letters sit in an embedded dashboard. For OC we found 37 letters by search ([data/oc-hcd-letters.json](data/oc-hcd-letters.json)), but an empty list for a city means none was found, not that none exists.
 - No OC data on plan-check correction cycles exists, so it can't say how many resubmittals a city typically requires. Our mentor's estimate is 3–4 rounds for an ADU, but that's one practitioner's experience, not data.
 - SB 684 (Gov 66499.41) has four versions on leginfo and no HCD guidance yet. Treat any SB 684 answer as "confirm."
 
