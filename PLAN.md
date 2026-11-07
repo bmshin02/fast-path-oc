@@ -49,15 +49,17 @@ evals/
 Install: upload the zipped folder as a skill in claude.ai, or drop it into `.claude/skills/` for Claude Code. Make sure **web search** is on.
 
 ### The "tools" (all live lookups, no code)
-| Tool | Hits | Used for |
-|---|---|---|
-| Web fetch → leginfo section pages | `leginfo.legislature.ca.gov/.../codes_displaySection.xhtml?lawCode=GOV&sectionNum=N` | Current statute text before citing it. *Leginfo blocks some automated fetches; fallback is web search for the section + HCD guidance PDFs.* |
-| Web fetch → HCD guidance | ADU Handbook (Mar 2026), SB 9 fact sheet, SB 35 guidelines, AB 2011 draft guidelines | Plain-English rules with current section numbers |
-| Web fetch → HCD SMAP dashboard | `hcd.ca.gov/.../streamlined-ministerial-approval-process-dashboard` | Is SB 35/423 streamlining available in this city? |
-| Web fetch → **data.ca.gov CKAN API** (free, no key) | APR Table A `c78b769d-…` and A2 `fe505d9b-…` with `&q=ANAHEIM` | Real local numbers, e.g. "this city reported N ADU permits," and entitlement→permit→CO dates if time allows |
-| Web fetch → city pages | Irvine, Santa Ana, Garden Grove, Huntington Beach (fetch OK) | The city's current checklist + fees |
-| **User upload** | Anaheim, Costa Mesa, Fullerton, Orange (these 403 on fetch) | Download the PDF in a browser, attach it. Honest workaround, no scraping. |
-| Web search | Anything not in the registry | New HCD letters, a newer checklist version, 2025–26 law changes |
+Fetch results below were tested on 2026-11-07. Full URLs and working queries are in `fast-path-check/reference/sources.md`.
+
+| Tool | Hits | Used for | Tested 2026-11-07 |
+|---|---|---|---|
+| Web fetch → leginfo section pages | `leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=N.` | Current statute text before citing it | **Blocked: 403** for both curl and Claude's web fetch. The pages open in a normal browser. Fallback: HCD guidance PDFs + web search. Team members check sections by hand in a browser and record them in `reference/sources.md` |
+| Web fetch → HCD guidance | ADU Handbook (Mar 2026), Housing Law Fact Sheets (Apr 2026), SB 9 fact sheet, SB 35 guidelines, AB 2011 draft guidelines | Plain-English rules with current section numbers | OK, all load. HCD has **no SB 684 / SB 1123 guidance** yet |
+| Web fetch → HCD SMAP dashboard | `hcd.ca.gov/planning-and-community-development/streamlined-ministerial-approval-process-dashboard` | Is SB 35/423 streamlining available in this city? | OK |
+| Web fetch → **data.ca.gov CKAN API** (free, no key) | APR Table A `c78b769d-cc02-4050-91ef-79ded665b5a8` and A2 `fe505d9b-8c36-42ba-ba30-08bc4f34e022`, filtered with `filters={"JURIS_NAME":"ANAHEIM"}` (**not** `q=`, which also matches street addresses) | Real local numbers, e.g. "this city reported N ADU permits," and entitlement→permit→CO dates if time allows | OK. A working SQL query for ADU permits by year is in `reference/sources.md` |
+| Web fetch → city pages | Irvine | The city's current checklist + fees | Irvine OK. Santa Ana, Garden Grove and Huntington Beach not re-tested |
+| **User upload** | Anaheim (confirmed 403), Costa Mesa, Fullerton, Orange | Download the PDF in a browser, attach it. Honest workaround, no scraping. | Anaheim Z412 PDF saved in `evals/fixtures/` |
+| Web search | Anything not in the registry | New HCD letters, a newer checklist version, 2025–26 law changes | OK |
 
 ### SKILL.md (draft, paste it in and tune during testing)
 ```markdown
@@ -80,9 +82,11 @@ Prototype for the Claude Impact Lab. Not legal advice.
 
 ## Workflow
 1. **Identify the path.** Read reference/pathways.md. Pick candidate paths.
-   For each, FETCH the live statute or HCD guidance listed there and confirm the
-   test and the clock before stating them. If the fetch fails, say so and use the
-   HCD guidance PDF; if that fails too, mark it "unverified today."
+   For each, FETCH the HCD guidance listed there and confirm the test and the
+   clock before stating them. Leginfo returns 403 to web fetch, so don't expect
+   to fetch statute text. Use the hand-checked statute status in
+   reference/sources.md, and web search if you need more. If neither confirms
+   something, mark it "unverified today."
 2. **Check streamlining availability** (multifamily only): fetch the HCD SMAP dashboard.
 3. **Get the city checklist.** Use the URL in reference/cities.md, a user URL, or the
    upload. If a city page returns 403, ask the user to download and attach it.
@@ -95,7 +99,8 @@ Prototype for the Claude Impact Lab. Not legal advice.
      with city staff or counsel." Never call it illegal.
 5. **Check the applicant's package** (if provided) against the checklist.
    Mark Present / Missing / Inconsistent / Can't tell.
-6. **Optional local numbers:** query data.ca.gov APR Table A/A2 for the city.
+6. **Optional local numbers:** query data.ca.gov APR Table A/A2 for the city,
+   using the exact JURIS_NAME filter from reference/sources.md (not q=).
    Report counts and dates as-is. Say what the data can't show (no correction-cycle data).
 7. **Write the report** using reference/report-template.md.
 
@@ -128,7 +133,7 @@ Anything not confirmed is marked "fetch to confirm." Don't fill gaps from memory
 | ADU / JADU | Gov 66314–66331 / 66333 | Ministerial, 60 days | HCD ADU Handbook (Mar 2026) |
 | SB 9 two-unit | Gov 65852.21 | Ministerial; HCD enforces since 2024 | HCD SB 9 fact sheet |
 | SB 9 lot split | Gov 66411.7 | 60-day clock | HCD SB 9 fact sheet |
-| Small subdivision ≤10 parcels | Gov 66499.41 (+ 65913.4.5 permit) | Ministerial map; SB 1123 amended, **confirm text** | leginfo |
+| Small subdivision ≤10 parcels | Gov 66499.41 (+ 65913.4.5 permit) | Ministerial map; SB 1123 amended it, and Stats. 2026 ch. 1006 amended it again (4 versions on leginfo). **Confirm which version is operative** | leginfo (no HCD guidance yet) |
 | Streamlined multifamily | Gov 65913.4 (SB 35/423) | Check SMAP dashboard per city | HCD SB 35 guidelines |
 | Corridor / office-to-housing | Gov 65912.100–.140 (AB 2011) | By-right | HCD AB 2011 draft guidelines |
 | Post-entitlement permits | Gov 65913.3 (AB 2234) | City must post checklists + sample apps online | leginfo |
@@ -253,7 +258,7 @@ Each person owns separate files, so nobody blocks anyone else. You sync at four 
 
 ## Risks
 
-- **Fetch blocked (leginfo, some cities):** fall back to HCD PDFs or user upload; the report says so. Test this by 11:30.
+- **Fetch blocked (leginfo, some cities):** fall back to HCD PDFs or user upload; the report says so. *Tested 2026-11-07: leginfo and Anaheim both return 403 to web fetch; HCD, data.ca.gov and Irvine load fine.*
 - **Web fetch only opening URLs that came from search or the user:** if the skill can't fetch registry URLs directly, have it web-search the source title first. Test this early.
 - **Calling something illegal:** the skill only says "possible conflict, confirm," never issues a ruling.
 - **Inventing a section number:** renumbering.md only holds confirmed rows, and trick test 4 checks for this.
