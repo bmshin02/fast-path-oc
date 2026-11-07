@@ -72,7 +72,7 @@ type FormField = {
 type FillEvent =
   | { type: "status"; text: string }                       // progress line
   | { type: "message"; text: string }                      // Fast Track says something
-  | { type: "question"; text: string; fieldIds: string[] } // waits for the user
+  | { type: "question"; text: string; fieldIds: string[]; choices?: string[] } // waits for the user; two choices = answer buttons
   | { type: "field"; field: FormField }                    // a field got filled
   | { type: "done"; summary: string; fields: FormField[] }; // finished
 
@@ -96,6 +96,13 @@ Today `createSession()` returns the scripted mock (`web/lib/fill/mock/`). Step 5
 - The server re-checks every answer: signatures and sensitive numbers (SSN, ID, bank) are never filled, and answers can only go into PDF boxes that really exist.
 - Irvine ADU uses our curated box list. Other fillable PDFs send their box names from the browser so Claude can fill them in place. Word files are converted to text on the server (`mammoth`).
 - Cost: about $0.10 for the first turn (writes the form to the cache), about $0.02-0.04 per turn after; a full form is roughly $0.30-0.50. Each call logs its token use to the server console.
+
+## Fill screen behavior
+
+- While Fast Track is asking, the screen is one workspace: chat on the left (answer box always at the bottom), the form filling in on the right. On phones the form folds into a "Your form: N of M filled" button above the chat. No form card or "Change form" button during the chat.
+- Questions with exactly two answers (yes/no, one story/two) show two big buttons instead of a text box.
+- When done, the result (summary, download, preview, answers) replaces the chat; the conversation folds into "See the conversation", and "Fill another form" starts over.
+- The fill page header is just the logo.
 
 ## Where things live
 

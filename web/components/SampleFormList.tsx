@@ -4,13 +4,13 @@ import { sampleForms } from "@/lib/fill/forms";
 
 // The ready-made city forms, each linking to /fill?form=<id>.
 // Used on the landing page and on the pick-a-form screen.
-export function SampleFormList() {
+export function SampleFormList({ mock = false }: { mock?: boolean }) {
   return (
     <ul className="divide-y divide-border overflow-hidden rounded-[24px] bg-background ring-1 ring-border">
       {sampleForms.map((form) => (
         <li key={form.id}>
           <Link
-            href={`/fill?form=${form.id}`}
+            href={`/fill?form=${form.id}${mock ? "&mock=1" : ""}`}
             className="group flex items-center gap-4 px-5 py-5 transition-colors duration-150 hover:bg-fog focus-visible:bg-fog focus-visible:outline-none sm:px-7"
           >
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-mist">

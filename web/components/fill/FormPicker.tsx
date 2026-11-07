@@ -7,9 +7,11 @@ import { UploadZone } from "./UploadZone";
 
 export function FormPicker({
   unknownId,
+  mock = false,
   onFile,
 }: {
   unknownId: string | null;
+  mock?: boolean;
   onFile: (file: File, kind: UploadKind) => void;
 }) {
   return (
@@ -43,7 +45,7 @@ export function FormPicker({
         Real city forms. Please use made-up details.
       </p>
       <div className="mt-6">
-        <SampleFormList />
+        <SampleFormList mock={mock} />
       </div>
     </div>
   );

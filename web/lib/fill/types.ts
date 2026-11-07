@@ -29,7 +29,7 @@ export type FormField = {
 export type FillEvent =
   | { type: "status"; text: string } // progress line, e.g. "Reading your form…"
   | { type: "message"; text: string } // something Fast Track says
-  | { type: "question"; text: string; fieldIds: string[] } // waits for the user
+  | { type: "question"; text: string; fieldIds: string[]; choices?: string[] } // waits for the user; choices = two answer buttons
   | { type: "field"; field: FormField } // a field got filled
   | { type: "done"; summary: string; fields: FormField[] }; // finished
 

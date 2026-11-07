@@ -149,7 +149,14 @@ async function runTurn(
   if (turn.done || !turn.question) {
     send({ type: "done", summary: summarizeFields(fields, turn.summary), fields });
   } else {
-    send({ type: "question", text: turn.question, fieldIds: changed.map((f) => f.id) });
+    const choices = turn.choices?.map((c) => c.trim()).filter((c) => c && c.length <= 40);
+    send({
+      type: "question",
+      text: turn.question,
+      fieldIds: changed.map((f) => f.id),
+      // Two-answer questions get two buttons instead of a text box.
+      ...(choices?.length === 2 && choices[0] !== choices[1] ? { choices } : {}),
+    });
   }
 }
 

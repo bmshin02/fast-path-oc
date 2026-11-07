@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Check, Download, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Check, Download, ExternalLink, RotateCcw } from "lucide-react";
 import { buildFilledPdf } from "@/lib/fill/pdf";
 import type { FormField, FormSource } from "@/lib/fill/types";
 import { FieldList } from "./FieldList";
@@ -12,18 +12,15 @@ export function ResultPanel({
   source,
   fields,
   summary,
+  mock = false,
 }: {
   source: FormSource;
   fields: FormField[];
   summary: string;
+  mock?: boolean;
 }) {
-  const ref = useRef<HTMLElement>(null);
   const [pdf, setPdf] = useState<{ url: string; fileName: string; inPlace: boolean } | null>(null);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
 
   useEffect(() => {
     let url: string | null = null;
@@ -45,14 +42,14 @@ export function ResultPanel({
   }, [source, fields]);
 
   return (
-    <section ref={ref} aria-labelledby="result-heading" className="mt-12 scroll-mt-24">
+    <section aria-labelledby="result-heading">
       <div className="rounded-[24px] bg-peach p-6 text-sienna sm:p-8">
         <span className="grid h-11 w-11 place-items-center rounded-full bg-sienna text-peach">
           <Check className="h-6 w-6" strokeWidth={2.25} aria-hidden />
         </span>
-        <h2 id="result-heading" className="mt-5 font-serif text-[34px] leading-[1.2] font-normal sm:text-[40px]">
+        <h1 id="result-heading" className="mt-5 font-serif text-[34px] leading-[1.2] font-normal sm:text-[44px]">
           Your form is ready
-        </h2>
+        </h1>
         <p className="mt-3 max-w-[44rem] text-xl leading-8">{summary}</p>
 
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -63,7 +60,7 @@ export function ResultPanel({
               className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-primary-fill px-8 text-lg font-medium text-on-primary transition-colors duration-150 hover:bg-[#2c2f34] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
             >
               <Download className="h-5 w-5" strokeWidth={2} aria-hidden />
-              Download your filled form
+              Download filled form
             </a>
           ) : (
             <span className="inline-flex h-14 items-center justify-center rounded-full bg-primary-fill/70 px-8 text-lg font-medium text-on-primary">
@@ -81,6 +78,14 @@ export function ResultPanel({
               Open in a new tab
             </a>
           )}
+          {/* A full page load, so an uploaded file is cleared too. */}
+          <a
+            href={mock ? "/fill?mock=1" : "/fill"}
+            className="inline-flex h-14 items-center justify-center gap-3 rounded-full px-6 text-lg font-medium text-sienna underline-offset-4 transition-colors duration-150 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sienna sm:ml-auto"
+          >
+            <RotateCcw className="h-5 w-5" strokeWidth={2} aria-hidden />
+            Fill another form
+          </a>
         </div>
         {error && (
           <p role="alert" className="mt-4 text-lg leading-7">
