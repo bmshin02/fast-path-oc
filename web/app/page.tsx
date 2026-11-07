@@ -10,7 +10,7 @@ import { sampleForms } from "@/lib/fill/forms";
 const steps = [
   {
     title: "Upload your form",
-    text: "Add a housing form from your city as a PDF, or pick one of ours below.",
+    text: "Add a housing form from your city as a PDF or Word document, or pick one of ours below.",
   },
   {
     title: "Answer a few questions",
@@ -62,7 +62,7 @@ export default function Home() {
                 </Link>
               </div>
               <p className="mt-5 text-base text-muted">
-                Works with PDF forms from California cities
+                Works with PDF and Word forms from California cities
               </p>
             </div>
           </div>

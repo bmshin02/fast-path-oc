@@ -5,22 +5,24 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FileText } from "lucide-react";
 import { sampleForms } from "@/lib/fill/forms";
 import type { FormSource } from "@/lib/fill/types";
-import { formatSize } from "@/lib/fill/upload";
+import { formatSize, type UploadKind } from "@/lib/fill/upload";
 import { FormPicker } from "./FormPicker";
 
 // /fill decides what to show:
 //   ?form=<sample id>   → that sample form
-//   a PDF just uploaded → that file (kept in memory only, never stored)
+//   a file just uploaded → that file (kept in memory only, never stored)
 //   otherwise           → the pick-a-form screen
 export function FillFlow() {
   const params = useSearchParams();
   const router = useRouter();
-  const [upload, setUpload] = useState<File | null>(null);
+  const [upload, setUpload] = useState<{ file: File; kind: UploadKind } | null>(
+    null,
+  );
 
   const formId = params.get("form");
   const sample = sampleForms.find((f) => f.id === formId);
   const source: FormSource | null = upload
-    ? { kind: "upload", file: upload }
+    ? { kind: "upload", file: upload.file, fileKind: upload.kind }
     : sample
       ? { kind: "sample", form: sample }
       : null;
@@ -29,7 +31,7 @@ export function FillFlow() {
     return (
       <FormPicker
         unknownId={formId && !sample ? formId : null}
-        onFile={setUpload}
+        onFile={(file, kind) => setUpload({ file, kind })}
       />
     );
   }
@@ -57,7 +59,7 @@ function SelectedForm({
   const meta =
     source.kind === "sample"
       ? `${source.form.city}, ${source.form.pages} ${source.form.pages === 1 ? "page" : "pages"}`
-      : `Your PDF, ${formatSize(source.file.size)}`;
+      : `Your ${source.fileKind === "pdf" ? "PDF" : "Word document"}, ${formatSize(source.file.size)}`;
 
   return (
     <div className="mx-auto w-full max-w-[800px]">

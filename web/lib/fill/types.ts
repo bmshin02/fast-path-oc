@@ -3,11 +3,12 @@
 // See web/PLAN.md, "The contract between the page and Claude".
 
 import type { SampleForm } from "./forms";
+import type { UploadKind } from "./upload";
 
-/** The form the user is filling: one of ours, or a PDF they uploaded. */
+/** The form the user is filling: one of ours, or a file they uploaded. */
 export type FormSource =
   | { kind: "sample"; form: SampleForm }
-  | { kind: "upload"; file: File };
+  | { kind: "upload"; file: File; fileKind: UploadKind };
 
 export type FormField = {
   id: string;

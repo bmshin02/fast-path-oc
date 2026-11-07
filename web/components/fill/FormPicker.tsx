@@ -2,6 +2,7 @@
 
 import { CircleAlert } from "lucide-react";
 import { SampleFormList } from "@/components/SampleFormList";
+import type { UploadKind } from "@/lib/fill/upload";
 import { UploadZone } from "./UploadZone";
 
 export function FormPicker({
@@ -9,7 +10,7 @@ export function FormPicker({
   onFile,
 }: {
   unknownId: string | null;
-  onFile: (file: File) => void;
+  onFile: (file: File, kind: UploadKind) => void;
 }) {
   return (
     <div className="mx-auto w-full max-w-[800px]">

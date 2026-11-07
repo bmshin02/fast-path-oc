@@ -1,28 +1,85 @@
-// Checks a file the user picked before we accept it.
+// Which files we accept, and the checks we run before accepting one.
+//
+// Accepted: PDF and Word (.docx). Older Word files (.doc) can be chosen, but
+// we can't read them, so the user is told how to re-save them.
+// Everything else is filtered out of the file picker and can't be dropped.
 
-// Vercel caps a request body at 4.5 MB, and step 5 sends the PDF to our
+// Vercel caps a request body at 4.5 MB, and step 5 sends the file to our
 // server, so stay under that. City forms are usually well below 1 MB.
 export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 
-export async function checkUpload(file: File): Promise<string | null> {
-  const looksLikePdf =
-    file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-  if (!looksLikePdf) {
-    return `"${file.name}" isn't a PDF. Choose a PDF file, the kind that ends in .pdf.`;
+export type UploadKind = "pdf" | "docx";
+
+const PDF_MIME = "application/pdf";
+const DOCX_MIME =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+const DOC_MIME = "application/msword";
+
+/** For <input accept>: the picker greys out everything else. */
+export const ACCEPT_ATTR = [".pdf", ".docx", ".doc", PDF_MIME, DOCX_MIME, DOC_MIME].join(",");
+
+/**
+ * While dragging, browsers expose only the MIME type, not the name.
+ * Some systems report an empty type; let those through and check on drop.
+ */
+export function isAcceptableDragType(mime: string): boolean {
+  return mime === "" || [PDF_MIME, DOCX_MIME, DOC_MIME].includes(mime);
+}
+
+function typeOf(file: File): UploadKind | "doc" | null {
+  const name = file.name.toLowerCase();
+  if (name.endsWith(".pdf") || file.type === PDF_MIME) return "pdf";
+  if (name.endsWith(".docx") || file.type === DOCX_MIME) return "docx";
+  if (name.endsWith(".doc") || file.type === DOC_MIME) return "doc";
+  return null;
+}
+
+async function startsWith(file: File, bytes: number[]): Promise<boolean> {
+  const head = new Uint8Array(await file.slice(0, bytes.length).arrayBuffer());
+  return bytes.every((b, i) => head[i] === b);
+}
+
+export type UploadCheck =
+  | { ok: true; kind: UploadKind }
+  | { ok: false; message: string };
+
+export async function checkUpload(file: File): Promise<UploadCheck> {
+  const kind = typeOf(file);
+
+  // Only reachable if the picker's filter is bypassed (e.g. "All files" on
+  // Windows) or a drag reported no type.
+  if (!kind) {
+    return { ok: false, message: `"${file.name}" can't be used. Choose a PDF or Word document.` };
+  }
+  if (kind === "doc") {
+    return {
+      ok: false,
+      message: `"${file.name}" is an older Word file (.doc). Open it in Word, choose File, then Save As, and save it as a Word Document (.docx) or a PDF. Then upload that file.`,
+    };
   }
   if (file.size === 0) {
-    return `"${file.name}" is empty. Choose a different file.`;
+    return { ok: false, message: `"${file.name}" is empty. Choose a different file.` };
   }
   if (file.size > MAX_UPLOAD_BYTES) {
     const mb = (file.size / 1024 / 1024).toFixed(1);
-    return `"${file.name}" is ${mb} MB. Choose a PDF under 4 MB.`;
+    return { ok: false, message: `"${file.name}" is ${mb} MB. Choose a file under 4 MB.` };
   }
-  // Every real PDF starts with "%PDF-", so this catches renamed files.
-  const head = new Uint8Array(await file.slice(0, 5).arrayBuffer());
-  if (String.fromCharCode(...head) !== "%PDF-") {
-    return `"${file.name}" ends in .pdf but isn't a readable PDF. Try saving it again as a PDF.`;
+
+  // Check the file's first bytes so a renamed file can't slip through.
+  // PDFs start with "%PDF-"; .docx files are zip archives starting "PK\3\4".
+  const real =
+    kind === "pdf"
+      ? await startsWith(file, [0x25, 0x50, 0x44, 0x46, 0x2d])
+      : await startsWith(file, [0x50, 0x4b, 0x03, 0x04]);
+  if (!real) {
+    const what = kind === "pdf" ? "PDF" : "Word document";
+    return {
+      ok: false,
+      message: `"${file.name}" can't be opened as a ${what}. Try saving it again from the program that made it.`,
+    };
   }
-  return null;
+
+  return { ok: true, kind };
 }
 
 export function formatSize(bytes: number): string {
