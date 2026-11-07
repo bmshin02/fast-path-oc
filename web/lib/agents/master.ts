@@ -5,7 +5,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
-import { client, MODEL, today, logUsage } from "./client";
+import { client, MODELS, today, logUsage } from "./client";
 import { RULES } from "./prompts";
 import { runParser } from "./parser";
 import { runCompliance } from "./compliance";
@@ -155,11 +155,11 @@ export async function runMaster(input: CheckInput, emit: Emit): Promise<RunOutco
   emit({ type: "progress", agent: "master", message: "Planning the run" });
 
   const runner = client.beta.messages.toolRunner({
-    model: MODEL,
+    model: MODELS.coordinator,
     max_tokens: 16000,
     max_iterations: MAX_TOOL_CALLS + 4,
     thinking: { type: "adaptive" },
-    output_config: { effort: "high" },
+    output_config: { effort: "medium" },
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     system: SYSTEM,

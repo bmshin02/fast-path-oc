@@ -4,7 +4,22 @@ import Anthropic from "@anthropic-ai/sdk";
 // Never import this from a client component.
 export const client = new Anthropic();
 
-export const MODEL = "claude-opus-5-5";
+/**
+ * One model per agent, matched to the job. Opus 5.5 only where the reasoning is hard and
+ * mistakes are costly; Sonnet 5.5 (half the price, faster) everywhere else. All of these
+ * support structured outputs, PDF input, web search/fetch and `fallbacks: "default"`.
+ * Prompt caches are per model, so each agent keeps its own cache.
+ */
+export const MODELS = {
+  /** Picks which subagent runs next and when to re-run one: routing, not legal judgment. */
+  coordinator: "claude-sonnet-5-5",
+  /** Transcribes checklist lines and citations from the PDF (incl. garbled text layers). */
+  parser: "claude-sonnet-5-5",
+  /** Checks every line against current law with web search/fetch. Never guess a statute. */
+  compliance: "claude-opus-5-5",
+  /** Writes the path note and two-city comparison from data it's given. */
+  producer: "claude-sonnet-5-5",
+} as const;
 
 /** YYYY-MM-DD in Pacific time: the "date checked" on every claim. */
 export function today(): string {

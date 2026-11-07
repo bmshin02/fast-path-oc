@@ -4,7 +4,7 @@
 
 import type Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
-import { client, MODEL, today, logUsage } from "./client";
+import { client, MODELS, today, logUsage } from "./client";
 import { RULES } from "./prompts";
 import { ParsedDoc, type RunParser } from "./schemas";
 
@@ -65,10 +65,10 @@ export const runParser: RunParser = async ({ pdfBase64, city, projectType, packa
   });
 
   const stream = client.beta.messages.stream({
-    model: MODEL,
+    model: MODELS.parser,
     max_tokens: 32000,
     thinking: { type: "adaptive" },
-    output_config: { effort: "low", format: betaZodOutputFormat(ParsedDoc) },
+    output_config: { effort: "medium", format: betaZodOutputFormat(ParsedDoc) },
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],

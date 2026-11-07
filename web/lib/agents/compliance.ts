@@ -8,7 +8,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
-import { client, MODEL, today, logUsage } from "./client";
+import { client, MODELS, today, logUsage } from "./client";
 import { RULES, reference, skill } from "./prompts";
 import { mergeById, staleCitationCount } from "./findings";
 import { ComplianceResult, type Emit, type ParsedDoc, type RunCompliance } from "./schemas";
@@ -200,7 +200,7 @@ export const runCompliance: RunCompliance = async ({ parsed, note, checkSmap }, 
 
   for (let resumes = 0; ; resumes++) {
     const stream = client.beta.messages.stream({
-      model: MODEL,
+      model: MODELS.compliance,
       max_tokens: 64000,
       thinking: { type: "adaptive" },
       output_config: { effort: "high", format: betaZodOutputFormat(ComplianceResult) },

@@ -7,7 +7,7 @@
 
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
-import { client, MODEL, today, logUsage } from "./client";
+import { client, MODELS, today, logUsage } from "./client";
 import { mergeById, staleCitationCount } from "./findings";
 import { RULES } from "./prompts";
 import {
@@ -297,7 +297,7 @@ function compactForModel(reports: Report[]) {
 async function writeJudgment(reports: Report[], note: string | undefined, emit: Emit): Promise<Judgment | null> {
   try {
     const msg = await client.beta.messages.parse({
-      model: MODEL,
+      model: MODELS.producer,
       max_tokens: 16000,
       thinking: { type: "adaptive" },
       output_config: { effort: "medium", format: betaZodOutputFormat(Judgment) },

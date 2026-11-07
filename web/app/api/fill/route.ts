@@ -18,7 +18,9 @@ import { TOO_LARGE_MESSAGE } from "@/lib/fill/upload";
 // Web searches can make a turn take a while.
 export const maxDuration = 120;
 
-const MODEL = "claude-opus-5-5";
+// Sonnet 5.5: a live chat, so speed matters, and half Opus 5.5's price. It still reads
+// the PDF, matches boxes to labels and web-searches, so effort stays at medium below.
+const MODEL = "claude-sonnet-5-5";
 // Vercel rejects bodies over 4.5 MB before this route runs; match it so local
 // dev fails the same way. The browser caps uploads at 3 MB (~4 MB as base64).
 const MAX_BODY_BYTES = 4.5 * 1024 * 1024;
