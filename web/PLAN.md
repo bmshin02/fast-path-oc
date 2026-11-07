@@ -24,14 +24,18 @@ Every page shows "Prototype · not legal advice · use demo data only, no real p
 
 The city forms listed in [../sources.md](../sources.md):
 
-| Form | City | Have the PDF? |
-|---|---|---|
-| ADU Submittal Requirements Checklist (Z412, Nov 2025) | Anaheim | Yes, `evals/fixtures/` |
-| ADU application package (2025) | Irvine | Not yet: download into `evals/fixtures/` |
-| Development Standards Checklist | Irvine | Not yet |
-| Hold Harmless Affidavit | Irvine | Not yet |
+All four PDFs are in `evals/fixtures/` (checked 2026-11-07):
 
-The Anaheim PDF has no fillable form fields, so the city PDFs may all be "flat". See decision 3.
+| Form | City | Pages | Fillable boxes? |
+|---|---|---|---|
+| ADU application package (2025) | Irvine | 10 | Yes: 247 text fields + 156 checkboxes |
+| Development Standards Checklist (67-01) | Irvine | 1 | Yes: 18 text fields |
+| Hold Harmless Affidavit (67-02) | Irvine | 2 | Yes: 13 text fields |
+| ADU Submittal Requirements Checklist (Z412, Nov 2025) | Anaheim | 1 | No: flat page |
+
+The three Irvine forms get filled in place. Anaheim's doesn't have a fillable version (its site blocks automated downloads, and Z412 is a checklist rather than a form), so it uses the generated PDF from decision 3.
+
+Field names in the Irvine PDFs are often unreadable (`Check Box9_D1`, `frm67-01[0]...QtyE4a[0]`), so Claude has to match each field to its printed label. Never fill a field asking for personal ID numbers, such as the `SSN` fields in the affidavit template.
 
 ---
 
@@ -97,7 +101,7 @@ Later, if there's time: write values into the original PDF's own layout, Spanish
 
 1. **Mock first.** Steps 1–4 need no API key and cost nothing. Real calls come in step 5.
 2. **Key is server-only:** `ANTHROPIC_API_KEY` in `web/.env.local` (gitignored), never `NEXT_PUBLIC_`, never committed.
-3. **Download format:** if a PDF has fillable fields, fill them (with `pdf-lib`). If it's flat, the download is a generated "filled form" PDF: the form's title, every field and its value, and the sources. Writing onto the original page layout is a stretch goal.
+3. **Download format:** if a PDF has fillable fields (the Irvine forms), fill them in place with `pdf-lib`. If it's flat (Anaheim), the download is a generated "filled form" PDF: the form's title, every field and its value, and the sources. Writing onto a flat page's layout is a stretch goal.
 4. **Researched values always have a source and date.** If Claude can't confirm something, the field stays empty or is marked "unknown", never guessed.
 
 ## How we work
