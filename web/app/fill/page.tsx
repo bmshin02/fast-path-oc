@@ -12,7 +12,7 @@ export default function FillPage() {
   return (
     <div className="flex flex-1 flex-col">
       <SiteHeader />
-      <main className="flex-1 bg-fog px-4 py-12 sm:px-6 sm:py-20">
+      <main className="flex-1 bg-fog px-4 py-8 sm:px-6 sm:py-10">
         {/* FillFlow reads ?form= in the browser, so it needs a Suspense boundary. */}
         <Suspense
           fallback={

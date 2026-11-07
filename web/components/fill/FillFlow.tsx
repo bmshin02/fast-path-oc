@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FileText } from "lucide-react";
 import { sampleForms } from "@/lib/fill/forms";
 import type { FormSource } from "@/lib/fill/types";
 import { formatSize, type UploadKind } from "@/lib/fill/upload";
+import { FillSessionView } from "./FillSessionView";
 import { FormPicker } from "./FormPicker";
 
 // /fill decides what to show:
@@ -21,11 +22,16 @@ export function FillFlow() {
 
   const formId = params.get("form");
   const sample = sampleForms.find((f) => f.id === formId);
-  const source: FormSource | null = upload
-    ? { kind: "upload", file: upload.file, fileKind: upload.kind }
-    : sample
-      ? { kind: "sample", form: sample }
-      : null;
+  // Keep the same object between renders so the session and PDF aren't rebuilt.
+  const source = useMemo<FormSource | null>(
+    () =>
+      upload
+        ? { kind: "upload", file: upload.file, fileKind: upload.kind }
+        : sample
+          ? { kind: "sample", form: sample }
+          : null,
+    [upload, sample],
+  );
 
   if (!source) {
     return (
@@ -38,6 +44,7 @@ export function FillFlow() {
 
   return (
     <SelectedForm
+      key={source.kind === "sample" ? source.form.id : `${source.file.name}-${source.file.lastModified}`}
       source={source}
       onChange={() => {
         setUpload(null);
@@ -62,7 +69,7 @@ function SelectedForm({
       : `Your ${source.fileKind === "pdf" ? "PDF" : "Word document"}, ${formatSize(source.file.size)}`;
 
   return (
-    <div className="mx-auto w-full max-w-[800px]">
+    <div className="mx-auto w-full max-w-[1200px]">
       <div className="flex flex-col gap-4 rounded-[24px] bg-background p-5 ring-1 ring-border sm:flex-row sm:items-center sm:p-6">
         <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-mist">
           <FileText className="h-6 w-6 text-secondary" strokeWidth={1.75} aria-hidden />
@@ -81,12 +88,8 @@ function SelectedForm({
         </button>
       </div>
 
-      {/* Step 3 replaces this with the questions. */}
-      <div className="mt-8 rounded-[24px] bg-fog px-6 py-16 text-center ring-1 ring-border">
-        <p className="font-serif text-[32px] leading-10">Questions go here</p>
-        <p className="mt-3 text-lg text-secondary">
-          Coming in the next step.
-        </p>
+      <div className="mt-5">
+        <FillSessionView source={source} />
       </div>
     </div>
   );

@@ -54,27 +54,44 @@ Person B owns `fast-path-check/reference/*` and `sources.md`. The website reads 
 The UI is built against these types (in `web/lib/fill/types.ts`) so it works on mock data first. The real Claude calls just have to return the same shapes. **Agree this with Person A before step 5.**
 
 ```ts
+// web/lib/fill/types.ts (source of truth; this is a summary)
 type FormField = {
   id: string;
-  label: string;                 // as printed on the form
-  type: "text" | "number" | "date" | "checkbox" | "signature";
+  label: string;                  // as printed on the form, in plain words
+  type: "text" | "checkbox" | "choice" | "signature" | "date";
   value: string | boolean | null; // null = not filled yet
   source?: "user" | "research" | "document";
-  sourceUrl?: string;            // required when source = "research"
-  checkedOn?: string;            // date for researched values
-  note?: string;                 // e.g. "ASSUMPTION", "needs a wet signature"
+  sourceUrl?: string;             // required when source = "research"
+  checkedOn?: string;             // date for researched values
+  note?: string;                  // e.g. "ASSUMPTION: ...", "Sign by hand"
+  pdfField?: string;              // the PDF form field, when the PDF is fillable
+  options?: { label: string; pdfField?: string }[]; // for "choice" (checkbox groups)
 };
 
-// POST /api/fill  { formId or uploaded PDF, messages so far }
-// streams one event per line:
+// A session yields these events (web/lib/fill/session.ts):
 type FillEvent =
-  | { type: "status"; text: string }                      // progress line
-  | { type: "question"; text: string; fieldIds: string[] } // Claude asks the user
+  | { type: "status"; text: string }                       // progress line
+  | { type: "message"; text: string }                      // Fast Track says something
+  | { type: "question"; text: string; fieldIds: string[] } // waits for the user
   | { type: "field"; field: FormField }                    // a field got filled
   | { type: "done"; summary: string; fields: FormField[] }; // finished
+
+interface FillSession {
+  readonly fields: FormField[];                    // every field, empty at first
+  start(): AsyncGenerator<FillEvent>;              // until the first question
+  answer(text: string): AsyncGenerator<FillEvent>; // until the next question
+}
 ```
 
+Today `createSession()` returns the scripted mock (`web/lib/fill/mock/`). Step 5 swaps in a version that calls `POST /api/fill` and streams the same events; the pages don't change.
+
 ---
+
+## Where things live
+
+- Sample PDFs the browser fills: `web/public/forms/<id>.pdf` (copies of `evals/fixtures/`, renamed by form id).
+- The Irvine ADU mock fills page 2 (Building Permit Application). Its PDF field names were read from the real file; office-use boxes are never filled.
+- Filled PDFs are built in the browser with `pdf-lib` (`web/lib/fill/pdf.ts`): filled in place when every field maps to the PDF, otherwise a generated "filled form" PDF.
 
 ## Steps
 
@@ -86,9 +103,9 @@ Each step ends with something to check at http://localhost:3000. Don't start the
   *Check:* wording and look; it works at phone width.
 - [x] **2. Pick or upload a form**: the upload button plus a list of the forms above. PDF and Word (.docx) only, up to 4 MB. Choosing a form goes to `/fill`.
   *Check:* each way in reaches `/fill` with the right form.
-- [ ] **3. Questions page on mock data**: chat UI, progress line, a scripted conversation driven by `FillEvent`s from `web/lib/fill/mock.ts`.
+- [x] **3. Questions page on mock data**: chat UI, progress line, a scripted conversation driven by `FillEvent`s from `web/lib/fill/mock.ts`.
   *Check:* the conversation feels right, including the "age → 18" example.
-- [ ] **4. Result: summary, preview, download**: the "Done, I filled…" message, the field-by-field preview, and the download button.
+- [x] **4. Result: summary, preview, download**: the "Done, I filled…" message, the field-by-field preview, and the download button.
   *Check:* the preview matches the answers; the PDF opens and shows them.
 - [ ] **5. Real Claude calls**: replace the mock with `/api/fill` (built with Person A, or by A). Uses the team API key from `web/.env.local` (blank for now; Brandon's key later).
   *Check:* the Anaheim and Irvine forms each go through end to end.
