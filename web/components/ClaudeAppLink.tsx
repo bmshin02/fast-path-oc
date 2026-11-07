@@ -3,20 +3,24 @@
 import { useState, useSyncExternalStore } from "react";
 import { Check, Copy } from "lucide-react";
 
-// The /llms.txt address with a button to copy it, for pasting into the Claude
-// app. The address uses whichever site this is (live or a preview).
+// A ready-made message for the Claude app with a button to copy it. Only the
+// words are shown; the copied text ends with the /llms.txt address (of
+// whichever site this is, live or a preview) so Claude can read the
+// instructions. The words also tell Claude to start helping, rather than just
+// summarize the link.
 const LIVE_SITE = "https://fast-path-oc.vercel.app";
 const noop = () => () => {};
 
 export function ClaudeAppLink() {
   const origin = useSyncExternalStore(noop, () => window.location.origin, () => LIVE_SITE);
-  const url = `${origin}/llms.txt`;
+  const words = "Help me fill in my housing form, following the Fast Track instructions.";
+  const message = `${words} ${origin}/llms.txt`;
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(message);
       setCopied(true);
       setFailed(false);
       setTimeout(() => setCopied(false), 2500);
@@ -29,10 +33,11 @@ export function ClaudeAppLink() {
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <p
-          className="min-w-0 flex-1 rounded-2xl bg-background px-5 py-4 font-mono text-lg break-all text-foreground ring-1 ring-border-strong select-all"
+          className="relative min-w-0 flex-1 rounded-2xl bg-background px-5 py-4 text-lg leading-7 text-foreground ring-1 ring-border-strong"
           id="claude-app-link"
         >
-          {url}
+          &ldquo;{words}&rdquo;
+          <span className="sr-only"> The copied message also includes the Fast Track link.</span>
         </p>
         <button
           type="button"
@@ -45,15 +50,15 @@ export function ClaudeAppLink() {
           ) : (
             <Copy className="h-5 w-5" strokeWidth={2} aria-hidden />
           )}
-          {copied ? "Copied" : "Copy link"}
+          {copied ? "Copied" : "Copy message"}
         </button>
       </div>
       <p className="mt-3 min-h-7 text-lg leading-7 text-secondary" aria-live="polite">
         {copied
-          ? "The link is copied. Now paste it into a new chat in the Claude app."
+          ? "Copied, with the Fast Track link. Now paste it into a new chat in the Claude app."
           : failed
-            ? "Your browser didn't let us copy it. Select the link above and copy it yourself."
-            : ""}
+            ? `Your browser didn't let us copy it. Type this into Claude instead: ${message}`
+            : "The copied message includes the Fast Track link, so Claude can read how to help."}
       </p>
     </div>
   );

@@ -9,8 +9,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { sampleForms } from "@/lib/fill/forms";
 
 const appSteps = [
-  "Copy the link below.",
-  "Open the Claude app, paste the link into a new chat, and send it.",
+  "Copy the message below.",
+  "Open the Claude app, paste it into a new chat, and send it.",
   "Attach your form when Claude asks, then answer its questions.",
 ];
 
@@ -132,9 +132,9 @@ export default function Home() {
               Prefer the Claude app?
             </h2>
             <p className="mt-4 max-w-[40rem] text-lg leading-7 text-secondary">
-              You can do the same thing in a chat with Claude. Give Claude this
-              link and it will help you fill your form the Fast Track way: a few
-              plain questions, one at a time.
+              You can do the same thing in a chat with Claude. Send Claude this
+              message and it will help you fill your form the Fast Track way: a
+              few plain questions, one at a time.
             </p>
             <div className="mt-10 rounded-[24px] bg-background p-6 ring-1 ring-border sm:p-8">
               <ol className="grid grid-cols-1 gap-5 md:grid-cols-3">
