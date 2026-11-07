@@ -13,6 +13,7 @@ Each section was checked by hand in a browser. Automated fetches get a 403.
 | [65852.2](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65852.2.) | Old ADU section: no current text (renumbered by SB 477, 2024) | 2026-11-07 |
 | [65852.22](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65852.22.) | Old JADU section: no current text | 2026-11-07 |
 | [66314](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66314.) | ADU approvals (Ch. 13, 66310–66342) | 2026-11-07 |
+| [66317](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66317.) | ADU permit clock: 15-business-day completeness decision, 60 days to decide | 2026-11-07 |
 | [66333](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66333.) | JADU | 2026-11-07 |
 | [65852.21](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65852.21.) | SB 9 two-unit | 2026-11-07 |
 | [66411.7](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66411.7.) | SB 9 lot split | 2026-11-07 |

@@ -13,7 +13,7 @@ Leginfo section URL pattern:
 
 | Path | Statute | Clock / key point | Guidance | Scope |
 |---|---|---|---|---|
-| ADU / JADU | Gov 66314–66331 (ADU) / 66333 (JADU) | Ministerial, 60 days | [HCD ADU Handbook (Mar 2026)](https://www.hcd.ca.gov/building-standards/adu/handbook) | **Core** |
+| ADU / JADU | Gov 66314–66331 (ADU) / 66333 (JADU); **clock: Gov 66317** | Ministerial. **Completeness decision within 15 business days** with a list of missing items; no new items on resubmittal; deemed complete if late (66317(a)(2)). **Approve/deny within 60 days of a complete application** or deemed approved (66317(a)(3)). Hand-checked on leginfo 2026-11-07 | [HCD ADU Handbook (Mar 2026)](https://www.hcd.ca.gov/building-standards/adu/handbook) | **Core** |
 | SB 9 two-unit | Gov 65852.21 | Ministerial; HCD has enforced since 2024 | HCD SB 9 fact sheet | Add after ADU works |
 | SB 9 lot split | Gov 66411.7 | 60-day clock | HCD SB 9 fact sheet | Add after ADU works |
 | Small subdivision, ≤10 parcels (SB 684) | Gov 66499.41 (+ 65913.4.5 for the permit) | Ministerial map; amended by SB 1123, **confirm text** | leginfo | Add after ADU works |

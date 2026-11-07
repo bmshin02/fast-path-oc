@@ -123,7 +123,7 @@ Anaheim's checklist requires an owner-occupancy covenant for **all** JADUs, citi
 
 - Leginfo blocks automated fetches, so statute text comes from hand-checked entries, HCD guidance and web search, not a live read of the code.
 - HCD's enforcement letters sit in an embedded dashboard. The tool often has to say "unknown" for letters about a city.
-- No OC data on plan-check correction cycles exists, so it can't say how many resubmittals a city typically requires.
+- No OC data on plan-check correction cycles exists, so it can't say how many resubmittals a city typically requires. Our mentor's estimate is 3–4 rounds for an ADU, but that's one practitioner's experience, not data.
 - SB 684 (Gov 66499.41) has four versions on leginfo and no HCD guidance yet. Treat any SB 684 answer as "confirm."
 
 ## Testing
@@ -146,7 +146,16 @@ Results: *TBD, to be logged as tests are run.*
 
 ## Real-user evidence
 
-*TBD: the answer from the room mentor to "Which checklist items cause the most resubmittals?"*
+We interviewed **Mike Brown**, who works with cities on ADU permitting and built Crossbeam Permits, winner of Anthropic's first global hackathon, on 2026-11-07. Full notes are in [research/mentor-interview.md](research/mentor-interview.md). These are one practitioner's estimates, not measured data:
+
+- **"More than 90%" of first-time ADU applications in Laguna Beach are incomplete.** Common misses are a soils report, a grading plan and a fire plan.
+- **3–4 correction rounds is typical.** Cities often push back on completeness first, because the state clock only starts once an application is complete.
+- **City checklists are often out of date with state law**, but applicants pick their battles before telling a city it's out of compliance.
+- **Our $85k delay-cost figure is probably too low.** On his framework, interest alone on a $428k loan at 7.3% is about $2,600 a month, or about $125k over 4 years (ASSUMPTION: his rate and 20% down).
+
+**What we checked:** the "shot clock" he described is **Gov 66317**, read in a browser 2026-11-07. The city must decide completeness within **15 business days** and list every missing item. It can't add new items when the applicant resubmits, and if it misses the deadline the application is deemed complete. It then has **60 days** to approve or deny, or the application is deemed approved.
+
+**What we changed:** package gaps are now treated as a headline result, and the report cites 66317 for both deadlines.
 
 ## Next steps
 

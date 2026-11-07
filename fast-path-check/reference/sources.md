@@ -27,6 +27,7 @@ Each section was checked by hand in a browser on 2026-11-07. Web fetch gets a 40
 | Gov 65852.2 | Old ADU section | **No current text.** The page is empty, consistent with the SB 477 renumbering |
 | Gov 65852.22 | Old JADU section | **No current text.** Same as above |
 | Gov 66314 | ADU approvals | Live. Ch. 13 "Accessory Dwelling Units [66310–66342]", Art. 2 "ADU Approvals [66314–66331]", added by Stats. 2024 ch. 7 |
+| Gov 66317 | ADU permit clock | Live (Ch. 13, Art. 2). (a)(2): completeness decision **within 15 business days**, with a written list of incomplete items and how to fix them; no new items can be added on resubmittal; deemed complete if late. (a)(3): approve or deny **within 60 days of a complete application** (if a dwelling already exists on the lot), or deemed approved. (b): a denial must come with a full list of deficiencies |
 | Gov 66333 | JADU | Live. Ch. 13, Art. 3 "Junior ADUs [66333–66339.5]", added by Stats. 2024 ch. 7. Subd. (b): owner-occupancy is required only if the JADU **shares sanitation** with the main house |
 | Gov 65852.21 | SB 9 two-unit | Live (Ch. 4, Zoning Regulations) |
 | Gov 66411.7 | SB 9 lot split | Live (Div. 2, Subdivisions) |
