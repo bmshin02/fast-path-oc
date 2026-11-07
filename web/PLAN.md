@@ -84,7 +84,7 @@ Each step ends with something to check at http://localhost:3000. Don't start the
   *Check:* the app runs and shows a blank Fast Track page.
 - [x] **1. Landing page** (redesigned with the unslop + frontend-design skills): headline, one-line explanation, upload icon, disclaimer.
   *Check:* wording and look; it works at phone width.
-- [ ] **2. Pick or upload a form**: the upload button plus a list of the forms above. PDFs only, with a size limit. Choosing a form goes to `/fill`.
+- [x] **2. Pick or upload a form**: the upload button plus a list of the forms above. PDFs only, with a size limit. Choosing a form goes to `/fill`.
   *Check:* each way in reaches `/fill` with the right form.
 - [ ] **3. Questions page on mock data**: chat UI, progress line, a scripted conversation driven by `FillEvent`s from `web/lib/fill/mock.ts`.
   *Check:* the conversation feels right, including the "age → 18" example.
@@ -95,7 +95,9 @@ Each step ends with something to check at http://localhost:3000. Don't start the
 - [ ] **6. Tests and demo**: add the fill-flow cases to `evals/test-cases.md`, plus loading and error states (upload isn't a form, Claude fails or times out), and a scripted backup run for the demo.
   *Check:* the demo works twice in a row.
 
-Later, if there's time: write values into the original PDF's own layout, Spanish, more cities.
+Later, if there's time:
+- **Scroll "assemble" effect on the landing page** (like steep.app): as you scroll down, the cards floating around the headline glide into the product window below and lock into place, so the separate pieces combine into one screen. Do this after the features work; respect reduced-motion settings.
+- Write values into a flat PDF's own layout, Spanish, more cities.
 
 ## Decisions
 
