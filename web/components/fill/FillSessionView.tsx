@@ -1,32 +1,47 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowUp, ChevronDown, FileText, LoaderCircle } from "lucide-react";
 import { FillError } from "@/lib/fill/real";
 import { createSession, type FillSession } from "@/lib/fill/session";
 import type { FillEvent, FormField, FormSource } from "@/lib/fill/types";
 import { fieldState } from "@/lib/fill/types";
 import { FieldList } from "./FieldList";
-import { ResultPanel } from "./ResultPanel";
 
-type Message = { id: number; from: "fast-track" | "you"; text: string };
+export type ChatMessage = { id: number; from: "fast-track" | "you"; text: string };
+type Message = ChatMessage;
+
+export type FillResult = { summary: string; fields: FormField[]; messages: ChatMessage[] };
 
 function formName(source: FormSource) {
   return source.kind === "sample" ? `${source.form.city}: ${source.form.title}` : source.file.name;
 }
 
-// The questions page. While Fast Track is asking, the screen is one workspace:
-// the conversation (answer box always at the bottom) and, on wide screens,
-// the form filling in beside it. On phones the form folds into a button at
-// the top of the chat. When done, the result takes over the screen.
-export function FillSessionView({ source, mock = false }: { source: FormSource; mock?: boolean }) {
+// The questions page for one form: the conversation (answer box always at the
+// bottom) and, on wide screens, the form filling in beside it. On phones the
+// form folds into a button at the top of the chat. When the form is done,
+// onDone hands the result to the parent, which shows it.
+// With several forms, `checklist` is the narrow column on the left and
+// `checklistCompact` its folded phone version above the chat.
+export function FillSessionView({
+  source,
+  mock = false,
+  onDone,
+  checklist,
+  checklistCompact,
+}: {
+  source: FormSource;
+  mock?: boolean;
+  onDone: (result: FillResult) => void;
+  checklist?: ReactNode;
+  checklistCompact?: ReactNode;
+}) {
   const [session] = useState<FillSession>(() => createSession(source, { mock }));
   const [fields, setFields] = useState<FormField[]>(() => session.fields);
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<string | null>(null);
   const [asking, setAsking] = useState(false);
   const [recentId, setRecentId] = useState<string | null>(null);
-  const [done, setDone] = useState<{ summary: string; fields: FormField[] } | null>(null);
   const [draft, setDraft] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [formOpen, setFormOpen] = useState(false);
@@ -37,8 +52,12 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
 
-  const say = (from: Message["from"], text: string) =>
-    setMessages((m) => [...m, { id: nextId.current++, from, text }]);
+  // A ref mirrors the messages so "done" can hand over the full list once.
+  const messagesRef = useRef<Message[]>([]);
+  const say = (from: Message["from"], text: string) => {
+    messagesRef.current = [...messagesRef.current, { id: nextId.current++, from, text }];
+    setMessages(messagesRef.current);
+  };
 
   function handle(ev: FillEvent) {
     switch (ev.type) {
@@ -68,7 +87,7 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
         setRecentId(null);
         setFields(ev.fields);
         say("fast-track", ev.summary);
-        setDone({ summary: ev.summary, fields: ev.fields });
+        onDone({ summary: ev.summary, fields: ev.fields, messages: messagesRef.current });
         break;
     }
   }
@@ -105,10 +124,6 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
     else inputRef.current?.focus({ preventScroll: true });
   }, [asking, choices]);
 
-  useEffect(() => {
-    if (done) window.scrollTo({ top: 0 });
-  }, [done]);
-
   function answer(text: string) {
     if (!text || !asking) return;
     setDraft("");
@@ -132,46 +147,17 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
     </div>
   );
 
-  const conversation = (
-    <>
-      {messages.map((m) =>
-        m.from === "you" ? (
-          <p
-            key={m.id}
-            className="ml-auto max-w-[85%] rounded-3xl rounded-br-lg bg-primary-fill px-5 py-3 text-lg leading-7 text-on-primary"
-          >
-            <span className="sr-only">You said: </span>
-            {m.text}
-          </p>
-        ) : (
-          <p key={m.id} className="max-w-[92%] rounded-3xl rounded-bl-lg bg-mist px-5 py-3 text-lg leading-7 text-foreground">
-            <span className="sr-only">Fast Track: </span>
-            {m.text}
-          </p>
-        ),
-      )}
-    </>
-  );
-
-  // Finished: the result is the whole screen; the chat folds away.
-  if (done) {
-    return (
-      <div className="mx-auto w-full max-w-[1200px] px-4 py-8 sm:px-6 sm:py-10">
-        <ResultPanel source={source} fields={done.fields} summary={done.summary} mock={mock} />
-        <details className="group mt-8 rounded-[24px] bg-background ring-1 ring-border">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-[24px] px-5 py-4 text-lg font-medium focus-visible:outline-2 focus-visible:outline-foreground">
-            See the conversation
-            <ChevronDown className="h-5 w-5 transition-transform duration-150 group-open:rotate-180" aria-hidden />
-          </summary>
-          <div className="relative flex flex-col gap-4 border-t border-border p-5 sm:p-7">{conversation}</div>
-        </details>
-      </div>
-    );
-  }
-
   return (
     <div className="mx-auto flex h-[calc(100dvh-80px)] w-full max-w-[1200px] flex-col px-3 py-3 sm:px-6 sm:py-5">
-      <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-1 gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <div
+        className={`grid min-h-0 flex-1 grid-cols-1 grid-rows-1 gap-5 ${
+          checklist
+            ? "lg:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)_340px]"
+            : "lg:grid-cols-[minmax(0,1fr)_380px]"
+        }`}
+      >
+        {checklist && <div className="hidden min-h-0 lg:flex lg:flex-col">{checklist}</div>}
+
         {/* Conversation */}
         <section
           aria-label="Conversation with Fast Track"
@@ -185,8 +171,10 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
             )}
           </div>
 
-          {/* Phones: the form folds into one button above the chat. */}
-          <div className="border-b border-border lg:hidden">
+          {checklistCompact && <div className="lg:hidden">{checklistCompact}</div>}
+
+          {/* Narrower screens: the form folds into one button above the chat. */}
+          <div className={`border-b border-border ${checklist ? "xl:hidden" : "lg:hidden"}`}>
             <button
               type="button"
               onClick={() => setFormOpen((o) => !o)}
@@ -212,7 +200,7 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
           </div>
 
           <div ref={logRef} role="log" aria-live="polite" className="relative flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4 sm:p-6">
-            {conversation}
+            <ChatMessages messages={messages} />
             {error && (
               <div role="alert" className="rounded-2xl bg-peach px-5 py-4 text-sienna">
                 <p className="text-lg leading-7">{error}</p>
@@ -284,7 +272,9 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
         {/* Wide screens: the form filling in beside the chat. */}
         <aside
           aria-label="Your form"
-          className="hidden min-h-0 flex-col overflow-hidden rounded-[24px] bg-background ring-1 ring-border lg:flex"
+          className={`hidden min-h-0 flex-col overflow-hidden rounded-[24px] bg-background ring-1 ring-border ${
+            checklist ? "xl:flex" : "lg:flex"
+          }`}
         >
           <div className="border-b border-border px-5 py-4">
             <h2 className="text-xl font-medium">Your form</h2>
@@ -299,5 +289,29 @@ export function FillSessionView({ source, mock = false }: { source: FormSource; 
         </aside>
       </div>
     </div>
+  );
+}
+
+/** The chat bubbles, also used when showing a finished conversation. */
+export function ChatMessages({ messages }: { messages: ChatMessage[] }) {
+  return (
+    <>
+      {messages.map((m) =>
+        m.from === "you" ? (
+          <p
+            key={m.id}
+            className="ml-auto max-w-[85%] rounded-3xl rounded-br-lg bg-primary-fill px-5 py-3 text-lg leading-7 text-on-primary"
+          >
+            <span className="sr-only">You said: </span>
+            {m.text}
+          </p>
+        ) : (
+          <p key={m.id} className="max-w-[92%] rounded-3xl rounded-bl-lg bg-mist px-5 py-3 text-lg leading-7 text-foreground">
+            <span className="sr-only">Fast Track: </span>
+            {m.text}
+          </p>
+        ),
+      )}
+    </>
   );
 }

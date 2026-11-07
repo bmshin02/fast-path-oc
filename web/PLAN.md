@@ -104,6 +104,12 @@ Today `createSession()` returns the scripted mock (`web/lib/fill/mock/`). Step 5
 - When done, the result (summary, download, preview, answers) replaces the chat; the conversation folds into "See the conversation", and "Fill another form" starts over.
 - The fill page header is just the logo.
 
+## Several forms at once
+
+- The upload accepts up to 6 PDF/Word files at once (3 MB each). Files with problems are listed; the visitor can continue with the ones that work.
+- Fast Track works through them in order (`components/fill/FillQueue.tsx`). A 200px checklist on the left of the chat shows each file as done, working on now, or not started; long names are cut with "…" (full name on hover). On phones it folds into "Form N of M".
+- After each form: its result and download, then "Start next form". When all are done, any finished form can be reopened from the checklist.
+
 ## Where things live
 
 - Sample PDFs the browser fills: `web/public/forms/<id>.pdf` (copies of `evals/fixtures/`, renamed by form id).

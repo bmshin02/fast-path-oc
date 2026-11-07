@@ -2,26 +2,25 @@
 
 import { CircleAlert } from "lucide-react";
 import { SampleFormList } from "@/components/SampleFormList";
-import type { UploadKind } from "@/lib/fill/upload";
-import { UploadZone } from "./UploadZone";
+import { UploadZone, type PickedFile } from "./UploadZone";
 
 export function FormPicker({
   unknownId,
   mock = false,
-  onFile,
+  onFiles,
 }: {
   unknownId: string | null;
   mock?: boolean;
-  onFile: (file: File, kind: UploadKind) => void;
+  onFiles: (files: PickedFile[]) => void;
 }) {
   return (
     <div className="mx-auto w-full max-w-[800px]">
       <h1 className="font-serif text-[44px] leading-[1.12] font-normal tracking-[-0.015em] sm:text-[56px]">
-        Choose your form
+        Choose your forms
       </h1>
       <p className="mt-4 text-xl leading-8 text-secondary">
-        Upload the housing form you need to fill in. Fast Track will read it
-        and ask you a few questions.
+        Upload the housing forms you need to fill in. Fast Track will read
+        each one and ask you a few questions.
       </p>
 
       {unknownId && (
@@ -35,7 +34,7 @@ export function FormPicker({
       )}
 
       <div className="mt-10">
-        <UploadZone onFile={onFile} />
+        <UploadZone onFiles={onFiles} />
       </div>
 
       <h2 className="mt-16 text-[26px] leading-8 font-medium">
