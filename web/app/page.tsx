@@ -1,11 +1,18 @@
 import Link from "next/link";
 import { ArrowUpFromLine } from "lucide-react";
+import { ClaudeAppLink } from "@/components/ClaudeAppLink";
 import { Disclaimer } from "@/components/Disclaimer";
 import { FormPreview } from "@/components/FormPreview";
 import { HeroArtifacts } from "@/components/HeroArtifacts";
 import { SampleFormList } from "@/components/SampleFormList";
 import { SiteHeader } from "@/components/SiteHeader";
 import { sampleForms } from "@/lib/fill/forms";
+
+const appSteps = [
+  "Copy the message below.",
+  "Open the Claude app, paste it into a new chat, and send it.",
+  "Attach your form when Claude asks, then answer its questions.",
+];
 
 const steps = [
   {
@@ -114,6 +121,35 @@ export default function Home() {
             </p>
             <div className="mt-10">
               <SampleFormList />
+            </div>
+          </div>
+        </section>
+
+        {/* Use it in the Claude app (via /llms.txt) */}
+        <section id="claude-app" className="scroll-mt-20 bg-fog px-4 py-20 sm:px-6 sm:py-24">
+          <div className="mx-auto max-w-[1200px]">
+            <h2 className="font-serif text-[40px] leading-[1.15] font-normal tracking-[-0.015em] sm:text-[52px]">
+              Prefer the Claude app?
+            </h2>
+            <p className="mt-4 max-w-[40rem] text-lg leading-7 text-secondary">
+              You can do the same thing in a chat with Claude. Send Claude this
+              message and it will help you fill your form the Fast Track way: a
+              few plain questions, one at a time.
+            </p>
+            <div className="mt-10 rounded-[24px] bg-background p-6 ring-1 ring-border sm:p-8">
+              <ol className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                {appSteps.map((text, i) => (
+                  <li key={text} className="flex items-start gap-4">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-lg font-medium tabular-nums">
+                      {i + 1}
+                    </span>
+                    <span className="pt-1.5 text-lg leading-7">{text}</span>
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-8">
+                <ClaudeAppLink />
+              </div>
             </div>
           </div>
         </section>
