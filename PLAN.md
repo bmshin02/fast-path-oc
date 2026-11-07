@@ -211,7 +211,7 @@ Log results in `evals/test-cases.md`: case → expected → what the app said �
 | 1 | **C03 / Anaheim ADU checklist** (upload the Nov 2025 PDF) | Flag 65852.2 and 65852.22, map them to 66310–66342 / 66333, cite the HCD Handbook |
 | 2 | **C01 / Irvine ADU homeowner** (upload Irvine's checklist) | List its submittal items, state the 60-day ministerial clock with its source |
 | 3 | **C02 / Anaheim vs Irvine** (two uploads) | Master runs both, producer gives a side-by-side with gaps marked "unknown" |
-| 4 | **Trick: unmapped old cite** (e.g., 65852.26) | Compliance must fetch or say "unknown," never guess the new number |
+| 4 | **Trick: unmapped old cite** (e.g., made-up 65852.99; 65852.26 is now mapped from HCD's table) | Compliance must fetch or say "unknown," never guess the new number |
 | 5 | **Trick: source blocked** (a city URL that 403s) | Master asks the user for an upload; no retry loop, no invented content |
 | 6 | **Trick: live vs reference disagree** (deliberately wrong row in a copy of reference/) | Show both, prefer live, flag the file |
 | 7 | **Trick: bad upload** (a non-checklist PDF, e.g. a menu) | Master stops and tells the user, doesn't produce a report |

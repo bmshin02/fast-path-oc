@@ -4,7 +4,10 @@
 
 import type { FinalReport, ProgressEvent, Report } from "./schemas";
 
-const HANDBOOK = "https://www.hcd.ca.gov/building-standards/adu/handbook";
+// leginfo sections hand-checked in a browser 2026-11-07 (fast-path-check/reference/sources.md).
+const LEGINFO = (n: string) => `https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=${n}.`;
+const HCD_LETTER =
+  "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf";
 const CHECKLIST =
   "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist";
 const APR = "https://data.ca.gov/dataset/housing-element-annual-progress-report-apr-data-by-jurisdiction-and-year";
@@ -21,10 +24,11 @@ const anaheim: Report = {
   trafficLight: { pathFound: true, staleCitations: 2, possibleConflicts: 1, gaps: 0 },
   path: {
     name: "ADU / JADU (ministerial)",
-    statute: "Gov. Code 66314–66331 (ADU), 66333 (JADU)",
-    clock: "60 days from a complete application",
-    sourceUrl: HANDBOOK,
-    note: "The checklist publishes no overall review clock; state law sets 60 days. Sewer and meter sign-offs run outside it.",
+    statute: "Gov. Code 66317 (permit clock); 66314–66331 (ADU), 66333 (JADU)",
+    clock:
+      "15 business days to decide completeness (with a list of every missing item), then 60 days from a complete application to approve or deny",
+    sourceUrl: LEGINFO("66317"),
+    note: "The checklist publishes no overall review clock; Gov 66317 sets one. If the city misses either deadline, the application is deemed complete or approved. Sewer and meter sign-offs run outside it.",
   },
   stepsAndFees: [
     {
@@ -48,9 +52,9 @@ const anaheim: Report = {
       order: 4,
       step: "Submit for building plan check",
       fee: "unknown (fee page returns 403)",
-      time: "60 days (state clock)",
+      time: "15 business days to decide completeness, then 60 days to approve or deny (Gov 66317)",
       outsidePlanningClock: false,
-      sourceUrl: HANDBOOK,
+      sourceUrl: LEGINFO("66317"),
     },
     {
       order: 5,
@@ -69,7 +73,7 @@ const anaheim: Report = {
       cites: [],
       status: "uncited",
       newCitation: null,
-      note: "Local utility sign-off; no state authority cited. Runs outside the 60-day planning clock.",
+      note: "Local utility sign-off; no state authority cited. Runs outside the Gov 66317 clock.",
       sourceUrl: CHECKLIST,
     },
     {
@@ -84,33 +88,13 @@ const anaheim: Report = {
     },
     {
       itemId: "p1-4",
-      line: "Owner-occupancy covenant ... authorized by California Government Code Sections 65852.2 and 65852.22",
+      line: "JADUs only: owner-occupancy covenant, required by AMC 18.38.015.110 and authorized by the California Government Code Sections 65852.2 and 65852.22. Drafted by the City Attorney and recorded before permit issuance.",
       page: 1,
-      cites: ["Gov. Code 65852.2"],
-      status: "stale",
-      newCitation: "Gov. Code 66310–66342",
-      note: "Renumbered by SB 477 (2024).",
-      sourceUrl: HANDBOOK,
-    },
-    {
-      itemId: "p1-4b",
-      line: "Owner-occupancy covenant ... authorized by California Government Code Sections 65852.2 and 65852.22",
-      page: 1,
-      cites: ["Gov. Code 65852.22"],
-      status: "stale",
-      newCitation: "Gov. Code 66333",
-      note: "Renumbered by SB 477 (2024).",
-      sourceUrl: HANDBOOK,
-    },
-    {
-      itemId: "p1-4c",
-      line: "Owner-occupancy covenant required for all JADUs (AMC 18.38.015.110)",
-      page: 1,
-      cites: ["AMC 18.38.015.110"],
+      cites: ["AMC 18.38.015.110", "Gov. Code 65852.2", "Gov. Code 65852.22"],
       status: "possible_conflict",
-      newCitation: null,
-      note: "Gov. 66333(b) requires owner-occupancy only when the JADU shares sanitation with the main house. Possible conflict, confirm with city staff or counsel.",
-      sourceUrl: HANDBOOK,
+      newCitation: "65852.2 → 66310–66342; 65852.22 → 66333",
+      note: "Both state citations were renumbered by SB 477 (2024), and HCD's 3/24/25 letter told Anaheim to replace them. Requiring owner-occupancy for all JADUs looks stricter than Gov. 66333(b), which applies it only when the JADU shares sanitation with the main house. Possible conflict, confirm with city staff or counsel.",
+      sourceUrl: LEGINFO("66333"),
     },
   ],
   timelines: [
@@ -118,13 +102,19 @@ const anaheim: Report = {
     { metric: "ADU building-permit units, 2025 (APR Table A2)", value: "441", source: APR },
   ],
   hcdLetters: {
-    letters: [],
-    note: "unknown: HCD's enforcement dashboard is an embedded app. Ask HAUportal@hcd.ca.gov for copies.",
+    letters: [
+      {
+        title: "HCD findings on Anaheim ADU Ord. 6570 and SB 9 Ord. 6524 (Finding 1: replace deleted sections 65852.2, 65852.22, 65852.26)",
+        date: "2025-03-24",
+        url: HCD_LETTER,
+      },
+    ],
+    note: "HCD told Anaheim on 3/24/25 to stop citing the deleted 65852.2 and 65852.22. The Nov 2025 checklist still cites both. The letter didn't raise the JADU owner-occupancy covenant. Not checked: whether Anaheim has amended its ordinance since.",
   },
   packageGaps: [],
   couldntVerify: [
     "Anaheim ADU fees: fee page returns 403 to automated fetches.",
-    "Statute text read live from leginfo: blocked (403); used HCD ADU Handbook (Mar 2026) instead.",
+    "Statute text not read live today: leginfo blocks automated fetches (403). Gov 66317 and 66333 were hand-checked in a browser on 2026-11-07.",
   ],
   markdown: "# [MOCK] Fast Path Check: Anaheim, ADU\n\n**Date checked:** 2026-11-07 · Prototype · not legal advice\n",
 };
@@ -134,6 +124,6 @@ export const mockReport: FinalReport = { reports: [anaheim], comparison: null };
 export const mockEvents: ProgressEvent[] = [
   { type: "progress", agent: "master", message: "[mock] Planning the run" },
   { type: "progress", agent: "parser", message: "[mock] Parsing checklist: 5 lines, 2 citations" },
-  { type: "progress", agent: "compliance", message: "[mock] Checking 65852.2 and 65852.22 against HCD ADU Handbook" },
+  { type: "progress", agent: "compliance", message: "[mock] Checking 65852.2 and 65852.22 against HCD's conversion table and its 3/24/25 Anaheim letter" },
   { type: "progress", agent: "producer", message: "[mock] Writing report" },
 ];

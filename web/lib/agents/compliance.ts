@@ -10,6 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { client, MODEL, today, logUsage } from "./client";
 import { RULES, reference, skill } from "./prompts";
+import { mergeById, staleCitationCount } from "./findings";
 import { ComplianceResult, type Emit, type ParsedDoc, type RunCompliance } from "./schemas";
 
 const HANDBOOK_PDF =
@@ -46,16 +47,16 @@ function systemPrompt(): string {
   return `You are the compliance subagent of Fast Path Check, a prototype that checks Orange County, California housing permit checklists against current state law. A coordinator gives you one parsed checklist. You check it and return a ComplianceResult as JSON. You don't talk to the end user.
 
 Your job, in order:
-1. PATH. Pick the ministerial approval path for this project type using reference/pathways.md, and confirm its statute and legal clock from a live source (the HCD ADU Handbook attached for ADU/JADU, otherwise the HCD guidance listed in sources.md). If no live source confirms the clock, set clock to "unknown" and say why in unverified. If the project type is unknown or the checklist doesn't support a path, set path to null.
-2. AUDIT EVERY ITEM. Return exactly one row per checklist item id you were given, using the same id. Status:
+1. PATH. Pick the ministerial approval path for this project type using reference/pathways.md. Take the statute and legal clock from the exact section pathways.md names (for ADU/JADU that's Gov 66317: 15 business days to decide completeness with a list of every missing item, then 60 days from a complete application to approve or deny). Where sources.md records that section as hand-checked, cite its leginfo URL and say "hand-checked in a browser <date>, per reference/sources.md"; never say you read leginfo today. Cross-check it against the attached HCD ADU Handbook (or the HCD guidance in sources.md for other paths); if they disagree, show both. If neither confirms the clock, set clock to "unknown" and say why in unverified. If the project type is unknown or the checklist doesn't support a path, set path to null.
+2. AUDIT EVERY ITEM. Return exactly one row per checklist item id you were given, using the same id. Never repeat an id: when a line has several findings, put them all in that one row (most serious status, every mapping in newCitation, every finding in the note). Status:
    - "stale": the item cites a section that was renumbered. Put the current section in newCitation (if an item cites several stale sections, list each mapping, e.g. "65852.2 → 66310–66342; 65852.22 → 66333"). Only use a mapping that reference/renumbering.md marks Confirmed or that a live source you read today states. A stale row must have a sourceUrl.
    - "current": every citation in the item is current law.
    - "uncited": the item is a requirement, document or fee with no legal authority cited. Local code citations (e.g. "AMC 18.38.015") count as cited, but state that it's local.
-   - "possible_conflict": the item looks stricter than state law allows. The note must say what state law says, cite the section, and end with "Possible conflict, confirm with city staff or counsel." Never call anything illegal or invalid. An item can be both stale and a possible conflict; use "possible_conflict" and still fill newCitation.
+   - "possible_conflict": the item looks stricter than state law allows. The note must say what state law says, cite the section, and end with "Possible conflict, confirm with city staff or counsel." Never call anything illegal or invalid. Its sourceUrl is the statute section that sets the state rule (e.g. the leginfo URL for Gov 66333 from sources.md), not general guidance. An item can be both stale and a possible conflict; use "possible_conflict", still fill newCitation, and name the renumbering in the note too.
    - "unverified": you couldn't confirm it today (e.g. a section marked "fetch to confirm" in renumbering.md that no live source settled). newCitation must be null; never guess a section number.
    Purely informational items with no legal content are "uncited" with a short note.
 3. STEPS. List what the applicant does, in order, with fee and time only when a source states them (otherwise null). Mark sign-offs that run outside the legal clock (e.g. a utility or sewer check) with outsidePlanningClock=true. Source each step: the city's checklist URL from cities.md, or the HCD source.
-4. HCD LETTERS. Look for HCD review or enforcement letters about this city's ADU ordinance (search hcd.ca.gov). HCD's enforcement dashboard is an embedded app you can't read. If you find no letter, return an empty list and set hcdLettersNote to "unknown: no HCD letter found for <city> today; ask HAUportal@hcd.ca.gov for copies".
+4. HCD LETTERS. Start with the HCD letters reference/cities.md lists for this city: return each one (title, date, URL) and say in hcdLettersNote what it found that bears on this checklist (e.g. HCD told the city to stop citing the deleted sections and the checklist still cites them). If cities.md lists none, web-search for the city's ordinance-review letters (URL pattern in sources.md). HCD's enforcement dashboard is an embedded app you can't read. If you find no letter, return an empty list and set hcdLettersNote to "unknown: no HCD letter found for <city> today; ask HAUportal@hcd.ca.gov for copies".
 5. TIMELINES. Fetch the APR Table A2 URL given in the request and report ADU building-permit units by year exactly as returned, one row per year, with the URL as the source. Metric names like "ADU building-permit units, 2024 (APR Table A2)". Don't compute medians or durations you weren't given. If the fetch fails, leave timelines empty and say so in unverified.
 6. UNVERIFIED. List everything you couldn't confirm today, one plain sentence each: blocked fetches, statute text not read live, unknown fees, reference rows that disagree with a live source (say "reference/<file>.md needs updating").
 
@@ -134,8 +135,10 @@ function enforceGuardrails(result: ComplianceResult, parsed: ParsedDoc, emit: Em
   const seen = new Set<string>();
   const unverified = [...result.unverified];
 
-  const items = result.items.flatMap((row) => {
-    if (!ids.has(row.id) || seen.has(row.id)) return []; // unknown or duplicate id: the UI joins on id
+  // One row per line: if the model repeated an id for several findings, merge them rather than
+  // drop all but the first (that would lose a possible conflict listed after a stale citation).
+  const items = mergeById(result.items).flatMap((row) => {
+    if (!ids.has(row.id)) return []; // unknown id: the UI joins on id
     seen.add(row.id);
     // A renumbering with no source is a guess. Downgrade it (trick test 4).
     if (row.status === "stale" && (!row.sourceUrl || !row.newCitation)) {
@@ -232,7 +235,7 @@ export const runCompliance: RunCompliance = async ({ parsed, note, checkSmap }, 
     if (!output) throw new Error("Compliance subagent returned no valid ComplianceResult JSON.");
 
     const result = enforceGuardrails(output, parsed, emit);
-    const stale = result.items.filter((i) => i.status === "stale").length;
+    const stale = result.items.reduce((n, i) => n + staleCitationCount(i.newCitation), 0);
     const conflicts = result.items.filter((i) => i.status === "possible_conflict").length;
     emit({
       type: "progress",

@@ -8,6 +8,7 @@
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 import { client, MODEL, today, logUsage } from "./client";
+import { mergeById, staleCitationCount } from "./findings";
 import { RULES } from "./prompts";
 import {
   FinalReport,
@@ -26,29 +27,27 @@ const DISCLAIMER = "Prototype · not legal advice";
 
 export function assembleReport({ parsed, compliance }: Input): Report {
   const itemsById = new Map(parsed.items.map((i) => [i.id, i]));
-  // One line can have several findings (e.g. two stale citations + a possible conflict), so
-  // compliance may repeat an id. Each finding becomes its own audit row and its own count.
-  const findingsById = new Map<string, ComplianceResult["items"]>();
-  for (const c of compliance.items) findingsById.set(c.id, [...(findingsById.get(c.id) ?? []), c]);
+  // One audit row per checklist line. A line with several findings (e.g. two stale citations +
+  // a possible conflict) is merged into one row showing the most serious status.
+  const merged = mergeById(compliance.items);
+  const findingById = new Map(merged.map((c) => [c.id, c]));
 
   // Every parsed line appears in the audit table, even if compliance skipped it.
-  const auditTable: Report["auditTable"] = parsed.items.flatMap((item) => {
-    const findings = findingsById.get(item.id);
-    if (!findings) {
-      return [
-        {
-          itemId: item.id,
-          line: item.text,
-          page: item.page,
-          cites: item.citations,
-          status: item.citations.length ? ("unverified" as const) : ("uncited" as const),
-          newCitation: null,
-          note: "Not checked in this run.",
-          sourceUrl: null,
-        },
-      ];
+  const auditTable: Report["auditTable"] = parsed.items.map((item) => {
+    const c = findingById.get(item.id);
+    if (!c) {
+      return {
+        itemId: item.id,
+        line: item.text,
+        page: item.page,
+        cites: item.citations,
+        status: item.citations.length ? ("unverified" as const) : ("uncited" as const),
+        newCitation: null,
+        note: "Not checked in this run.",
+        sourceUrl: null,
+      };
     }
-    return findings.map((c) => ({
+    return {
       itemId: item.id,
       line: item.text,
       page: item.page,
@@ -57,10 +56,10 @@ export function assembleReport({ parsed, compliance }: Input): Report {
       newCitation: c.newCitation,
       note: c.note,
       sourceUrl: c.sourceUrl,
-    }));
+    };
   });
   // Compliance rows that don't match a parsed line (shouldn't happen) are kept, not dropped.
-  for (const c of compliance.items) {
+  for (const c of merged) {
     if (!itemsById.has(c.id)) {
       auditTable.push({
         itemId: c.id,
@@ -101,7 +100,8 @@ export function assembleReport({ parsed, compliance }: Input): Report {
     },
     trafficLight: {
       pathFound: compliance.path !== null,
-      staleCitations: count("stale"),
+      // Counts citations, not lines: a possible-conflict row can also carry renumbered cites.
+      staleCitations: auditTable.reduce((n, r) => n + staleCitationCount(r.newCitation), 0),
       possibleConflicts: count("possible_conflict"),
       gaps: packageGaps.length,
     },
@@ -186,7 +186,12 @@ export function renderMarkdown(r: Report, packageProvided: boolean): string {
   out.push(`Source checklist: ${r.header.docTitle}`, "");
   out.push("| # | Checklist line | Cites | Status | Current law / note | Source |", "|---|---|---|---|---|---|");
   r.auditTable.forEach((row, i) => {
-    const status = row.status === "stale" && row.newCitation ? `**Stale → ${row.newCitation}**` : STATUS_LABEL[row.status];
+    const status =
+      row.status === "stale" && row.newCitation
+        ? `**Stale → ${row.newCitation}**`
+        : row.newCitation
+          ? `${STATUS_LABEL[row.status]}; stale: ${row.newCitation}`
+          : STATUS_LABEL[row.status];
     out.push(
       `| ${i + 1} | ${cell(truncate(row.line, 160))} | ${cell(row.cites.join("; ") || "none")} | ${status} | ${cell(
         row.note,

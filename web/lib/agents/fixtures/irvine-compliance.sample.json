@@ -1,21 +1,39 @@
 {
-  "_note": "HAND-WRITTEN SAMPLE (two-city test).",
+  "_note": "HAND-WRITTEN SAMPLE (two-city test). Facts from fast-path-check/reference/*.md and research/hcd-letters.md, checked 2026-11-07.",
   "checkedOn": "2026-11-07",
-  "path": { "name": "ADU / JADU (ministerial)", "statute": "Gov. Code 66314–66331 (ADU), 66333 (JADU)", "clock": "60 days from a complete application", "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook" },
+  "path": {
+    "name": "ADU / JADU (ministerial)",
+    "statute": "Gov. Code 66317 (permit clock); 66314–66331 (ADU), 66333 (JADU)",
+    "clock": "15 business days to decide completeness (with a list of every missing item), then 60 days from a complete application to approve or deny",
+    "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66317."
+  },
   "items": [
     { "id": "p1-1", "status": "uncited", "newCitation": null, "note": "Local form.", "sourceUrl": "https://www.cityofirvine.gov/node/69676" },
     { "id": "p1-2", "status": "uncited", "newCitation": null, "note": "Local form.", "sourceUrl": "https://www.cityofirvine.gov/node/69676" },
     { "id": "p1-3", "status": "uncited", "newCitation": null, "note": "Local form.", "sourceUrl": "https://www.cityofirvine.gov/node/69676" },
-    { "id": "p1-4", "status": "unverified", "newCitation": null, "note": "The page doesn't say what the covenant requires; couldn't compare with state law today.", "sourceUrl": "https://www.cityofirvine.gov/node/69676" }
+    { "id": "p1-4", "status": "unverified", "newCitation": null, "note": "The page doesn't say what the covenant requires. HCD's 1/7/25 letter (Finding 5) says deed restrictions on all ADUs aren't allowed (Gov 66315), but its 3/27/25 letter says Irvine may restrict separate sale, so the covenant may be limited to that. Read the covenant before flagging it.", "sourceUrl": "https://www.cityofirvine.gov/node/69676" }
   ],
   "steps": [
     { "order": 1, "step": "Completeness check", "fee": null, "time": "approximately two business days", "outsidePlanningClock": false, "sourceUrl": "https://www.cityofirvine.gov/node/69676" },
     { "order": 2, "step": "Pay fees via emailed link", "fee": "see fee schedule", "time": null, "outsidePlanningClock": false, "sourceUrl": "https://www.cityofirvine.gov/node/4706" }
   ],
-  "hcdLetters": [],
-  "hcdLettersNote": "unknown: no letter about Irvine found on the HCD ADU Ordinances page.",
+  "hcdLetters": [
+    {
+      "title": "HCD findings on Irvine ADU Ord. 18-05 (14 findings, incl. stale citations, 120-day review vs 60 days in Gov 66317, deed restrictions on all ADUs)",
+      "date": "2025-01-07",
+      "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-findings-010725.pdf"
+    },
+    {
+      "title": "HCD technical assistance follow-up: Irvine will rely on state ADU law instead of amending Ord. 18-05",
+      "date": "2025-03-27",
+      "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-ta-032725.pdf"
+    }
+  ],
+  "hcdLettersNote": "HCD found Irvine's ADU ordinance out of step on 14 points (1/7/25), including a 120-day review timeline where Gov 66317 allows 60 days. Irvine said it would rely on state law rather than amend (3/27/25).",
   "timelines": [
     { "metric": "ADU building-permit units, 2025 (APR Table A2)", "value": "8", "source": "data.ca.gov APR Table A2, checked 2026-11-07. ASSUMPTION: may reflect how Irvine categorizes units" }
   ],
-  "unverified": []
+  "unverified": [
+    "Statute text not read live today: leginfo blocks automated fetches (403). Gov 66317 was hand-checked in a browser on 2026-11-07 (reference/sources.md)."
+  ]
 }

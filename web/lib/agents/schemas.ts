@@ -72,7 +72,9 @@ export const ComplianceResult = z.object({
     .object({
       name: z.string(),
       statute: z.string(),
-      clock: z.string().describe("e.g. '60 days', or 'unknown'"),
+      clock: z
+        .string()
+        .describe("e.g. '15 business days to decide completeness, then 60 days to approve or deny', or 'unknown'"),
       sourceUrl: z.string(),
     })
     .nullable(),
@@ -81,7 +83,7 @@ export const ComplianceResult = z.object({
       id: z
         .string()
         .describe(
-          "ParsedItem.id this row audits. One row per finding: repeat the id when a line has several (e.g. two stale citations + a possible conflict)",
+          "ParsedItem.id this row audits. Exactly one row per line: when a line has several findings (e.g. two stale citations + a possible conflict), use the most serious status, list every mapping in newCitation and cover all of them in note",
         ),
       status: ItemStatus,
       newCitation: z.string().nullable(),
@@ -120,7 +122,7 @@ export const Report = z.object({
   }),
   trafficLight: z.object({
     pathFound: z.boolean(),
-    staleCitations: z.number().int(),
+    staleCitations: z.number().int().describe("Renumbered citations across all lines (one line can have several)"),
     possibleConflicts: z.number().int(),
     gaps: z.number().int(),
   }),

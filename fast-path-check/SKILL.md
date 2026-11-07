@@ -24,21 +24,32 @@ Prototype for the Claude Impact Lab. Not legal advice.
 
 ## Workflow
 1. **Identify the path.** Read reference/pathways.md. Pick candidate paths.
-   For each, FETCH the live statute or HCD guidance listed there and confirm the
-   test and the clock before stating them. If a direct fetch of a registry URL
-   fails, web-search the source's title and fetch the result. If that fails, use
-   the HCD guidance PDF. If that fails too, mark the claim "unverified today."
+   For each, take the test and the clock from the exact section pathways.md names
+   (ADU/JADU clock: Gov 66317). **Don't fetch leginfo: it returns 403.** Use the
+   hand-checked statute table in reference/sources.md, cite the section's leginfo
+   URL and say "hand-checked in a browser on <date>"; never claim a live read.
+   Cross-check against the HCD guidance listed in pathways.md (fetch it, or
+   web-search its title if the direct URL fails). If a section isn't in the
+   hand-checked table and no HCD source confirms it, mark the claim "unverified today."
 2. **Check streamlining availability** (multifamily only): fetch the HCD SMAP dashboard.
 3. **Get the city checklist.** Use the URL in reference/cities.md, a user URL, or the
    upload. If a city page returns 403, ask the user to download and attach it.
    Never retry repeatedly.
 4. **Audit the checklist, line by line.**
-   - Every statute citation: look it up in reference/renumbering.md. If it's an old
-     number, give the current one and the source. If it's not in the map, fetch it.
-     If you still can't confirm the current number, say "unknown". Never guess.
+   - Every statute citation: look it up in reference/renumbering.md (built from HCD's
+     official SB 477 conversion table). If it's an old number, give the current one
+     and the source. If it's not in the map, check the HCD ADU Handbook or web-search
+     it (not a leginfo fetch). If you still can't confirm the current number, say
+     "unknown". Never guess.
    - Every requirement: is it backed by state law, a local rule, or nothing cited?
      Flag anything that looks stricter than state law as "possible conflict, confirm
-     with city staff or counsel." Never call it illegal.
+     with city staff or counsel." Never call it illegal. Cite the statute section
+     that sets the state rule (e.g. Gov 66333 for JADU owner-occupancy), not general
+     guidance.
+   - One finding row per checklist line. If a line has several findings (two stale
+     citations and a possible conflict), report them together in that line's row.
+   - HCD letters: if reference/cities.md lists an HCD letter for the city, cite it,
+     and say whether the checklist still has a problem the letter flagged.
 5. **Check the applicant's package** (if provided) against the checklist.
    Mark each item Present / Missing / Inconsistent / Can't tell.
 6. **Optional local numbers:** query data.ca.gov APR Table A/A2 for the city

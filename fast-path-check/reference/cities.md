@@ -33,7 +33,7 @@ Before plan check approval (JADUs only):
 **Things to audit:**
 - **Stale citations:** 65852.2 and 65852.22 were renumbered by SB 477 (2024). See `renumbering.md`. Leginfo shows no current text for either section (checked 2026-11-07).
 - **Possible conflict, confirm with city staff or counsel:** the checklist requires an owner-occupancy covenant for **all** JADUs. Current Gov 66333(b) requires owner-occupancy only when the JADU shares sanitation facilities with the main house, and not when it has its own (checked in a browser 2026-11-07). This is a lead to check, not a ruling.
-- **HCD already flagged it:** HCD's March 24, 2025 findings letter on Anaheim's ADU ordinance (Finding 1) says the deleted sections 65852.2, 65852.22 and 65852.26 must be replaced. The Nov 2025 checklist still cites two of them. HCD did not raise the JADU owner-occupancy covenant. See `research/hcd-letters.md`.
+- **HCD already flagged it:** HCD's March 24, 2025 findings letter on Anaheim's ADU ordinance (Finding 1) says the deleted sections 65852.2, 65852.22 and 65852.26 must be replaced. The Nov 2025 checklist still cites two of them. HCD did not raise the JADU owner-occupancy covenant. Letter: https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf. See `research/hcd-letters.md`.
 - **Unpublished timeline:** the checklist gives no overall review clock, only "up to four days" for the sewer reply.
 - **Fees:** the fee page is blocked, so fees are unknown. A search snippet said updated impact fees take effect 2026-05-25, but that wasn't confirmed from the page itself.
 
@@ -70,7 +70,7 @@ Before plan check approval (JADUs only):
 
 **Statute citations on the page:** none.
 
-**HCD letters:** Jan 7, 2025 findings on ADU Ord. 18-05 (14 findings, including a 120-day review timeline instead of the 60 days in Gov 66317, and deed restrictions on all ADUs, which Gov 66315 prohibits). The Mar 27, 2025 follow-up says Irvine will rely on state law instead of amending, and may restrict separate sale. **Possible conflict, confirm:** the ADU page above still lists a recorded covenant. Check whether it only restricts separate sale. See `research/hcd-letters.md`.
+**HCD letters:** Jan 7, 2025 findings on ADU Ord. 18-05 (14 findings, including a 120-day review timeline instead of the 60 days in Gov 66317, and deed restrictions on all ADUs, which Gov 66315 prohibits). The Mar 27, 2025 follow-up says Irvine will rely on state law instead of amending, and may restrict separate sale. **Possible conflict, confirm:** the ADU page above still lists a recorded covenant. Check whether it only restricts separate sale. Letters: https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-findings-010725.pdf (Jan 7, 2025) and https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/irvine-adu-ta-032725.pdf (Mar 27, 2025). See `research/hcd-letters.md`.
 
 **APR data (Table A2, `UNIT_CAT = ADU`, checked 2026-11-07):** ADU building-permit units by year: 2018: 1 · 2021: 1 · 2022: 5 · 2023: 0 · 2025: 8. That's 42 ADU rows in total, against 14,589 single-family rows. These numbers are very low next to Anaheim's. **ASSUMPTION:** this may reflect how Irvine categorizes units in its reports, not how many ADUs are actually built. Report the numbers as-is and don't draw conclusions from them.
 

@@ -1,18 +1,18 @@
 {
-  "_note": "HAND-WRITTEN SAMPLE for producer tests. Replace with the compliance agent's real output (anaheim-compliance.json).",
+  "_note": "HAND-WRITTEN SAMPLE for producer tests. Replace with the compliance agent's real output (anaheim-compliance.json). Facts from fast-path-check/reference/*.md and research/hcd-letters.md, checked 2026-11-07.",
   "checkedOn": "2026-11-07",
   "path": {
     "name": "ADU / JADU (ministerial)",
-    "statute": "Gov. Code 66314–66331 (ADU), 66333 (JADU)",
-    "clock": "60 days from a complete application",
-    "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+    "statute": "Gov. Code 66317 (permit clock); 66314–66331 (ADU), 66333 (JADU)",
+    "clock": "15 business days to decide completeness (with a list of every missing item), then 60 days from a complete application to approve or deny",
+    "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66317."
   },
   "items": [
     {
       "id": "p1-1",
       "status": "uncited",
       "newCitation": null,
-      "note": "Local utility sign-off; runs outside the 60-day planning clock.",
+      "note": "Local utility sign-off; runs outside the Gov 66317 clock.",
       "sourceUrl": null
     },
     {
@@ -31,24 +31,10 @@
     },
     {
       "id": "p1-4",
-      "status": "stale",
-      "newCitation": "Gov. Code 66310–66342",
-      "note": "Gov. Code 65852.2 was renumbered by SB 477 (2024).",
-      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
-    },
-    {
-      "id": "p1-4",
-      "status": "stale",
-      "newCitation": "Gov. Code 66333",
-      "note": "Gov. Code 65852.22 was renumbered by SB 477 (2024).",
-      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
-    },
-    {
-      "id": "p1-4",
       "status": "possible_conflict",
-      "newCitation": null,
-      "note": "Requiring owner-occupancy for all JADUs looks stricter than Gov. 66333(b), which applies it only when the JADU shares sanitation with the main house. Possible conflict, confirm with city staff or counsel.",
-      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+      "newCitation": "65852.2 → 66310–66342; 65852.22 → 66333",
+      "note": "Both state citations were renumbered by SB 477 (2024), and HCD's 3/24/25 letter told Anaheim to replace them. Requiring owner-occupancy for all JADUs looks stricter than Gov. 66333(b), which applies it only when the JADU shares sanitation with the main house (hand-checked in a browser 2026-11-07). Possible conflict, confirm with city staff or counsel.",
+      "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66333."
     },
     {
       "id": "p1-5",
@@ -86,13 +72,19 @@
       "order": 3,
       "step": "Submit for building plan check",
       "fee": "unknown (fee page returns 403)",
-      "time": "60 days (state clock)",
+      "time": "15 business days to decide completeness, then 60 days to approve or deny (Gov 66317)",
       "outsidePlanningClock": false,
-      "sourceUrl": "https://www.hcd.ca.gov/building-standards/adu/handbook"
+      "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66317."
     }
   ],
-  "hcdLetters": [],
-  "hcdLettersNote": "unknown: HCD's enforcement dashboard is an embedded app. Ask HAUportal@hcd.ca.gov for copies.",
+  "hcdLetters": [
+    {
+      "title": "HCD findings on Anaheim ADU Ord. 6570 and SB 9 Ord. 6524 (Finding 1: replace deleted sections 65852.2, 65852.22, 65852.26)",
+      "date": "2025-03-24",
+      "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf"
+    }
+  ],
+  "hcdLettersNote": "HCD told Anaheim on 3/24/25 to stop citing the deleted 65852.2 and 65852.22. The Nov 2025 checklist still cites both. The letter didn't raise the JADU owner-occupancy covenant. Not checked: whether Anaheim has amended its ordinance since.",
   "timelines": [
     {
       "metric": "ADU building-permit units, 2025 (APR Table A2)",
@@ -101,6 +93,7 @@
     }
   ],
   "unverified": [
-    "Anaheim ADU fees: fee page returns 403 to automated fetches."
+    "Anaheim ADU fees: fee page returns 403 to automated fetches.",
+    "Statute text not read live today: leginfo blocks automated fetches (403). Gov 66317 and 66333 were hand-checked in a browser on 2026-11-07 (reference/sources.md)."
   ]
 }

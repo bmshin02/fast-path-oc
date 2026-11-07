@@ -11,7 +11,8 @@ import { runCompliance } from "../lib/agents/compliance";
 import { ParsedDoc } from "../lib/agents/schemas";
 
 // Hand-written from fast-path-check/reference/cities.md (Anaheim Z412, Nov 2025). Test fixture only.
-// p1-6 cites 65852.26 on purpose: trick test 4 (unmapped old cite must come back unverified, not guessed).
+// p1-6 cites a made-up section on purpose: trick test 4 (a cite missing from renumbering.md must come
+// back unverified, never guessed). 65852.26 used to play this role but HCD's table now maps it.
 const ANAHEIM_FIXTURE: ParsedDoc = {
   isChecklist: true,
   containsPersonalInfo: false,
@@ -32,7 +33,7 @@ const ANAHEIM_FIXTURE: ParsedDoc = {
       text: "JADUs only: Owner-occupancy covenant, required by AMC 18.38.015.110 and authorized by the California Government Code Sections 65852.2 and 65852.22. Drafted by the City Attorney and recorded before permit issuance.",
     },
     { id: "p1-5", page: 1, kind: "document", citations: [], text: "Title report (prepared within the last 6 months) and grant deed, for the covenant." },
-    { id: "p1-6", page: 1, kind: "info", citations: ["Gov. Code 65852.26"], text: "[TEST LINE, not in the real checklist] See Government Code Section 65852.26." },
+    { id: "p1-6", page: 1, kind: "info", citations: ["Gov. Code 65852.99"], text: "[TEST LINE, not in the real checklist] See Government Code Section 65852.99." },
   ],
 };
 
