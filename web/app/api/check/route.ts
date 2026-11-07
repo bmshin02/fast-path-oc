@@ -13,7 +13,8 @@
 //   ?model=sonnet | opus   run every agent on that model (default: each agent's own model,
 //                          see DEFAULT_MODELS in lib/agents/client.ts). Anything else is a 400.
 //
-// MOCK=1 in the env streams the canned report from lib/agents/mock.ts with no API calls.
+// MOCK=1 in the env replays the recorded Anaheim run from lib/agents/mock.ts and marks up the
+// uploaded PDF from it, with no API calls.
 
 import { ProjectType, type CheckInput, type ProgressEvent } from "@/lib/agents/schemas";
 import { parseModelChoice, type ModelChoice } from "@/lib/models";
@@ -76,12 +77,25 @@ export async function POST(req: Request) {
       };
       try {
         if (process.env.MOCK === "1") {
-          const { mockEvents, mockReport } = await import("@/lib/agents/mock");
+          const { mockEvents, mockForms, MOCK_CITIES } = await import("@/lib/agents/mock");
+          const cities = input.checklists.map((c) => c.city.trim().toLowerCase());
+          if (input.mode !== "checklist" || cities.length !== 1 || !MOCK_CITIES.includes(cities[0])) {
+            // Never show the recorded Anaheim findings under another city's name.
+            emit({
+              type: "result",
+              outcome: {
+                kind: "question",
+                question: "Demo mode is on, and only the Anaheim ADU checklist has a recorded run. Upload that checklist with city Anaheim, or turn demo mode off to check other cities live.",
+              },
+            });
+            return;
+          }
           for (const e of mockEvents) {
             emit(e);
             await new Promise((r) => setTimeout(r, 600));
           }
-          emit({ type: "result", outcome: { kind: "report", report: mockReport } });
+          const { pdfBase64, filename } = input.checklists[0];
+          emit({ type: "result", outcome: { kind: "forms", result: await mockForms(pdfBase64, filename, emit) } });
         } else {
           const { runMaster } = await import("@/lib/agents/master");
           const { withModel, modelFor } = await import("@/lib/agents/client");

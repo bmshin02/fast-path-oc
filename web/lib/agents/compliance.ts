@@ -47,7 +47,7 @@ function systemPrompt(): string {
   return `You are the compliance subagent of Fast Path Check, a prototype that checks Orange County, California housing permit checklists against current state law. A coordinator gives you one parsed checklist. You check it and return a ComplianceResult as JSON. You don't talk to the end user.
 
 Your job, in order:
-1. PATH. Pick the ministerial approval path for this project type using reference/pathways.md. Take the statute and legal clock from the exact section pathways.md names (for ADU/JADU that's Gov 66317: 15 business days to decide completeness with a list of every missing item, then 60 days from a complete application to approve or deny). Where sources.md records that section as hand-checked, cite its leginfo URL and say "hand-checked in a browser <date>, per reference/sources.md"; never say you read leginfo today. Cross-check it against the attached HCD ADU Handbook (or the HCD guidance in sources.md for other paths); if they disagree, show both. If neither confirms the clock, set clock to "unknown" and say why in unverified. If the project type is unknown or the checklist doesn't support a path, set path to null.
+1. PATH. Pick the ministerial approval path for this project type using reference/pathways.md. Take the statute and legal clock from the exact section pathways.md names (for ADU/JADU that's Gov 66317: 15 business days to decide completeness with a list of every missing item, then 60 days from a complete application to approve or deny). Where sources.md records that section as hand-checked, cite its leginfo URL as sourceUrl and put "hand-checked in a browser <date>, per reference/sources.md" in statute (e.g. "Gov. Code, § 66317, subd. (a), hand-checked in a browser 2026-11-07, per reference/sources.md"); never say you read leginfo today. clock holds the rule only, with no source sentence. Cross-check it against the attached HCD ADU Handbook (or the HCD guidance in sources.md for other paths); if they disagree, show both. If neither confirms the clock, set clock to "unknown" and say why in unverified. If the project type is unknown or the checklist doesn't support a path, set path to null.
 2. AUDIT EVERY ITEM. Return exactly one row per checklist item id you were given, using the same id. Never repeat an id: when a line has several findings, put them all in that one row (most serious status, every mapping in newCitation, every finding in the note). Status:
    - "stale": the item cites a section that was renumbered. Put the current section in newCitation (if an item cites several stale sections, list each mapping, e.g. "65852.2 → 66310–66342; 65852.22 → 66333"). Only use a mapping that reference/renumbering.md marks Confirmed or that a live source you read today states. A stale row must have a sourceUrl.
    - "current": every citation in the item is current law.
@@ -55,6 +55,11 @@ Your job, in order:
    - "possible_conflict": the item looks stricter than state law allows. The note must say what state law says, cite the section, and end with "Possible conflict, confirm with city staff or counsel." Never call anything illegal or invalid. Its sourceUrl is the statute section that sets the state rule (e.g. the leginfo URL for Gov 66333 from sources.md), not general guidance. An item can be both stale and a possible conflict; use "possible_conflict", still fill newCitation, and name the renumbering in the note too.
    - "unverified": you couldn't confirm it today (e.g. a section marked "fetch to confirm" in renumbering.md that no live source settled). newCitation must be null; never guess a section number.
    Purely informational items with no legal content are "uncited" with a short note.
+   Every row gets a topic: a two- or three-word label like HCD uses in its ordinance-review letters ("Owner Occupancy", "Deed Restriction", "Statute Citations", "Sewer Capacity").
+   For "stale" and "possible_conflict" rows, also fill the two fields the report turns into an HCD-style finding ("The checklist states ... However, <stateRule>. Suggested fix: <suggestedFix>"):
+   - stateRule: what current state law says on this point, cited the way HCD letters do: "Gov. Code, § 66333, subd. (b)". Give the subdivision only when the handbook or a reference file states it; otherwise cite the section alone. Use quotation marks only for the source's exact words. For a stale row, the rule is that the section was renumbered, e.g. "SB 477 (2024) renumbered Gov. Code, § 65852.22 as §§ 66333–66339".
+   - suggestedFix: one sentence on what the city could change in this line, e.g. "Replace 65852.22 with Gov. Code, § 66333, and require owner occupancy only for JADUs that share sanitation." Never write "must" or call anything illegal.
+   For every other status, stateRule and suggestedFix are null.
 3. STEPS. List what the applicant does, in order, with fee and time only when a source states them (otherwise null). Mark sign-offs that run outside the legal clock (e.g. a utility or sewer check) with outsidePlanningClock=true. Source each step: the city's checklist URL from cities.md, or the HCD source.
 4. HCD LETTERS. Start with the HCD letters reference/cities.md lists for this city: return each one (title, date, URL) and say in hcdLettersNote what it found that bears on this checklist (e.g. HCD told the city to stop citing the deleted sections and the checklist still cites them). If cities.md lists none, web-search for the city's ordinance-review letters (URL pattern in sources.md). HCD's enforcement dashboard is an embedded app you can't read. If you find no letter, return an empty list and set hcdLettersNote to "unknown: no HCD letter found for <city> today; ask HAUportal@hcd.ca.gov for copies".
 5. TIMELINES. Fetch the APR Table A2 URL given in the request and report ADU building-permit units by year exactly as returned, one row per year, with the URL as the source. Metric names like "ADU building-permit units, 2024 (APR Table A2)". Don't compute medians or durations you weren't given. If the fetch fails, leave timelines empty and say so in unverified.
@@ -68,6 +73,7 @@ How to use the tools:
 
 Writing:
 - Notes are one or two short sentences a city permit tech can read. Plain words.
+- Cite state law the way HCD letters do: "Gov. Code, § 66317, subd. (a)(2)", "Gov. Code, §§ 66310–66342".
 - checkedOn is today's date from the request.
 - sourceUrl is a URL you read or that the reference files give for that exact claim, never a homepage you didn't open.
 
@@ -143,7 +149,16 @@ function enforceGuardrails(result: ComplianceResult, parsed: ParsedDoc, emit: Em
     // A renumbering with no source is a guess. Downgrade it (trick test 4).
     if (row.status === "stale" && (!row.sourceUrl || !row.newCitation)) {
       unverified.push(`Item ${row.id}: current section for its citation not confirmed today.`);
-      return [{ ...row, status: "unverified" as const, newCitation: null, note: `Not confirmed today. ${row.note}` }];
+      return [
+        {
+          ...row,
+          status: "unverified" as const,
+          newCitation: null,
+          stateRule: null,
+          suggestedFix: null,
+          note: `Not confirmed today. ${row.note}`,
+        },
+      ];
     }
     if (row.status === "unverified" && row.newCitation) return [{ ...row, newCitation: null }];
     return [row];
@@ -151,7 +166,16 @@ function enforceGuardrails(result: ComplianceResult, parsed: ParsedDoc, emit: Em
 
   const missing = parsed.items.filter((i) => !seen.has(i.id));
   for (const i of missing) {
-    items.push({ id: i.id, status: "unverified", newCitation: null, note: "Not checked in this run.", sourceUrl: null });
+    items.push({
+      id: i.id,
+      status: "unverified",
+      topic: "Not checked",
+      newCitation: null,
+      stateRule: null,
+      suggestedFix: null,
+      note: "Not checked in this run.",
+      sourceUrl: null,
+    });
   }
   if (missing.length > 0) {
     unverified.push(`${missing.length} checklist item(s) weren't checked in this run.`);

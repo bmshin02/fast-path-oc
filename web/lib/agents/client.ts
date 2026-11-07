@@ -21,7 +21,7 @@ export const DEFAULT_MODELS: Record<AgentRole, string> = {
   parser: "claude-sonnet-5-5",
   /** Checks every line against current law with web search/fetch. Never guess a statute. */
   compliance: "claude-opus-5-5",
-  /** Writes the path note and two-city comparison from data it's given. */
+  /** Plans the edits and box fills on the uploaded form from data it's given. */
   producer: "claude-sonnet-5-5",
 };
 

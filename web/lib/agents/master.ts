@@ -10,7 +10,7 @@ import { RULES } from "./prompts";
 import { runParser } from "./parser";
 import { runCompliance } from "./compliance";
 import { runProducer } from "./producer";
-import type { CheckInput, ComplianceResult, Emit, FinalReport, ParsedDoc, RunOutcome } from "./schemas";
+import type { CheckInput, ComplianceResult, Emit, FilledForms, ParsedDoc, ProducerInput, RunOutcome } from "./schemas";
 
 const MAX_TOOL_CALLS = 8;
 
@@ -18,15 +18,15 @@ const SYSTEM = `You are the coordinator of Fast Path Check, a prototype that che
 
 - parse_document: turns one uploaded PDF into structured checklist lines and citations.
 - check_compliance: checks a parsed document against current law (web search + HCD guidance) and picks the approval path and its legal clock.
-- produce_deliverables: writes the final report from parsed + checked documents. Call it once, with every doc id, at the end.
-- ask_user: stop and ask the user a question instead of producing a report.
+- produce_deliverables: marks up each uploaded form itself (current citations written in, possible conflicts flagged, researched boxes filled) from parsed + checked documents. Call it once, with every doc id, at the end.
+- ask_user: stop and ask the user a question instead of producing the forms.
 
 How to run:
 1. Parse every uploaded document.
 2. If a parse result says isChecklist=false, call ask_user ("this doesn't look like a permit checklist...") and stop. If containsPersonalInfo=true, call ask_user telling them the upload contains personal information and to find an organizer, and stop.
 3. If a parse looks incomplete (zero items, or no citations on a checklist that obviously cites law), re-run parse_document once with a note saying what's missing.
 4. Run check_compliance on each parsed document. For multifamily projects set checkSmap=true. If many items come back "unverified" because a fetch failed, you may re-run once with a note to use web search instead; after that, accept "unverified today".
-5. Call produce_deliverables once with all doc ids (two ids = side-by-side comparison).
+5. Call produce_deliverables once with all doc ids.
 6. When produce_deliverables succeeds, reply with one short sentence and stop.
 
 You have at most ${MAX_TOOL_CALLS} tool calls. Never guess or fill in content yourself; the subagents' sourced output is the only content.
@@ -45,7 +45,7 @@ export async function runMaster(input: CheckInput, emit: Emit): Promise<RunOutco
   const docs = new Map(input.checklists.map((c, i) => [`doc${i + 1}`, c]));
   const parsed = new Map<string, ParsedDoc>();
   const checked = new Map<string, ComplianceResult>();
-  let finalReport: FinalReport | null = null;
+  let filled: FilledForms | null = null;
   let question: string | null = null;
   let toolCalls = 0;
 
@@ -57,6 +57,13 @@ export async function runMaster(input: CheckInput, emit: Emit): Promise<RunOutco
     if (question) throw new Error("You already asked the user a question. Stop now.");
     emit({ type: "progress", agent: "master", message: `Calling ${name}` });
   };
+
+  const producerInput = (id: string): ProducerInput => ({
+    parsed: parsed.get(id)!,
+    compliance: checked.get(id)!,
+    pdfBase64: docs.get(id)!.pdfBase64,
+    filename: docs.get(id)!.filename,
+  });
 
   const docId = z.enum([...docs.keys()] as [string, ...string[]]);
 
@@ -118,7 +125,7 @@ export async function runMaster(input: CheckInput, emit: Emit): Promise<RunOutco
 
   const produceTool = betaZodTool({
     name: "produce_deliverables",
-    description: "Write the final report from every parsed and checked document. Call once, at the end.",
+    description: "Mark up every parsed and checked form (the uploaded PDFs themselves). Call once, at the end.",
     inputSchema: z.object({
       docIds: z.array(docId),
       note: z.string().optional(),
@@ -126,14 +133,14 @@ export async function runMaster(input: CheckInput, emit: Emit): Promise<RunOutco
     run: async ({ docIds, note }) => {
       guard("produce_deliverables");
       const inputs = docIds.map((id) => {
-        const p = parsed.get(id);
-        const c = checked.get(id);
-        if (!p || !c) throw new Error(`${id} needs parse_document and check_compliance first.`);
-        return { parsed: p, compliance: c };
+        if (!parsed.has(id) || !checked.has(id)) throw new Error(`${id} needs parse_document and check_compliance first.`);
+        return producerInput(id);
       });
-      const report = await runProducer({ inputs, note }, emit);
-      finalReport = report;
-      return JSON.stringify({ ok: true, reports: report.reports.length });
+      filled = await runProducer({ inputs, note }, emit);
+      return JSON.stringify({
+        ok: true,
+        forms: filled.forms.map((f) => ({ city: f.city, changes: f.changes.length })),
+      });
     },
   });
 
@@ -184,24 +191,18 @@ export async function runMaster(input: CheckInput, emit: Emit): Promise<RunOutco
   logUsage("master", final.usage);
 
   if (question) return { kind: "question", question };
-  if (finalReport) return { kind: "report", report: finalReport };
+  if (filled) return { kind: "forms", result: filled };
 
   if (final.stop_reason === "refusal") {
     throw new Error(`Master agent declined the request (${final.stop_details?.category ?? "no category"}).`);
   }
 
-  // The master stopped without a report (cap hit or it gave up). Produce from whatever we have.
+  // The master stopped without producing (cap hit or it gave up). Produce from whatever we have.
   const ready = [...checked.keys()].filter((id) => parsed.has(id));
   if (ready.length > 0) {
-    emit({ type: "progress", agent: "master", message: "Coordinator stopped early; writing the report from what's done" });
-    const report = await runProducer(
-      {
-        inputs: ready.map((id) => ({ parsed: parsed.get(id)!, compliance: checked.get(id)! })),
-        note: "The run stopped early. List anything not checked under couldntVerify.",
-      },
-      emit,
-    );
-    return { kind: "report", report };
+    emit({ type: "progress", agent: "master", message: "Coordinator stopped early; marking up the forms from what's done" });
+    const result = await runProducer({ inputs: ready.map(producerInput), note: "The run stopped early." }, emit);
+    return { kind: "forms", result };
   }
   return {
     kind: "question",

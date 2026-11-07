@@ -1,125 +1,108 @@
-# Fast Path Check
+# Fast Track
 
-> For an Orange County permit tech, homeowner or nonprofit PM: upload a city's permit checklist (or describe a listed lot) and get the fastest legal approval path, its legal clock, and every place the city's form is out of step with current California law, each claim sourced and dated.
+> For an Orange County homeowner adding an ADU: upload your city's housing form (or pick one of ours), answer a few plain-language questions, and download the form filled in, with every answer showing where it came from.
 
 **Team:** [team name]
-**Members:** [names]
+**Members:** Brandon Shin, Asher Chok, Jeffrey Song
 **Lane:** 2 Clear it
 **Built at:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
 
-**Prototype, not legal advice.** It never submits anything or contacts a city.
+**Prototype, not legal advice.** It never submits anything or contacts a city. Use made-up details only.
 
-> Status: in progress. See [PLAN.md](PLAN.md) for the full build plan, architecture, test cases and team split.
+**Live demo:** https://fast-path-oc.vercel.app (add `?mock=1` to the `/fill` page for the scripted run that makes no API calls)
+**Demo video:** [TBD]
 
 ---
 
 ## The real user
 
-**C03, a city permit tech** (made up, from the lane's `scenarios.json`): *"I want to tell applicants the right answer the first time, even when our form is out of date."* City checklists fall behind state law. Anaheim's November 2025 ADU checklist still cites Gov Code 65852.2 and 65852.22, which SB 477 renumbered in 2024, and counter staff can't easily tell which lines state law still backs.
+**C01, a homeowner adding an ADU** (made up, from the lane's `scenarios.json`). City application packages are long and full of boxes that don't say what they want. Irvine's ADU package is 10 pages with 247 text boxes and 156 checkboxes.
 
-**Before:** the checklist cites renumbered law, nobody notices, and the applicant goes through extra correction cycles. Every month of waiting costs money.
-**After:** the tech uploads the checklist PDF and gets back a dated report that maps old citations to current law, flags possible conflicts, and states the legal clock.
+**Why it matters:** our mentor, who works with cities on ADU permitting, estimates that **more than 90% of first-time ADU applications in Laguna Beach are incomplete**, and that a typical ADU goes through 3–4 correction rounds (one practitioner's experience, not measured data; see [Real-user evidence](#real-user-evidence)). State law already protects a complete application: under Gov 66317 the city has 15 business days to say what's missing and then 60 days to decide. The hard part is getting to "complete."
 
-It also serves the lane's other two made-up users:
-
-| User | What they get |
-|---|---|
-| **C01, homeowner adding an ADU** | Which forms, in what order, what they cost, and how long the city can legally take |
-| **C02, nonprofit project manager** | Two cities side by side, with gaps marked "unknown" rather than guessed |
+**Before:** the homeowner guesses at a 10-page form, misses something, and loses weeks to a completeness letter.
+**After:** they answer about 10 plain questions, Fast Track looks up the public facts itself, and they download a filled form where every answer is labeled *you told us*, *we looked it up* (with a link and date) or *the form says so*. Anything left empty is highlighted.
 
 ## What we built
 
-A **Next.js website** backed by **Claude agents**. The user uploads a checklist PDF (checklist mode) or describes a publicly listed OC lot (site mode), and gets one report:
+A **Next.js website** backed by **Claude**:
 
-1. **The fast path:** which ministerial route fits (ADU/JADU, SB 9, SB 684 map for 10 or fewer parcels, or streamlined multifamily), the legal clock (e.g., 60 days for an ADU), and the statute
-2. **Stale law:** each outdated citation mapped to its current section, with a source link
-3. **Possible overreach:** items that look stricter than state law, flagged *"possible conflict, confirm with city staff or counsel."* It never calls anything illegal
-4. **Steps, fees and timelines:** what to submit, in what order, what it costs, and how long that city actually takes according to its state-reported APR data
-5. **Package gaps:** what the applicant hasn't provided yet (Present / Missing / Inconsistent / Can't tell)
-6. **What we couldn't verify today:** always shown
+1. **Pick or upload a form.** One of four real city forms (below), or your own PDF or Word document up to 3 MB.
+2. **Answer questions.** Fast Track reads the form, asks one question at a time, and only asks what it can't work out from the form or a public source. If an answer is unclear, it asks a follow-up. The form fills in live next to the chat.
+3. **Review and download.** A preview of every field with its value, where it came from, and a source link for anything looked up. Then download the filled PDF.
 
-Every legal or numeric claim carries a source URL and the date it was checked.
+**Forms ready to try** (all in [`evals/fixtures/`](evals/fixtures/README.md), downloaded 2026-11-07):
 
-**Demo video:** [TBD]
-**Live demo:** [TBD]
+| Form | City | Pages | How it's filled |
+|---|---|---|---|
+| ADU application package (2025) | Irvine | 10 | In place, in the city's own PDF (the building permit application on page 2) |
+| Development Standards Checklist (67-01) | Irvine | 1 | In place: Claude matches its 18 boxes to their printed labels |
+| Hold Harmless Affidavit (67-02) | Irvine | 2 | In place; the SSN boxes are never filled |
+| ADU Submittal Requirements Checklist (Z412, Nov 2025) | Anaheim | 1 | Flat page with no boxes, so the download is a generated "filled form" PDF |
+
+Uploaded fillable PDFs are filled in place the same way. Flat PDFs and Word files get the generated PDF.
 
 ## How Claude is used
 
-**Inside the tool**, a master agent directs three subagents through the Claude API (`claude-opus-5-5`):
+**Inside the tool**, each turn of the conversation is one call to `POST /api/fill` ([`web/app/api/fill/route.ts`](web/app/api/fill/route.ts)):
 
 ```
-Upload (PDF + city + project type)  →  /api/check (server only)
-                                          │
-                                   MASTER AGENT  decides order, re-runs a step,
-                                          │      or stops to ask the user
-          ┌───────────────────────────────┼───────────────────────────────┐
-     1. PARSER                      2. COMPLIANCE                    3. PRODUCER
-     PDF → structured items,        Checks each item against         Builds the report:
-     citations, package items       current law with web search      path, steps & fees,
-                                    + web fetch (HCD, data.ca.gov,   audit table, gaps,
-                                    city sites) and our reference    "couldn't verify"
-                                    files
+Browser (form + fields so far + conversation)  →  /api/fill (server only)  →  Claude (claude-opus-5-5)
+                                                        │
+                       re-checks every answer before it reaches the page:
+                       no signatures, no SSN / ID / bank numbers, only real PDF boxes
 ```
 
-- The master agent is a true agent. It picks which subagent to call, re-runs one when output is incomplete, and stops to ask the user when an upload is unreadable or a source is blocked. It has a cap on tool calls so it always ends with a report or a clear question.
-- The rules every agent follows live in [`fast-path-check/SKILL.md`](fast-path-check/SKILL.md): never invent a statute, fee or deadline; source and date every claim; label assumptions; never call something illegal.
-- **What a person checks:** every "possible conflict" before acting on it, and anything in "what we couldn't verify today."
+- The form goes to Claude as a document (cached, so later turns re-read it cheaply). Word files are converted to text first.
+- Claude replies in a fixed JSON format: a message, the fields it filled or changed, and the next question, or "done" with what the applicant still has to do.
+- Claude may **web-search** public facts (up to 3 searches a turn), such as which school district serves an address. Claude is told to give a source link for every looked-up answer, and each one gets the date it was checked; one that comes back without a link is flagged "please double-check." If Claude can't confirm something, it's told to leave the field empty rather than guess.
+- Anything Claude inferred rather than was told is marked **ASSUMPTION** with how to fix it.
+- **The server has the last word on safety.** Whatever Claude replies, signature fields and anything that looks like an SSN, ID, passport or bank number are left empty, and answers only go into boxes that exist in the PDF.
+- **What a person checks:** every field before signing, especially anything marked ASSUMPTION or "we looked it up."
 
-**To build it**, we used Claude Code to plan, research the lane's sources, and write the app.
+**To build it**, we used Claude Code to plan, research the lane's sources, review each other's code, and write the app.
+
+### Also in the repo: a checklist audit engine
+
+Before settling on Fast Track, we built an engine that checks a city's checklist against current California law: a master agent directing parser, compliance and producer subagents behind `POST /api/check` ([`web/lib/agents/`](web/lib/agents), rules in [`fast-path-check/SKILL.md`](fast-path-check/SKILL.md)). It gives back the city's own checklist PDF, marked up: renumbered statute citations rewritten in place with the current section, requirements that look stricter than state law highlighted as "possible conflict, confirm with city staff or counsel," and one page at the end listing each change with its source. It's deployed but **not wired into the website**. Its research is below under [Early findings](#early-findings).
 
 ## Try it
 
 ```bash
 cd web
 npm install
-echo "ANTHROPIC_API_KEY=your-key-here" > .env.local   # never commit this; .env* is gitignored
+cp .env.example .env        # then set ANTHROPIC_API_KEY in .env; never commit it (.env* is gitignored)
 npm run dev
-# open http://localhost:3000 and upload evals/fixtures/anaheim-adu-checklist-z412-nov-2025.pdf
+# open http://localhost:3000, or http://localhost:3000/fill?mock=1 for the scripted run (no key needed)
 ```
 
-Needs Node 20+ and a Claude API key. The key is read only by server code and never sent to the browser. No keys are in the repo.
+Needs Node 20+ and a Claude API key. The key is read only by server code and never sent to the browser. No keys are in the repo or its history.
 
-## Sources and assumptions
-
-Full URLs, resource IDs and working API queries are in [fast-path-check/reference/sources.md](fast-path-check/reference/sources.md). Every source with its date checked is in [sources.md](sources.md).
-
-| Source | Used for | Web fetch works? (tested 2026-11-07) |
-|---|---|---|
-| HCD guidance (ADU Handbook Mar 2026, Housing Law Fact Sheets Apr 2026, SB 9 fact sheet, SB 35 / AB 2011 guidelines) | Plain-English rules with current section numbers | Yes |
-| HCD SMAP dashboard | Whether SB 35/423 streamlining applies in a given city | Yes |
-| data.ca.gov CKAN API (APR Tables A / A2) | A city's reported permit counts and dates. Filter on `JURIS_NAME`, not `q=` | Yes |
-| City permit pages | The city's current checklist and fees | Irvine yes; Anaheim no (403) |
-| leginfo.legislature.ca.gov | Statute text | **No (403).** Sections are checked by hand in a browser and recorded in `reference/sources.md` |
-| User upload | Cities that block automated fetches (Anaheim, Costa Mesa, Fullerton, Orange) | n/a |
-| Web search | Anything not on the list, and the fallback for leginfo | Yes |
-
-Fetched sources are cached for one day, so we don't hit the same page on every run.
-
-**Assumptions:**
-- ASSUMPTION: the statute clocks and tests in `reference/pathways.md` match current law. The sections were confirmed to exist, but the clocks weren't checked against the statute text.
-- ASSUMPTION: the city checklist URLs in `reference/cities.md` are current as of their "date checked."
-- ASSUMPTION: Irvine's very low ADU counts in the APR data (42 rows, against 1,871 for Anaheim) reflect how Irvine categorizes units in its reports, not how many ADUs are actually built.
-- ASSUMPTION: the four-year baseline and "$85k of time costs on a $535k home" come from the lane's `timeline.json` and are estimates, not measurements.
-- ~~ASSUMPTION: Claude's web fetch can open leginfo.~~ Tested 2026-11-07: it can't (403).
+**Cost (estimate from our test runs):** about $0.10 for the first turn, $0.02–0.04 per turn after, so roughly $0.30–0.50 for a whole form.
 
 ## What is real and what is mocked
 
 | Part | Status |
 |---|---|
-| Rules and reference files (`fast-path-check/`) | Working: SKILL.md, sources, cities (Anaheim + Irvine), renumbering, pathways, report template |
-| Anaheim checklist test file | Working: real public PDF in `evals/fixtures/` |
-| Upload page and report view | In progress |
-| Master agent + parser / compliance / producer subagents | In progress |
-| Site mode (listed lot) | Planned |
+| Landing page, form picker, upload (PDF/Word, 3 MB) | Working, deployed |
+| Questions page with real Claude calls (`/api/fill`) | Working. Tested end to end locally on the Irvine ADU application, the Irvine hold harmless affidavit and a Word upload |
+| Filled PDF download | Working: in place for fillable PDFs, generated PDF for flat PDFs and Word files |
+| Scripted demo (`/fill?mock=1`) | Working: a scripted conversation, no API calls. Used as the live-demo backup |
+| Checklist audit engine (`/api/check`) | Built and deployed, not shown in the website |
 | Test log (`evals/test-cases.md`) | In progress |
 
 *Update this table before the demo.*
 
-## Early findings
+## Sources and assumptions
 
-**HCD already told Anaheim to fix these citations.** In a March 24, 2025 findings letter, HCD said Anaheim's ADU ordinance cites 65852.2, 65852.22 and 65852.26, sections "deleted by SB 477," and that "the City must amend the Ordinance to refer to the correct code sections." Anaheim's November 2025 ADU checklist still cites 65852.2 and 65852.22. HCD's January 2025 letter to Irvine flagged the same stale citations, a 120-day review timeline (state law allows 60, Gov 66317), and deed restrictions on all ADUs. Details are in [research/hcd-letters.md](research/hcd-letters.md).
+Every law, dataset and link we used, with the date checked, is in [sources.md](sources.md). Fetch status and working API queries are in [fast-path-check/reference/sources.md](fast-path-check/reference/sources.md).
 
-**A possible JADU overreach.** Anaheim's checklist requires an owner-occupancy covenant for **all** JADUs, citing 65852.2 and 65852.22, neither of which has current text on leginfo. Current Gov 66333(b) requires owner-occupancy only when the JADU shares sanitation with the main house. That's a **possible conflict to confirm with city staff or counsel**, not a ruling. HCD's 2025 letter to Anaheim didn't raise it. Details are in [cities.md](fast-path-check/reference/cities.md).
+| Source | Used for |
+|---|---|
+| City forms (Irvine ADU package, 67-01, 67-02; Anaheim Z412) | The forms Fast Track fills. Source URLs and checksums in [evals/fixtures/README.md](evals/fixtures/README.md) |
+| Web search at run time | Public facts for a field (e.g. school district, city permit names). Each answer carries its own link and date |
+| Gov 66317 (read by hand on leginfo, 2026-11-07) | The completeness and decision deadlines quoted above |
+| HCD ADU Handbook (Mar 2026) and HCD letters to Anaheim and Irvine | The checklist audit engine and our early findings |
 
 ## Orange County, all 35 jurisdictions
 
@@ -140,12 +123,21 @@ Alongside the Claude agents, [`web/lib/features/`](web/lib/features/README.md) h
 - **Delay-cost calculator** using the mentor's mortgage math, and a **source monitor** that flags when a PDF we rely on changes or a blocked site becomes fetchable.
 - API: `POST /api/tools/citations`, `POST /api/tools/shot-clock`, `POST /api/tools/delay-cost`, `GET /api/tools/oc?city=`.
 
-## How this differs from CrossBeam
-
-[CrossBeam](https://cc-crossbeam.vercel.app), built by our mentor Mike Brown, won Anthropic's "Built with Opus 4.6" hackathon. It works **after plan check**: it reads a city's corrections letter and the construction plans, then drafts responses. Fast Path Check works **before submittal**: it checks whether the city's own checklist matches current state law, finds the approval path and its legal clock, and lists package gaps. The two fit together. *CrossBeam helps you answer the city's corrections; Fast Path Check checks whether the city's own rules are current before you submit.* More in [research/crossbeam-comparison.md](research/crossbeam-comparison.md).
+**Assumptions:**
+- ASSUMPTION: the mentor's figures (90% incomplete, 3–4 correction rounds) are one practitioner's estimates, not measured data.
+- ASSUMPTION: the four-year baseline and "$85k of time costs on a $535k home" come from the lane's `timeline.json` and are estimates. Our mentor thinks $85k is low: interest alone on a $428k loan at 7.3% is about $2,600 a month (his rate and 20% down).
+- ASSUMPTION: the cost per form is from a handful of our own test runs, not a measured average.
 
 ## Where it gets things wrong
 
+- **Field matching can miss.** The Irvine PDFs name their boxes things like `Check Box9_D1`, so Claude matches each box to its printed label. It can pick the wrong box. Check the preview before you print.
+- **Flat PDFs and Word files aren't written onto the original page.** You get a generated PDF listing each field and answer, and you copy them onto the city's form.
+- **Word files lose their layout** when they're converted to text, so tables and checkboxes can read oddly.
+- **Looked-up facts can be wrong or out of date.** Each one shows its source and date so you can check it. Leaving unconfirmed fields empty is an instruction to Claude, not a check the server can enforce.
+- **Fast Track can't tell you whether the city will approve your project.** It fills in forms; it doesn't give legal advice.
+- **Only Irvine and Anaheim forms are built in**, and only in English. Uploads work for any city's form up to 3 MB.
+
+**The checklist audit engine and OC data:**
 - Leginfo blocks automated fetches, so statute text comes from hand-checked entries, HCD guidance and web search, not a live read of the code.
 - HCD's enforcement letters sit in an embedded dashboard. For OC we found 37 letters by search ([data/oc-hcd-letters.json](data/oc-hcd-letters.json)), but an empty list for a city means none was found, not that none exists.
 - No OC data on plan-check correction cycles exists, so it can't say how many resubmittals a city typically requires. Our mentor's estimate is 3–4 rounds for an ADU, but that's one practitioner's experience, not data.
@@ -153,43 +145,48 @@ Alongside the Claude agents, [`web/lib/features/`](web/lib/features/README.md) h
 
 ## Testing
 
-Tracked in `evals/test-cases.md`, and run through the website:
+Tracked in `evals/test-cases.md` (in progress).
 
-| # | Case | Must do |
-|---|---|---|
-| 1 | Anaheim ADU checklist (C03) | Flag 65852.2 / 65852.22 and map them to 66310–66342 / 66333 with an HCD source |
-| 2 | Irvine ADU homeowner (C01) | List the submittal items, state the 60-day clock with its source |
-| 3 | Anaheim vs Irvine (C02) | Side-by-side comparison, with gaps marked "unknown" |
-| 4 | Trick: unmapped old citation | Fetch it or say "unknown." Never guess a section number |
-| 5 | Trick: blocked source | Ask for an upload. Don't retry or make up content |
-| 6 | Trick: live source vs reference file disagree | Show both, prefer the live source, flag the file |
-| 7 | Trick: bad upload (not a checklist) | Stop and tell the user |
-| 8 | Real public case (a listed OC lot, 4–12 homes) | Pick candidate paths; label every unsourced fact ASSUMPTION; no owner names |
-| 9 | Trick: SB 9 (2021) vs SB 9 (2025) | Say which bill it means |
+**Tested so far:** in the browser with real Claude calls, the Irvine ADU application end to end (fills the real PDF), the Irvine hold harmless affidavit (Claude finds the boxes itself) and a Word upload. With the scripted run, all four sample forms and the phone layout. Type check, lint and a production build pass.
 
-Results: *TBD, to be logged as tests are run.*
+**Still to test:** an upload that isn't a form, a file over 3 MB, Claude failing or timing out, and a run on the live deployment.
 
 ## Real-user evidence
 
 We interviewed **Mike Brown**, who works with cities on ADU permitting and built CrossBeam, first-place winner of Anthropic's "Built with Opus 4.6" Claude Code hackathon, on 2026-11-07. Full notes are in [research/mentor-interview.md](research/mentor-interview.md). These are one practitioner's estimates, not measured data:
 
-- **"More than 90%" of first-time ADU applications in Laguna Beach are incomplete.** Common misses are a soils report, a grading plan and a fire plan.
+- **"More than 90%" of first-time ADU applications in Laguna Beach are incomplete.** Common misses are a soils report, a grading plan and a fire plan. "You give them a list, but it is complicated and they never get it right."
 - **3–4 correction rounds is typical.** Cities often push back on completeness first, because the state clock only starts once an application is complete.
-- **City checklists are often out of date with state law**, but applicants pick their battles before telling a city it's out of compliance.
-- **Our $85k delay-cost figure is probably too low.** On his framework, interest alone on a $428k loan at 7.3% is about $2,600 a month, or about $125k over 4 years (ASSUMPTION: his rate and 20% down).
+- **Delay is expensive.** On his framework, interest alone on our $535k baseline home is about $2,600 a month (ASSUMPTION: his 7.3% rate and 20% down).
 
 **What we checked:** the "shot clock" he described is **Gov 66317**, read in a browser 2026-11-07. The city must decide completeness within **15 business days** and list every missing item. It can't add new items when the applicant resubmits, and if it misses the deadline the application is deemed complete. It then has **60 days** to approve or deny, or the application is deemed approved.
 
-**What we changed:** package gaps are now treated as a headline result, and the report cites 66317 for both deadlines.
+**What we changed:** completeness became the problem we solve. A filled, complete first submission is what starts the state's clock.
+
+## How this differs from CrossBeam
+
+[CrossBeam](https://cc-crossbeam.vercel.app), built by our mentor, works **after plan check**: it reads a city's corrections letter and the construction plans, then drafts responses. Fast Track works **before submittal**: it helps the applicant fill in the city's forms completely the first time. *CrossBeam helps you answer the city's corrections; Fast Track helps you avoid the completeness letter in the first place.* More in [research/crossbeam-comparison.md](research/crossbeam-comparison.md).
+
+## Early findings
+
+From the checklist audit engine's research (details in [research/hcd-letters.md](research/hcd-letters.md) and [fast-path-check/reference/cities.md](fast-path-check/reference/cities.md)):
+
+- **HCD already told Anaheim to fix its citations.** In a March 24, 2025 findings letter, HCD said Anaheim's ADU ordinance cites 65852.2, 65852.22 and 65852.26, sections "deleted by SB 477," and that "the City must amend the Ordinance to refer to the correct code sections." Anaheim's November 2025 ADU checklist still cites 65852.2 and 65852.22.
+- **Irvine got a similar letter.** HCD's January 2025 letter flagged the same stale citations, a 120-day review timeline (state law allows 60, Gov 66317), and deed restrictions on all ADUs.
+- **A possible JADU overreach.** Anaheim's checklist requires an owner-occupancy covenant for **all** JADUs. Current Gov 66333(b) requires owner-occupancy only when the JADU shares sanitation with the main house. That's a **possible conflict to confirm with city staff or counsel**, not a ruling. HCD's letter didn't raise it.
 
 ## Next steps
 
-- **Next month:** a city permit tech runs their own checklist through it before the next form revision. Applicants check their package before they submit.
-- **With one more week:** fill `oc-cities.json` for all 34 OC cities and run the first-ever audit of every OC city's ADU checklist against current law (DATA-SOURCES.md notes nobody has done this). Adding a city is one row in `reference/cities.md`.
+- **Next month:** a homeowner fills in their city's ADU application before their first submittal, and a city permit counter offers Fast Track to walk-in applicants.
+- **With one more week:** write answers onto flat PDFs in their own layout, add Spanish, add more OC cities' forms, and show the checklist audit next to each form ("this form still cites a deleted section").
 
 ## Data and privacy
 
-This project uses only public or provided data. It contains no personal information about real tenants, buyers or residents. Uploads are processed in memory and not stored. It does not file applications or contact any city or person.
+- **The repo holds no personal information.** The sample forms are blank public city documents; the only contacts in them are city department addresses and phone numbers.
+- **Fast Track asks for the details a form needs**, such as a name, an address and project details. Please use made-up details: every page says so.
+- **Those answers are sent to Claude (Anthropic's API) to fill the form, and nothing is stored.** The server keeps nothing between turns; the conversation and the uploaded file live in your browser tab and disappear when you close it.
+- **It never asks for or fills** Social Security, driver's license, ID or bank numbers, or signatures. The server enforces this whatever Claude replies.
+- It doesn't file applications or contact any city or person.
 
 ## License
 
