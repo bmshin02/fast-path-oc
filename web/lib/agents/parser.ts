@@ -13,6 +13,8 @@ const SYSTEM = `You are the parser for Fast Path Check, a prototype that audits 
 
 What to extract:
 - items: every line an applicant has to act on or read, in reading order. That includes numbered steps, checkbox lines, nested sub-checkboxes (e.g. "Title report", "Grant deed" under a covenant step), fee lines, and overview or note paragraphs that cite law or set a rule. Skip page furniture: headers, footers, logos, the office address block, page numbers.
+- Packages that bundle a checklist with blank forms (permit application, fee worksheets, take-off sheets): the checklist lines are items as above. From each attached form, take only lines that state a rule, condition, exemption, fee basis, deadline or legal citation (e.g. "ADU is 749 sq. ft. or less" as a school-fee exemption, a fire-sprinkler question about ADUs, a paragraph citing the municipal code). Never make an item of a blank field label (name, address, phone, "office use only" boxes, fixture code tables, signature lines). If a form is attached but has no such lines, one "document" item naming the form and its form number is enough.
+- Some PDFs have a garbled text layer (runs of symbols like "$$&4403:%8"). When the text and the page image disagree, transcribe what the page image shows.
 - id: "p<page>-<n>", numbering items 1, 2, 3... in reading order on each page, ignoring the document's own numbering (documents often restart at 1 in each section). Ids must be unique.
 - text: the line verbatim, including its bullets and sub-points if they belong to it. Don't summarize, fix typos, or reword. If a line runs onto the next page, keep it as one item on the page where it starts.
 - page: the 1-based PDF page the item starts on.
@@ -21,11 +23,11 @@ What to extract:
 
 Document-level fields:
 - isChecklist: true if this is a city permit checklist, submittal requirements list, application form or similar permit handout. False for anything else (a menu, a lease, a news article, a blank page). If false, return items: [] and fill the other fields as best you can.
-- containsPersonalInfo: true only if the upload contains a private individual's details: a named person with a home address, personal phone or personal email, an APN tied to a named owner, signatures. City office addresses, department emails and phone numbers, and staff job titles are public government contact information, not personal information.
+- containsPersonalInfo: true only if the upload contains a private individual's details: a named person with a home address, personal phone or personal email, an APN tied to a named owner, signatures. City office addresses, department emails and phone numbers, and staff job titles are public government contact information, not personal information. Blank form fields (an empty "APPLICANT NAME" box) are not personal information either; only filled-in details count.
 - city: the city that issued the document. If the document doesn't say, use the city the user gave.
 - projectType: the project the document covers. A combined ADU and JADU checklist is "adu". If it doesn't say, use the project type the user gave.
 - docTitle: the title as printed, plus any form number (e.g. "Accessory Dwelling Unit Submittal Requirements Checklist (Z412)").
-- docDate: the revision or issue date as printed (e.g. "NOV 2025"), or null if there is none. Don't guess one.
+- docDate: the revision or issue date as printed (e.g. "NOV 2025", "REV 10/24"), or null if there is none. Don't guess one. In a package, use the date of the checklist or cover form, not the attached forms.
 - package: null unless an applicant package PDF was also uploaded. If it was, give one entry per checklist item of kind "document" or "requirement": "present" if the package clearly includes it, "missing" if it clearly doesn't, "inconsistent" if it's there but contradicts the checklist (wrong form, expired date), "cant_tell" otherwise. Say why in note, without quoting anyone's personal details.
 
 ${RULES}`;

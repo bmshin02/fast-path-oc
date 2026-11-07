@@ -78,7 +78,11 @@ export const ComplianceResult = z.object({
     .nullable(),
   items: z.array(
     z.object({
-      id: z.string().describe("ParsedItem.id this row audits"),
+      id: z
+        .string()
+        .describe(
+          "ParsedItem.id this row audits. One row per finding: repeat the id when a line has several (e.g. two stale citations + a possible conflict)",
+        ),
       status: ItemStatus,
       newCitation: z.string().nullable(),
       note: z.string(),
