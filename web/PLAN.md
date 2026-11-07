@@ -87,6 +87,16 @@ Today `createSession()` returns the scripted mock (`web/lib/fill/mock/`). Step 5
 
 ---
 
+## How the real version works
+
+- Each turn the browser POSTs the form, the fields so far and the transcript to `/api/fill`. The server keeps nothing; uploads only live in memory for one request.
+- The server sends Claude (`claude-opus-5-5`, effort `medium`) the form as a document block (cached, so later turns re-read it cheaply), then the fields and conversation as text. Claude replies in a fixed JSON format (structured outputs): a message, field updates, the next question, or done.
+- Claude may use web search (up to 3 times a turn) for public facts, and must give a source link.
+- Server-side fallback (`fallbacks: "default"`) re-runs a request on a suitable model if a safety check declines it.
+- The server re-checks every answer: signatures and sensitive numbers (SSN, ID, bank) are never filled, and answers can only go into PDF boxes that really exist.
+- Irvine ADU uses our curated box list. Other fillable PDFs send their box names from the browser so Claude can fill them in place. Word files are converted to text on the server (`mammoth`).
+- Cost: about $0.10 for the first turn (writes the form to the cache), about $0.02-0.04 per turn after; a full form is roughly $0.30-0.50. Each call logs its token use to the server console.
+
 ## Where things live
 
 - Sample PDFs the browser fills: `web/public/forms/<id>.pdf` (copies of `evals/fixtures/`, renamed by form id).
@@ -107,8 +117,8 @@ Each step ends with something to check at http://localhost:3000. Don't start the
   *Check:* the conversation feels right, including the "age → 18" example.
 - [x] **4. Result: summary, preview, download**: the "Done, I filled…" message, the field-by-field preview, and the download button.
   *Check:* the preview matches the answers; the PDF opens and shows them.
-- [ ] **5. Real Claude calls**: replace the mock with `/api/fill` (built with Person A, or by A). Uses `ANTHROPIC_API_KEY` from `web/.env` (copy `web/.env.example`; your own key for testing, Brandon's team key later).
-  *Check:* the Anaheim and Irvine forms each go through end to end.
+- [x] **5. Real Claude calls**: `POST /api/fill` (`web/app/api/fill/route.ts`, built on this branch; Person A to review). Uses `ANTHROPIC_API_KEY` from `web/.env` (copy `web/.env.example`; your own key for testing, Brandon's team key later). Add `?mock=1` to any `/fill` URL to run the scripted demo instead (no API calls).
+  *Checked:* Irvine ADU end to end (fills the real PDF), Irvine hold harmless (Claude finds the boxes itself), a Word upload.
 - [ ] **6. Tests and demo**: add the fill-flow cases to `evals/test-cases.md`, plus loading and error states (upload isn't a form, Claude fails or times out), and a scripted backup run for the demo.
   *Check:* the demo works twice in a row.
 

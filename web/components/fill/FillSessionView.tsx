@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, LoaderCircle } from "lucide-react";
+import { FillError } from "@/lib/fill/real";
 import { createSession, type FillSession } from "@/lib/fill/session";
 import type { FillEvent, FormField, FormSource } from "@/lib/fill/types";
 import { fieldState } from "@/lib/fill/types";
@@ -13,8 +14,8 @@ type Message = { id: number; from: "fast-track" | "you"; text: string };
 // The questions page: a conversation on the left, the form filling in on the
 // right. When the session is done, the result (summary, preview, download)
 // appears below.
-export function FillSessionView({ source }: { source: FormSource }) {
-  const [session] = useState<FillSession>(() => createSession(source));
+export function FillSessionView({ source, mock = false }: { source: FormSource; mock?: boolean }) {
+  const [session] = useState<FillSession>(() => createSession(source, { mock }));
   const [fields, setFields] = useState<FormField[]>(() => session.fields);
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<string | null>(null);
@@ -22,6 +23,7 @@ export function FillSessionView({ source }: { source: FormSource }) {
   const [recentId, setRecentId] = useState<string | null>(null);
   const [done, setDone] = useState<{ summary: string; fields: FormField[] } | null>(null);
   const [draft, setDraft] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const started = useRef(false);
   const nextId = useRef(0);
@@ -46,7 +48,11 @@ export function FillSessionView({ source }: { source: FormSource }) {
         setAsking(true);
         break;
       case "field":
-        setFields((fs) => fs.map((f) => (f.id === ev.field.id ? ev.field : f)));
+        setFields((fs) =>
+          fs.some((f) => f.id === ev.field.id)
+            ? fs.map((f) => (f.id === ev.field.id ? ev.field : f))
+            : [...fs, ev.field],
+        );
         setRecentId(ev.field.id);
         break;
       case "done":
@@ -61,13 +67,17 @@ export function FillSessionView({ source }: { source: FormSource }) {
 
   async function consume(events: AsyncGenerator<FillEvent>) {
     setAsking(false);
+    setError(null);
     try {
       for await (const ev of events) handle(ev);
     } catch (err) {
       console.error(err);
       setStatus(null);
-      say("fast-track", "Sorry, something went wrong on my side. Please try your answer again.");
-      setAsking(true);
+      setError(
+        err instanceof FillError
+          ? err.message
+          : "Something went wrong on our side. Please try again.",
+      );
     }
   }
 
@@ -109,8 +119,9 @@ export function FillSessionView({ source }: { source: FormSource }) {
   return (
     <div>
       <p className="mb-4 rounded-2xl bg-mist px-5 py-2.5 text-base leading-7 text-secondary">
-        Demo version: the questions are scripted for now. Soon Fast Track will
-        read your actual form and look things up for real.
+        {mock
+          ? "Demo mode: these questions are scripted, so nothing is really read or looked up."
+          : "Fast Track uses AI and can make mistakes. Please check every answer before you sign."}
       </p>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
@@ -138,6 +149,18 @@ export function FillSessionView({ source }: { source: FormSource }) {
                   {m.text}
                 </p>
               ),
+            )}
+            {error && (
+              <div role="alert" className="rounded-2xl bg-peach px-5 py-4 text-sienna">
+                <p className="text-lg leading-7">{error}</p>
+                <button
+                  type="button"
+                  onClick={() => void consume(session.retry())}
+                  className="mt-3 inline-flex h-12 items-center rounded-full bg-sienna px-6 text-lg font-medium text-peach transition-colors duration-150 hover:bg-[#4a2114] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sienna"
+                >
+                  Try again
+                </button>
+              </div>
             )}
             {status && (
               <p className="flex items-center gap-3 px-1 text-lg text-secondary">

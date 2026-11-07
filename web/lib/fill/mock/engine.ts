@@ -4,7 +4,7 @@
 
 import type { FillSession } from "../session";
 import type { FillEvent, FormField, FormSource } from "../types";
-import { fieldState } from "../types";
+import { summarizeFields } from "../summary";
 import { genericScript } from "./generic";
 import { irvineAduScript } from "./irvine-adu";
 
@@ -93,24 +93,7 @@ export function createMockSession(source: FormSource): FillSession {
 
     if (script.finish) yield* run(script.finish(ctx));
     const all = [...fields.values()].map((f) => ({ ...f }));
-    const filled = all.filter((f) => fieldState(f) === "filled").length;
-    const needsYou = all.filter((f) => fieldState(f) === "needs-you");
-    const empty = all.filter((f) => fieldState(f) === "empty");
-    const emptyText = empty.length
-      ? ` I left ${empty.length === 1 ? "one box" : `${empty.length} boxes`} empty: ${empty
-          .map((f) => f.label.toLowerCase())
-          .join(", ")}.`
-      : "";
-    const needText = needsYou.length
-      ? ` ${needsYou.length === 1 ? "One needs" : `${needsYou.length} need`} you: ${needsYou
-          .map((f) => f.label.toLowerCase())
-          .join(" and ")}.`
-      : "";
-    yield {
-      type: "done",
-      summary: `Done, I filled ${filled} of ${all.length} fields.${needText}${emptyText} Please check the preview below, then download your form.`,
-      fields: all,
-    };
+    yield { type: "done", summary: summarizeFields(all), fields: all };
   }
 
   return {
@@ -122,6 +105,9 @@ export function createMockSession(source: FormSource): FillSession {
       await sleep(1200);
       yield { type: "message", text: script.intro };
       yield* next();
+    },
+    async *retry() {
+      // The mock never fails, so there is nothing to retry.
     },
     async *answer(text) {
       const step = script.steps[index];

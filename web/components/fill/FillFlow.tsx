@@ -21,6 +21,7 @@ export function FillFlow() {
   );
 
   const formId = params.get("form");
+  const mock = params.get("mock") === "1"; // ?mock=1: scripted demo, no API calls
   const sample = sampleForms.find((f) => f.id === formId);
   // Keep the same object between renders so the session and PDF aren't rebuilt.
   const source = useMemo<FormSource | null>(
@@ -44,11 +45,12 @@ export function FillFlow() {
 
   return (
     <SelectedForm
+      mock={mock}
       key={source.kind === "sample" ? source.form.id : `${source.file.name}-${source.file.lastModified}`}
       source={source}
       onChange={() => {
         setUpload(null);
-        router.push("/fill");
+        router.push(mock ? "/fill?mock=1" : "/fill");
       }}
     />
   );
@@ -56,9 +58,11 @@ export function FillFlow() {
 
 function SelectedForm({
   source,
+  mock,
   onChange,
 }: {
   source: FormSource;
+  mock: boolean;
   onChange: () => void;
 }) {
   const title =
@@ -89,7 +93,7 @@ function SelectedForm({
       </div>
 
       <div className="mt-5">
-        <FillSessionView source={source} />
+        <FillSessionView source={source} mock={mock} />
       </div>
     </div>
   );

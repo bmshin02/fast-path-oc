@@ -57,6 +57,16 @@ export function FieldList({
                 {finished ? "Left empty" : "Not filled yet"}
               </p>
             )}
+            {state === "filled" && f.source === "research" && f.sourceUrl && (
+              <a
+                href={f.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block text-[15px] leading-6 text-secondary underline underline-offset-4 hover:text-foreground"
+              >
+                Source{f.checkedOn ? `, checked ${f.checkedOn}` : ""}
+              </a>
+            )}
             {f.note && (state !== "empty" || finished) && (
               <p
                 className={`mt-1 text-[15px] leading-6 ${

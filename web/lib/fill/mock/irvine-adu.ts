@@ -9,8 +9,9 @@ import { firstNumber, phoneDigits, splitAddress, withZip, yesNo } from "./engine
 
 const field = (f: Omit<FormField, "value">): FormField => ({ ...f, value: null });
 
-export function irvineAduScript(): Script {
-  const fields: FormField[] = [
+/** The boxes we fill on the Irvine Building Permit Application (page 2). */
+export function irvineAduFields(): FormField[] {
+  return [
     field({ id: "project-address", label: "Project address", type: "text", pdfField: "PROJECT ADDRESS_BPA" }),
     field({ id: "permit-residential", label: "Permit type: residential building", type: "checkbox", pdfField: "RESIDENTAL BUILDING_BPA" }),
     field({ id: "applicant-name", label: "Applicant name", type: "text", pdfField: "APPLICANT/COMPANY_BPA" }),
@@ -49,7 +50,10 @@ export function irvineAduScript(): Script {
     field({ id: "signature", label: "Applicant signature", type: "signature", pdfField: "APPLICANT_SIG_BPA", note: "Sign by hand after you print the form" }),
     field({ id: "date", label: "Date", type: "date", pdfField: "DATE__BPA", note: "Write the date when you sign" }),
   ];
+}
 
+export function irvineAduScript(): Script {
+  const fields = irvineAduFields();
   const isOwner = (ctx: Ctx) => yesNo(ctx.answers.owner ?? "") === true;
 
   return {
