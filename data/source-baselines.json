@@ -1,0 +1,76 @@
+{
+  "checkedOn": "2026-11-07",
+  "observations": {
+    "hcd-adu-handbook": {
+      "id": "hcd-adu-handbook",
+      "status": 200,
+      "sha256": "ec499e12c08974d8e25af352539b23afc8c26bc7dd200453bd35796de3188e6a"
+    },
+    "hcd-fact-sheets": {
+      "id": "hcd-fact-sheets",
+      "status": 200,
+      "sha256": "a5d137b98d6ce45ee59a9ccd7ab6777b9bfe2dd3ebf6f0785b471b57eed3429d"
+    },
+    "hcd-sb9-fact-sheet": {
+      "id": "hcd-sb9-fact-sheet",
+      "status": 200,
+      "sha256": "83fc411eaf75a41b4160bbafb42dc431a013956470ea5806470985e77e4f22ea"
+    },
+    "hcd-sb35-guidelines": {
+      "id": "hcd-sb35-guidelines",
+      "status": 200,
+      "sha256": "e4cdb8dd724b41c7ab2469b72f887a8846db1f8d86c50fa363bc24c8f1559485"
+    },
+    "hcd-ab2011-draft": {
+      "id": "hcd-ab2011-draft",
+      "status": 200,
+      "sha256": "33cc9ba399b16b41c7f28690892ada1928f82fb1eaa060f0bd49e7b9b50184dc"
+    },
+    "hcd-letter-anaheim-2025": {
+      "id": "hcd-letter-anaheim-2025",
+      "status": 200,
+      "sha256": "d2e30b55259fe5584549083ca703ad7311ac050c8d05d323d1ce2dc2b2f51a52"
+    },
+    "hcd-letter-irvine-2025": {
+      "id": "hcd-letter-irvine-2025",
+      "status": 200,
+      "sha256": "80d2f9e537fac8cd0b8a8fb0a159699dd9d0b45cb556adbab4b87115e87ef1ee"
+    },
+    "irvine-adu-application": {
+      "id": "irvine-adu-application",
+      "status": 200,
+      "sha256": "ecb275abb26658d393a1230ba075f17f571d99f95c79e7d9213f9c8247a2d43b"
+    },
+    "irvine-dev-standards": {
+      "id": "irvine-dev-standards",
+      "status": 200,
+      "sha256": "06547ace1ce91116868c4cbd297883129d48d17889d0be053ddb2bd3a5a627e5"
+    },
+    "irvine-hold-harmless": {
+      "id": "irvine-hold-harmless",
+      "status": 200,
+      "sha256": "98cfd0ff29163e4192bace84884406d625b9b04cf8caa9046508e7d0f91e997c"
+    },
+    "irvine-adu-page": {
+      "id": "irvine-adu-page",
+      "status": 200
+    },
+    "hcd-smap-dashboard": {
+      "id": "hcd-smap-dashboard",
+      "status": 200
+    },
+    "anaheim-adu-checklist": {
+      "id": "anaheim-adu-checklist",
+      "status": 403
+    },
+    "leginfo-66317": {
+      "id": "leginfo-66317",
+      "status": 403
+    },
+    "apr-dataset": {
+      "id": "apr-dataset",
+      "status": 200,
+      "lastModified": "2026-11-06T16:52:31.920450"
+    }
+  }
+}

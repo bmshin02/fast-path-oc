@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, ".."),
   outputFileTracingIncludes: {
     "/api/check": ["../fast-path-check/SKILL.md", "../fast-path-check/reference/**/*.md"],
+    // /api/tools/oc reads the Orange County scorecard and HCD letter data at request time.
+    "/api/tools/oc": ["../data/oc-adu-scorecard.json", "../data/oc-hcd-letters.json"],
   },
   cacheComponents: true,
   partialPrefetching: true,

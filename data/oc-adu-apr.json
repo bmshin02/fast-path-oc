@@ -1,0 +1,1338 @@
+{
+  "source": {
+    "dataset": "https://data.ca.gov/dataset/housing-element-annual-progress-report-apr-data-by-jurisdiction-and-year",
+    "resource": "fe505d9b-8c36-42ba-ba30-08bc4f34e022",
+    "filter": {
+      "CNTY_NAME": "Orange",
+      "UNIT_CAT": "ADU"
+    }
+  },
+  "fetchedOn": "2026-11-07",
+  "method": "Rows merged per project (city + tracking id, else APN, else address), keeping the earliest date per milestone. Durations over 10 years or negative are dropped. Units are summed per reporting year as reported.",
+  "caveats": [
+    "As reported by each city; reporting quality varies (e.g. Irvine reports very few ADU rows).",
+    "Permit-to-CO time includes construction, so it is not the city's review time.",
+    "ADUs are ministerial, so most rows have no entitlement date; entitlement-to-permit stats cover few projects.",
+    "No plan-check correction cycles or application-submitted dates are in Table A2."
+  ],
+  "cities": [
+    {
+      "city": "ALISO VIEJO",
+      "rows": 5,
+      "projects": 3,
+      "permitUnitsByYear": {
+        "2024": 1,
+        "2025": 2
+      },
+      "coUnitsByYear": {
+        "2024": 0,
+        "2025": 1
+      },
+      "permitUnitsTotal": 3,
+      "coUnitsTotal": 1,
+      "permitToCo": {
+        "n": 1,
+        "median": 379,
+        "p25": 379,
+        "p75": 379
+      },
+      "entitlementToPermit": {
+        "n": 3,
+        "median": 103,
+        "p25": 0,
+        "p75": 420
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "ANAHEIM",
+      "rows": 1871,
+      "projects": 1280,
+      "permitUnitsByYear": {
+        "2018": 8,
+        "2019": 37,
+        "2020": 108,
+        "2021": 157,
+        "2022": 337,
+        "2023": 349,
+        "2024": 429,
+        "2025": 441
+      },
+      "coUnitsByYear": {
+        "2018": 9,
+        "2019": 10,
+        "2020": 41,
+        "2021": 20,
+        "2022": 144,
+        "2023": 150,
+        "2024": 232,
+        "2025": 244
+      },
+      "permitUnitsTotal": 1866,
+      "coUnitsTotal": 850,
+      "permitToCo": {
+        "n": 806,
+        "median": 278,
+        "p25": 190,
+        "p75": 405
+      },
+      "entitlementToPermit": {
+        "n": 1265,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "BREA",
+      "rows": 121,
+      "projects": 100,
+      "permitUnitsByYear": {
+        "2018": 8,
+        "2019": 10,
+        "2020": 9,
+        "2021": 7,
+        "2022": 20,
+        "2023": 15,
+        "2024": 16,
+        "2025": 27
+      },
+      "coUnitsByYear": {
+        "2018": 1,
+        "2019": 0,
+        "2020": 3,
+        "2021": 0,
+        "2022": 5,
+        "2023": 19,
+        "2024": 8,
+        "2025": 8
+      },
+      "permitUnitsTotal": 112,
+      "coUnitsTotal": 44,
+      "permitToCo": {
+        "n": 44,
+        "median": 251,
+        "p25": 168,
+        "p75": 353
+      },
+      "entitlementToPermit": {
+        "n": 7,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "BUENA PARK",
+      "rows": 594,
+      "projects": 275,
+      "permitUnitsByYear": {
+        "2018": 1,
+        "2019": 5,
+        "2020": 1,
+        "2021": 17,
+        "2022": 18,
+        "2023": 50,
+        "2024": 79,
+        "2025": 179
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 3,
+        "2020": 1,
+        "2021": 17,
+        "2022": 0,
+        "2023": 32,
+        "2024": 73,
+        "2025": 166
+      },
+      "permitUnitsTotal": 350,
+      "coUnitsTotal": 292,
+      "permitToCo": {
+        "n": 119,
+        "median": 239,
+        "p25": 155,
+        "p75": 337
+      },
+      "entitlementToPermit": {
+        "n": 122,
+        "median": 232,
+        "p25": 120,
+        "p75": 350
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "COSTA MESA",
+      "rows": 569,
+      "projects": 399,
+      "permitUnitsByYear": {
+        "2018": 4,
+        "2019": 6,
+        "2020": 19,
+        "2021": 43,
+        "2022": 69,
+        "2023": 98,
+        "2024": 92,
+        "2025": 89
+      },
+      "coUnitsByYear": {
+        "2018": 2,
+        "2019": 5,
+        "2020": 7,
+        "2021": 9,
+        "2022": 14,
+        "2023": 28,
+        "2024": 66,
+        "2025": 73
+      },
+      "permitUnitsTotal": 420,
+      "coUnitsTotal": 204,
+      "permitToCo": {
+        "n": 148,
+        "median": 316,
+        "p25": 206,
+        "p75": 470
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "CYPRESS",
+      "rows": 117,
+      "projects": 93,
+      "permitUnitsByYear": {
+        "2018": 5,
+        "2019": 4,
+        "2020": 3,
+        "2021": 12,
+        "2022": 19,
+        "2023": 15,
+        "2024": 7,
+        "2025": 20
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 4,
+        "2020": 1,
+        "2021": 5,
+        "2022": 9,
+        "2023": 6,
+        "2024": 7,
+        "2025": 15
+      },
+      "permitUnitsTotal": 85,
+      "coUnitsTotal": 47,
+      "permitToCo": {
+        "n": 37,
+        "median": 252,
+        "p25": 147,
+        "p75": 442
+      },
+      "entitlementToPermit": {
+        "n": 55,
+        "median": 83,
+        "p25": 49,
+        "p75": 176
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "DANA POINT",
+      "rows": 126,
+      "projects": 96,
+      "permitUnitsByYear": {
+        "2018": 5,
+        "2019": 9,
+        "2020": 10,
+        "2021": 16,
+        "2022": 3,
+        "2023": 6,
+        "2024": 4,
+        "2025": 13
+      },
+      "coUnitsByYear": {
+        "2018": 3,
+        "2019": 2,
+        "2020": 6,
+        "2021": 10,
+        "2022": 11,
+        "2023": 4,
+        "2024": 4,
+        "2025": 4
+      },
+      "permitUnitsTotal": 66,
+      "coUnitsTotal": 44,
+      "permitToCo": {
+        "n": 41,
+        "median": 388,
+        "p25": 231,
+        "p75": 506
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "FOUNTAIN VALLEY",
+      "rows": 597,
+      "projects": 422,
+      "permitUnitsByYear": {
+        "2018": 13,
+        "2019": 23,
+        "2020": 38,
+        "2021": 45,
+        "2022": 58,
+        "2023": 85,
+        "2024": 89,
+        "2025": 65
+      },
+      "coUnitsByYear": {
+        "2018": 12,
+        "2019": 14,
+        "2020": 29,
+        "2021": 29,
+        "2022": 31,
+        "2023": 66,
+        "2024": 47,
+        "2025": 59
+      },
+      "permitUnitsTotal": 416,
+      "coUnitsTotal": 287,
+      "permitToCo": {
+        "n": 249,
+        "median": 227,
+        "p25": 152,
+        "p75": 336
+      },
+      "entitlementToPermit": {
+        "n": 21,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "FULLERTON",
+      "rows": 2061,
+      "projects": 516,
+      "permitUnitsByYear": {
+        "2018": 18,
+        "2019": 37,
+        "2020": 65,
+        "2021": 416,
+        "2022": 461,
+        "2023": 285,
+        "2024": 420,
+        "2025": 589
+      },
+      "coUnitsByYear": {
+        "2018": 7,
+        "2019": 20,
+        "2020": 22,
+        "2021": 166,
+        "2022": 211,
+        "2023": 71,
+        "2024": 255,
+        "2025": 302
+      },
+      "permitUnitsTotal": 2291,
+      "coUnitsTotal": 1054,
+      "permitToCo": {
+        "n": 287,
+        "median": 316,
+        "p25": 224,
+        "p75": 546
+      },
+      "entitlementToPermit": {
+        "n": 473,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "GARDEN GROVE",
+      "rows": 3419,
+      "projects": 2578,
+      "permitUnitsByYear": {
+        "2018": 82,
+        "2019": 96,
+        "2020": 379,
+        "2021": 407,
+        "2022": 374,
+        "2023": 405,
+        "2024": 426,
+        "2025": 434
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 51,
+        "2020": 215,
+        "2021": 201,
+        "2022": 71,
+        "2023": 363,
+        "2024": 267,
+        "2025": 365
+      },
+      "permitUnitsTotal": 2603,
+      "coUnitsTotal": 1533,
+      "permitToCo": {
+        "n": 1415,
+        "median": 273,
+        "p25": 183,
+        "p75": 417
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "HUNTINGTON BEACH",
+      "rows": 496,
+      "projects": 459,
+      "permitUnitsByYear": {
+        "2019": 28,
+        "2020": 31,
+        "2021": 60,
+        "2022": 91,
+        "2023": 84,
+        "2024": 115,
+        "2025": 87
+      },
+      "coUnitsByYear": {
+        "2019": 0,
+        "2020": 0,
+        "2021": 0,
+        "2022": 0,
+        "2023": 0,
+        "2024": 0,
+        "2025": 0
+      },
+      "permitUnitsTotal": 496,
+      "coUnitsTotal": 0,
+      "permitToCo": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "IRVINE",
+      "rows": 42,
+      "projects": 36,
+      "permitUnitsByYear": {
+        "2018": 1,
+        "2021": 1,
+        "2022": 5,
+        "2023": 0,
+        "2025": 8
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2021": 6,
+        "2022": 1,
+        "2023": 7,
+        "2025": 28
+      },
+      "permitUnitsTotal": 15,
+      "coUnitsTotal": 42,
+      "permitToCo": {
+        "n": 6,
+        "median": 483,
+        "p25": 375,
+        "p75": 595
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LA HABRA",
+      "rows": 394,
+      "projects": 202,
+      "permitUnitsByYear": {
+        "2018": 5,
+        "2019": 5,
+        "2020": 31,
+        "2021": 42,
+        "2022": 46,
+        "2023": 85,
+        "2024": 129,
+        "2025": 29
+      },
+      "coUnitsByYear": {
+        "2018": 1,
+        "2019": 5,
+        "2020": 15,
+        "2021": 26,
+        "2022": 28,
+        "2023": 49,
+        "2024": 67,
+        "2025": 10
+      },
+      "permitUnitsTotal": 372,
+      "coUnitsTotal": 201,
+      "permitToCo": {
+        "n": 100,
+        "median": 210,
+        "p25": 140,
+        "p75": 373
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LA PALMA",
+      "rows": 24,
+      "projects": 21,
+      "permitUnitsByYear": {
+        "2019": 1,
+        "2020": 1,
+        "2021": 2,
+        "2022": 4,
+        "2023": 3,
+        "2024": 6,
+        "2025": 4
+      },
+      "coUnitsByYear": {
+        "2019": 0,
+        "2020": 0,
+        "2021": 0,
+        "2022": 0,
+        "2023": 2,
+        "2024": 1,
+        "2025": 2
+      },
+      "permitUnitsTotal": 21,
+      "coUnitsTotal": 5,
+      "permitToCo": {
+        "n": 7,
+        "median": 192,
+        "p25": 176,
+        "p75": 305
+      },
+      "entitlementToPermit": {
+        "n": 8,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LAGUNA BEACH",
+      "rows": 648,
+      "projects": 518,
+      "permitUnitsByYear": {
+        "2018": 4,
+        "2019": 8,
+        "2020": 12,
+        "2021": 7,
+        "2022": 78,
+        "2023": 134,
+        "2024": 147,
+        "2025": 66
+      },
+      "coUnitsByYear": {
+        "2018": 9,
+        "2019": 4,
+        "2020": 5,
+        "2021": 18,
+        "2022": 27,
+        "2023": 39,
+        "2024": 62,
+        "2025": 50
+      },
+      "permitUnitsTotal": 456,
+      "coUnitsTotal": 214,
+      "permitToCo": {
+        "n": 178,
+        "median": 336,
+        "p25": 182,
+        "p75": 506
+      },
+      "entitlementToPermit": {
+        "n": 100,
+        "median": 160,
+        "p25": 75,
+        "p75": 283
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LAGUNA HILLS",
+      "rows": 40,
+      "projects": 37,
+      "permitUnitsByYear": {
+        "2019": 2,
+        "2020": 3,
+        "2021": 2,
+        "2022": 0,
+        "2024": 5,
+        "2025": 15
+      },
+      "coUnitsByYear": {
+        "2019": 2,
+        "2020": 2,
+        "2021": 1,
+        "2022": 3,
+        "2024": 5,
+        "2025": 7
+      },
+      "permitUnitsTotal": 27,
+      "coUnitsTotal": 20,
+      "permitToCo": {
+        "n": 8,
+        "median": 191,
+        "p25": 100,
+        "p75": 268
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LAGUNA NIGUEL",
+      "rows": 80,
+      "projects": 63,
+      "permitUnitsByYear": {
+        "2018": 0,
+        "2019": 3,
+        "2020": 3,
+        "2021": 10,
+        "2022": 10,
+        "2023": 10,
+        "2024": 6,
+        "2025": 14
+      },
+      "coUnitsByYear": {
+        "2018": 2,
+        "2019": 1,
+        "2020": 3,
+        "2021": 3,
+        "2022": 6,
+        "2023": 2,
+        "2024": 8,
+        "2025": 6
+      },
+      "permitUnitsTotal": 56,
+      "coUnitsTotal": 31,
+      "permitToCo": {
+        "n": 25,
+        "median": 294,
+        "p25": 190,
+        "p75": 357
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LAKE FOREST",
+      "rows": 126,
+      "projects": 96,
+      "permitUnitsByYear": {
+        "2018": 1,
+        "2019": 1,
+        "2020": 4,
+        "2021": 14,
+        "2022": 13,
+        "2023": 13,
+        "2024": 14,
+        "2025": 28
+      },
+      "coUnitsByYear": {
+        "2018": 1,
+        "2019": 2,
+        "2020": 4,
+        "2021": 7,
+        "2022": 11,
+        "2023": 9,
+        "2024": 10,
+        "2025": 17
+      },
+      "permitUnitsTotal": 88,
+      "coUnitsTotal": 61,
+      "permitToCo": {
+        "n": 52,
+        "median": 284,
+        "p25": 181,
+        "p75": 392
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "LOS ALAMITOS",
+      "rows": 40,
+      "projects": 34,
+      "permitUnitsByYear": {
+        "2020": 0,
+        "2021": 3,
+        "2022": 2,
+        "2023": 0,
+        "2024": 9,
+        "2025": 7
+      },
+      "coUnitsByYear": {
+        "2020": 1,
+        "2021": 3,
+        "2022": 2,
+        "2023": 0,
+        "2024": 7,
+        "2025": 12
+      },
+      "permitUnitsTotal": 21,
+      "coUnitsTotal": 25,
+      "permitToCo": {
+        "n": 12,
+        "median": 303,
+        "p25": 231,
+        "p75": 363
+      },
+      "entitlementToPermit": {
+        "n": 2,
+        "median": 55,
+        "p25": 45,
+        "p75": 65
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "MISSION VIEJO",
+      "rows": 168,
+      "projects": 109,
+      "permitUnitsByYear": {
+        "2020": 3,
+        "2021": 14,
+        "2022": 21,
+        "2023": 24,
+        "2024": 53,
+        "2025": 35
+      },
+      "coUnitsByYear": {
+        "2020": 2,
+        "2021": 2,
+        "2022": 7,
+        "2023": 11,
+        "2024": 22,
+        "2025": 17
+      },
+      "permitUnitsTotal": 150,
+      "coUnitsTotal": 61,
+      "permitToCo": {
+        "n": 41,
+        "median": 248,
+        "p25": 164,
+        "p75": 416
+      },
+      "entitlementToPermit": {
+        "n": 12,
+        "median": 129,
+        "p25": 0,
+        "p75": 147
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "NEWPORT BEACH",
+      "rows": 347,
+      "projects": 247,
+      "permitUnitsByYear": {
+        "2018": 3,
+        "2019": 5,
+        "2020": 8,
+        "2021": 45,
+        "2022": 35,
+        "2023": 43,
+        "2024": 54,
+        "2025": 57
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 1,
+        "2020": 3,
+        "2021": 9,
+        "2022": 30,
+        "2023": 56,
+        "2024": 28,
+        "2025": 57
+      },
+      "permitUnitsTotal": 250,
+      "coUnitsTotal": 184,
+      "permitToCo": {
+        "n": 104,
+        "median": 345,
+        "p25": 219,
+        "p75": 603
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "ORANGE",
+      "rows": 899,
+      "projects": 761,
+      "permitUnitsByYear": {
+        "2018": 10,
+        "2019": 10,
+        "2020": 39,
+        "2021": 56,
+        "2022": 83,
+        "2023": 69,
+        "2024": 104,
+        "2025": 88
+      },
+      "coUnitsByYear": {
+        "2018": 7,
+        "2019": 12,
+        "2020": 10,
+        "2021": 44,
+        "2022": 54,
+        "2023": 54,
+        "2024": 74,
+        "2025": 64
+      },
+      "permitUnitsTotal": 459,
+      "coUnitsTotal": 319,
+      "permitToCo": {
+        "n": 200,
+        "median": 236,
+        "p25": 174,
+        "p75": 338
+      },
+      "entitlementToPermit": {
+        "n": 168,
+        "median": 101,
+        "p25": 27,
+        "p75": 159
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "ORANGE COUNTY",
+      "rows": 636,
+      "projects": 451,
+      "permitUnitsByYear": {
+        "2018": 17,
+        "2019": 18,
+        "2020": 53,
+        "2021": 0,
+        "2022": 52,
+        "2023": 69,
+        "2024": 62,
+        "2025": 101
+      },
+      "coUnitsByYear": {
+        "2018": 5,
+        "2019": 13,
+        "2020": 34,
+        "2021": 31,
+        "2022": 38,
+        "2023": 31,
+        "2024": 72,
+        "2025": 56
+      },
+      "permitUnitsTotal": 372,
+      "coUnitsTotal": 280,
+      "permitToCo": {
+        "n": 189,
+        "median": 314,
+        "p25": 215,
+        "p75": 462
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "PLACENTIA",
+      "rows": 209,
+      "projects": 112,
+      "permitUnitsByYear": {
+        "2018": 2,
+        "2019": 5,
+        "2020": 8,
+        "2021": 10,
+        "2022": 17,
+        "2023": 30,
+        "2024": 32,
+        "2025": 30
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 2,
+        "2020": 3,
+        "2021": 7,
+        "2022": 5,
+        "2023": 18,
+        "2024": 10,
+        "2025": 16
+      },
+      "permitUnitsTotal": 134,
+      "coUnitsTotal": 61,
+      "permitToCo": {
+        "n": 57,
+        "median": 251,
+        "p25": 184,
+        "p75": 358
+      },
+      "entitlementToPermit": {
+        "n": 81,
+        "median": 120,
+        "p25": 64,
+        "p75": 218
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "RANCHO SANTA MARGARITA",
+      "rows": 13,
+      "projects": 9,
+      "permitUnitsByYear": {
+        "2019": 1,
+        "2020": 1,
+        "2021": 1,
+        "2022": 1,
+        "2023": 1,
+        "2024": 2,
+        "2025": 6
+      },
+      "coUnitsByYear": {
+        "2019": 0,
+        "2020": 0,
+        "2021": 0,
+        "2022": 1,
+        "2023": 1,
+        "2024": 2,
+        "2025": 2
+      },
+      "permitUnitsTotal": 13,
+      "coUnitsTotal": 6,
+      "permitToCo": {
+        "n": 4,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "entitlementToPermit": {
+        "n": 9,
+        "median": 0,
+        "p25": 0,
+        "p75": 1
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "SAN CLEMENTE",
+      "rows": 314,
+      "projects": 231,
+      "permitUnitsByYear": {
+        "2018": 13,
+        "2019": 13,
+        "2020": 14,
+        "2021": 17,
+        "2022": 28,
+        "2023": 25,
+        "2024": 36,
+        "2025": 37
+      },
+      "coUnitsByYear": {
+        "2018": 2,
+        "2019": 12,
+        "2020": 11,
+        "2021": 12,
+        "2022": 16,
+        "2023": 20,
+        "2024": 23,
+        "2025": 33
+      },
+      "permitUnitsTotal": 183,
+      "coUnitsTotal": 129,
+      "permitToCo": {
+        "n": 124,
+        "median": 271,
+        "p25": 179,
+        "p75": 434
+      },
+      "entitlementToPermit": {
+        "n": 13,
+        "median": 36,
+        "p25": 0,
+        "p75": 138
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "SAN JUAN CAPISTRANO",
+      "rows": 96,
+      "projects": 65,
+      "permitUnitsByYear": {
+        "2018": 2,
+        "2019": 1,
+        "2020": 5,
+        "2021": 11,
+        "2022": 11,
+        "2023": 61,
+        "2024": 12,
+        "2025": 14
+      },
+      "coUnitsByYear": {
+        "2018": 1,
+        "2019": 1,
+        "2020": 1,
+        "2021": 11,
+        "2022": 7,
+        "2023": 8,
+        "2024": 5,
+        "2025": 16
+      },
+      "permitUnitsTotal": 117,
+      "coUnitsTotal": 50,
+      "permitToCo": {
+        "n": 40,
+        "median": 319,
+        "p25": 233,
+        "p75": 400
+      },
+      "entitlementToPermit": {
+        "n": 18,
+        "median": 398,
+        "p25": 123,
+        "p75": 499
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "SANTA ANA",
+      "rows": 1625,
+      "projects": 1140,
+      "permitUnitsByYear": {
+        "2018": 47,
+        "2019": 57,
+        "2020": 64,
+        "2021": 133,
+        "2022": 170,
+        "2023": 199,
+        "2024": 196,
+        "2025": 258
+      },
+      "coUnitsByYear": {
+        "2018": 8,
+        "2019": 34,
+        "2020": 42,
+        "2021": 68,
+        "2022": 102,
+        "2023": 123,
+        "2024": 157,
+        "2025": 172
+      },
+      "permitUnitsTotal": 1124,
+      "coUnitsTotal": 706,
+      "permitToCo": {
+        "n": 682,
+        "median": 287,
+        "p25": 189,
+        "p75": 419
+      },
+      "entitlementToPermit": {
+        "n": 68,
+        "median": 24,
+        "p25": 11,
+        "p75": 41
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "SEAL BEACH",
+      "rows": 21,
+      "projects": 20,
+      "permitUnitsByYear": {
+        "2019": 1,
+        "2020": 2,
+        "2022": 1,
+        "2023": 2,
+        "2024": 2,
+        "2025": 8
+      },
+      "coUnitsByYear": {
+        "2019": 0,
+        "2020": 1,
+        "2022": 1,
+        "2023": 3,
+        "2024": 2,
+        "2025": 5
+      },
+      "permitUnitsTotal": 16,
+      "coUnitsTotal": 12,
+      "permitToCo": {
+        "n": 7,
+        "median": 407,
+        "p25": 176,
+        "p75": 610
+      },
+      "entitlementToPermit": {
+        "n": 3,
+        "median": 0,
+        "p25": 0,
+        "p75": 37
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "STANTON",
+      "rows": 284,
+      "projects": 204,
+      "permitUnitsByYear": {
+        "2018": 12,
+        "2019": 11,
+        "2020": 19,
+        "2021": 36,
+        "2022": 32,
+        "2023": 24,
+        "2024": 17,
+        "2025": 35
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 3,
+        "2020": 2,
+        "2021": 23,
+        "2022": 26,
+        "2023": 18,
+        "2024": 21,
+        "2025": 27
+      },
+      "permitUnitsTotal": 186,
+      "coUnitsTotal": 120,
+      "permitToCo": {
+        "n": 100,
+        "median": 275,
+        "p25": 183,
+        "p75": 401
+      },
+      "entitlementToPermit": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "TUSTIN",
+      "rows": 119,
+      "projects": 77,
+      "permitUnitsByYear": {
+        "2018": 4,
+        "2019": 6,
+        "2020": 11,
+        "2021": 12,
+        "2022": 14,
+        "2023": 6,
+        "2024": 20,
+        "2025": 34
+      },
+      "coUnitsByYear": {
+        "2018": 3,
+        "2019": 2,
+        "2020": 9,
+        "2021": 6,
+        "2022": 4,
+        "2023": 8,
+        "2024": 4,
+        "2025": 15
+      },
+      "permitUnitsTotal": 107,
+      "coUnitsTotal": 51,
+      "permitToCo": {
+        "n": 46,
+        "median": 221,
+        "p25": 154,
+        "p75": 307
+      },
+      "entitlementToPermit": {
+        "n": 27,
+        "median": 6,
+        "p25": 0,
+        "p75": 18
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "VILLA PARK",
+      "rows": 41,
+      "projects": 41,
+      "permitUnitsByYear": {
+        "2018": 3,
+        "2019": 2,
+        "2020": 12,
+        "2021": 18,
+        "2023": 0,
+        "2024": 3,
+        "2025": 2
+      },
+      "coUnitsByYear": {
+        "2018": 0,
+        "2019": 0,
+        "2020": 0,
+        "2021": 0,
+        "2023": 1,
+        "2024": 3,
+        "2025": 0
+      },
+      "permitUnitsTotal": 40,
+      "coUnitsTotal": 4,
+      "permitToCo": {
+        "n": 3,
+        "median": 273,
+        "p25": 126,
+        "p75": 278
+      },
+      "entitlementToPermit": {
+        "n": 21,
+        "median": 0,
+        "p25": 0,
+        "p75": 0
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "WESTMINSTER",
+      "rows": 2305,
+      "projects": 1640,
+      "permitUnitsByYear": {
+        "2018": 23,
+        "2019": 26,
+        "2020": 57,
+        "2021": 118,
+        "2022": 177,
+        "2023": 189,
+        "2024": 209,
+        "2025": 215
+      },
+      "coUnitsByYear": {
+        "2018": 18,
+        "2019": 9,
+        "2020": 55,
+        "2021": 38,
+        "2022": 115,
+        "2023": 151,
+        "2024": 162,
+        "2025": 193
+      },
+      "permitUnitsTotal": 1014,
+      "coUnitsTotal": 741,
+      "permitToCo": {
+        "n": 601,
+        "median": 211,
+        "p25": 150,
+        "p75": 286
+      },
+      "entitlementToPermit": {
+        "n": 86,
+        "median": 106,
+        "p25": 75,
+        "p75": 148
+      },
+      "latestYear": 2025
+    },
+    {
+      "city": "YORBA LINDA",
+      "rows": 361,
+      "projects": 315,
+      "permitUnitsByYear": {
+        "2018": 6,
+        "2019": 4,
+        "2020": 6,
+        "2021": 30,
+        "2022": 32,
+        "2023": 20,
+        "2024": 22,
+        "2025": 34
+      },
+      "coUnitsByYear": {
+        "2018": 4,
+        "2019": 3,
+        "2020": 1,
+        "2021": 8,
+        "2022": 13,
+        "2023": 16,
+        "2024": 18,
+        "2025": 27
+      },
+      "permitUnitsTotal": 154,
+      "coUnitsTotal": 90,
+      "permitToCo": {
+        "n": 59,
+        "median": 258,
+        "p25": 31,
+        "p75": 414
+      },
+      "entitlementToPermit": {
+        "n": 62,
+        "median": 134,
+        "p25": 78,
+        "p75": 203
+      },
+      "latestYear": 2025
+    }
+  ]
+}
