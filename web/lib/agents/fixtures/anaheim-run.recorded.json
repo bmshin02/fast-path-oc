@@ -1,0 +1,280 @@
+{
+ "about": "Real /api/check output for evals/fixtures/anaheim-adu-checklist-z412-nov-2025.pdf, recorded from https://fast-path-oc.vercel.app on 2026-11-07. Replayed when MOCK=1 so demos don't spend API credits.",
+ "recordedOn": "2026-11-07",
+ "events": [
+  {
+   "type": "progress",
+   "agent": "master",
+   "message": "Planning the run"
+  },
+  {
+   "type": "progress",
+   "agent": "master",
+   "message": "Calling parse_document"
+  },
+  {
+   "type": "progress",
+   "agent": "parser",
+   "message": "Reading the Anaheim checklist"
+  },
+  {
+   "type": "progress",
+   "agent": "parser",
+   "message": "Parsed 8 lines, 4 distinct citations"
+  },
+  {
+   "type": "progress",
+   "agent": "master",
+   "message": "Calling check_compliance"
+  },
+  {
+   "type": "progress",
+   "agent": "compliance",
+   "message": "Checking 8 lines and 4 citations for Anaheim"
+  },
+  {
+   "type": "progress",
+   "agent": "compliance",
+   "message": "Fetching https://data.ca.gov/api/3/action/datastore_search_sql?sql=SELECT%20%22JURIS_NAME%22%2C%22YEAR%22%2CSUM(%22NO_BUILDING_PERMITS%22)%20AS%20bp_units%20FROM%20%22fe505d9b-8c36-42ba-ba30-08bc4f34e022%22%20WHERE%20%22JURIS_NAME%22%3D'ANAHEIM'%20AND%20%22UNIT_CAT%22%3D'ADU'%20GROUP%20BY%201%2C2%20ORDER%20BY%201%2C2"
+  },
+  {
+   "type": "progress",
+   "agent": "compliance",
+   "message": "Fetch failed (url_too_long); will mark unverified"
+  },
+  {
+   "type": "progress",
+   "agent": "compliance",
+   "message": "Searching: Anaheim ADU building permits APR Table A2 data.ca.gov"
+  },
+  {
+   "type": "progress",
+   "agent": "compliance",
+   "message": "Done: path \"ADU / JADU ministerial approval\", 15 business days to decide completeness, with a written list of every incomplete item and how to fix it (deemed complete if late), then 60 days from a complete application to approve or deny (deemed approved if late); 2 stale, 1 possible conflict(s), 8 unverified"
+  },
+  {
+   "type": "progress",
+   "agent": "master",
+   "message": "Calling produce_deliverables"
+  },
+  {
+   "type": "progress",
+   "agent": "producer",
+   "message": "Assembling report"
+  },
+  {
+   "type": "progress",
+   "agent": "producer",
+   "message": "Writing path note"
+  },
+  {
+   "type": "progress",
+   "agent": "producer",
+   "message": "Report ready"
+  }
+ ],
+ "report": {
+  "reports": [
+   {
+    "header": {
+     "city": "Anaheim",
+     "projectType": "adu",
+     "docTitle": "Accessory Dwelling Unit Submittal Requirements Checklist (Z412)",
+     "checkedOn": "2026-11-07",
+     "disclaimer": "Prototype · not legal advice"
+    },
+    "trafficLight": {
+     "pathFound": true,
+     "staleCitations": 2,
+     "possibleConflicts": 1,
+     "gaps": 0
+    },
+    "path": {
+     "name": "ADU / JADU ministerial approval",
+     "statute": "Gov. Code, § 66317, subds. (a)(2)–(a)(3), hand-checked in a browser 2026-11-07, per reference/sources.md; the HCD ADU Handbook (Mar 2026), pp. 14 and 34–35, cites the same rule (Gov. Code, § 66317, subd. (a)(2)(A) and (a)(3))",
+     "clock": "15 business days to decide completeness, with a written list of every incomplete item and how to fix it (deemed complete if late), then 60 days from a complete application to approve or deny (deemed approved if late)",
+     "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66317",
+     "note": "The ADU / JADU ministerial approval path fits because this is an ADU project and Anaheim's Z412 checklist has Planning review zoning compliance during Building plan check, which falls under the state clock (15 business days for completeness, then 60 days to approve or deny; Gov. Code, § 66317, subds. (a)(2)–(a)(3), per the browser hand-check in reference/sources.md and the HCD ADU Handbook (Mar 2026), pp. 14 and 34–35, https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf, checked 2026-11-07; leginfo was not read live). The data names no alternative path, such as SB 9 (2021) or a § 66323 unit, as evaluated, so no other path was confirmed; ASSUMPTION: the project is a standard ADU or JADU and not a § 66323-only unit."
+    },
+    "stepsAndFees": [
+     {
+      "order": 1,
+      "step": "Before plan check, email PWPermits@anaheim.net to request sewer deficiency verification from Public Works.",
+      "fee": null,
+      "time": "Up to four days for an email reply (per checklist)",
+      "outsidePlanningClock": true,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "order": 2,
+      "step": "If you are adding, upgrading or moving an electric meter, request a meter spot report (Anaheim.net/3472 or 714-765-6847) and include it with your plan check submittal.",
+      "fee": null,
+      "time": "A utility inspector contacts you within two to three business days (per checklist)",
+      "outsidePlanningClock": true,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "order": 3,
+      "step": "Before plan submittal, send a New Address Request Application and site plan to BusinessAssistance@anaheim.net, then pay through the AnaheimNext link.",
+      "fee": null,
+      "time": "Same-day processing if you submit in person by 11:00 am (per checklist)",
+      "outsidePlanningClock": true,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "order": 4,
+      "step": "Submit the building plan check package. Planning reviews zoning compliance during Building Division plan check.",
+      "fee": null,
+      "time": "State law: completeness decision within 15 business days, then approve or deny within 60 days of a complete application (Gov. Code, § 66317)",
+      "outsidePlanningClock": false,
+      "sourceUrl": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+     },
+     {
+      "order": 5,
+      "step": "JADUs only: email the title report (prepared within the last 6 months) and grant deed to your assigned planner. The City Attorney drafts the covenant.",
+      "fee": null,
+      "time": null,
+      "outsidePlanningClock": false,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "order": 6,
+      "step": "JADUs only: the owner(s) sign the covenant at the City Clerk's office, and it is recorded with the Orange County Clerk-Recorder before the building permit is issued.",
+      "fee": null,
+      "time": null,
+      "outsidePlanningClock": false,
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     }
+    ],
+    "findingsIntro": "We reviewed the City of Anaheim's Accessory Dwelling Unit Submittal Requirements Checklist (Z412) (dated NOV 2025) against State ADU Law (Gov. Code, §§ 66310–66342) on 2026-11-07. Of its 8 lines, 1 may not match current state law, as noted below.",
+    "findings": [
+     {
+      "number": 1,
+      "itemId": "p1-5",
+      "page": 1,
+      "topic": "Owner Occupancy",
+      "status": "possible_conflict",
+      "quote": "☐ 1. OWNER OCCUPANCY COVENANT: AMC Section 18.38.015.110 requires the recordation of an owner occupancy covenant for all JADUs, authorized by the California Government Code Sections 65852.2 and 65852.22. The covenant for the JADU will be drafted by the City Attorney’s office and must be recorded with the Orange County Clerk-Recorder’s office prior to the issuance of a building permit. The covenant will specify the following, at a minimum:\n▪ The JADU shall not be sold or owned separately from the main dwelling and the parcel upon which the unit is located and shall not be subdivided in any manner that would authorize such sale or ownership;\n▪ Owner occupancy is required within one of the dwelling units on the property; and\n▪ Owner occupancy shall be binding upon any successor in ownership of the property.",
+      "stateRule": "Gov. Code, § 66333, subd. (b) requires owner occupancy for a JADU only when it shares sanitation facilities with the main house. It isn't required when the JADU has its own bathroom, or when the owner is a governmental agency, land trust or housing organization. Separately, SB 477 (2024) renumbered Gov. Code, §§ 65852.2 and 65852.22 as §§ 66310–66342.",
+      "newCitation": "65852.2 → 66310–66342 (ADU approvals: 66314–66331); 65852.22 → 66333–66339 (owner-occupancy and deed restriction: 66333)",
+      "suggestedFix": "Replace 65852.2 and 65852.22 with Gov. Code, § 66333, and apply the owner-occupancy clause only to JADUs that share sanitation with the main house.",
+      "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66333"
+     }
+    ],
+    "auditTable": [
+     {
+      "itemId": "p1-1",
+      "line": "Planning staff reviews Accessory Dwelling Units (ADUs) and Junior Accessory Dwelling Units (JADUs) to determine compliance with applicable zoning code requirements during the Building Division’s plan check review process. This checklist provides an overview of the Planning Services Division’s submittal requirements, in addition to the Building Division’s plan submittal requirements. All accessory dwelling unit requirements can be found in Anaheim Municipal Code (AMC) Section 18.38.015. Visit Anaheim.net/ADUheim for detailed information on developing ADUs in Anaheim and for updates on special programs and incentives that support ADU development. For new detached ADUs, your property may be eligible for the ADU Express Program which provides one day permitting and zero design costs. Visit Anaheim.net/ADUexpress for more information.",
+      "page": 1,
+      "cites": [
+       "Anaheim Municipal Code (AMC) Section 18.38.015"
+      ],
+      "status": "unverified",
+      "newCitation": null,
+      "note": "This is an information line. It cites local code only (AMC 18.38.015) and no state statute. The AMC text wasn't checked today, so we can't confirm the section is current.",
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "itemId": "p1-2",
+      "line": "☐ 1. SEWER DEFICIENCY VERIFICATION: Provide a copy of written verification from the Public Works Department verifying that there is sewer capacity to add an ADU to the property. This written verification may be obtained by submitting an email request to the Public Works Department to PWPermits@anaheim.net. Please allow up to four days to receive a reply to your email inquiry.",
+      "page": 1,
+      "cites": [],
+      "status": "uncited",
+      "newCitation": null,
+      "note": "No legal authority is cited for the sewer check. State law lets a city limit where ADUs go based on sewer adequacy (Gov. Code, § 66314, subd. (a)), but HCD says those limits can't block § 66323 units (Handbook p. 42). The checklist's 'up to four days' reply isn't tied to the state clock.",
+      "sourceUrl": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+     },
+     {
+      "itemId": "p1-3",
+      "line": "☐ 2. METER SPOT REPORT: Complete this step if you are adding a new electric meter, upgrading an existing meter, and/or relocating an existing meter. Request a meter sport report inspection online (Anaheim.net/3472) or by calling 714-765-6847. A utility inspector will contact you within two to three business days and provide you a copy of the meter spot report. Include the meter spot report on your building plan check submittal.",
+      "page": 1,
+      "cites": [],
+      "status": "uncited",
+      "newCitation": null,
+      "note": "No legal authority is cited for the meter spot report. It's a utility step that applies only when a meter is added, upgraded or moved.",
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "itemId": "p1-4",
+      "line": "☐ 3. NEW ADDRESS REQUEST: Complete this step prior to plan submittal to avoid any time delays. Submit a completed New Address Request Application and site plan to BusinessAssistance@anaheim.net. You will be contacted via email with a link for payment on the AnaheimNext website. If submitting in-person, please arrive by 11:00 am to ensure same day processing.",
+      "page": 1,
+      "cites": [],
+      "status": "uncited",
+      "newCitation": null,
+      "note": "No legal authority is cited for the new address request. The checklist mentions a payment link but doesn't state the fee, so the fee is unknown.",
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "itemId": "p1-5",
+      "line": "☐ 1. OWNER OCCUPANCY COVENANT: AMC Section 18.38.015.110 requires the recordation of an owner occupancy covenant for all JADUs, authorized by the California Government Code Sections 65852.2 and 65852.22. The covenant for the JADU will be drafted by the City Attorney’s office and must be recorded with the Orange County Clerk-Recorder’s office prior to the issuance of a building permit. The covenant will specify the following, at a minimum:\n▪ The JADU shall not be sold or owned separately from the main dwelling and the parcel upon which the unit is located and shall not be subdivided in any manner that would authorize such sale or ownership;\n▪ Owner occupancy is required within one of the dwelling units on the property; and\n▪ Owner occupancy shall be binding upon any successor in ownership of the property.",
+      "page": 1,
+      "cites": [
+       "AMC Section 18.38.015.110",
+       "California Government Code Section 65852.2",
+       "California Government Code Section 65852.22"
+      ],
+      "status": "possible_conflict",
+      "newCitation": "65852.2 → 66310–66342 (ADU approvals: 66314–66331); 65852.22 → 66333–66339 (owner-occupancy and deed restriction: 66333)",
+      "note": "The checklist requires an owner-occupancy covenant for all JADUs under local AMC 18.38.015.110. It also cites two sections SB 477 renumbered: 65852.22 is now §§ 66333–66339 and 65852.2 is now §§ 66310–66342. Current Gov. Code, § 66333, subd. (b) requires owner occupancy only for JADUs that share sanitation, but the covenant's no-separate-sale clause does match § 66333, subd. (c). Possible conflict, confirm with city staff or counsel.",
+      "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66333"
+     },
+     {
+      "itemId": "p1-6",
+      "line": "Email the following documents to your assigned project Planner as soon as possible for the City to verify current ownership of the property. The current owner(s) will be listed in the covenant and will be requested to sign covenant at the City Clerk’s office:",
+      "page": 1,
+      "cites": [],
+      "status": "uncited",
+      "newCitation": null,
+      "note": "This line asks for ownership documents to prepare the JADU covenant and cites no authority itself. It depends on the covenant in p1-5, so if p1-5 changes, this line may only be needed for some JADUs.",
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "itemId": "p1-7",
+      "line": "☐ TITLE REPORT (Must have been prepared within the last 6 months of submittal date)",
+      "page": 1,
+      "cites": [],
+      "status": "uncited",
+      "newCitation": null,
+      "note": "No legal authority is cited for requiring a title report from the last 6 months. It supports the JADU covenant in p1-5.",
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     },
+     {
+      "itemId": "p1-8",
+      "line": "☐ GRANT DEED",
+      "page": 1,
+      "cites": [],
+      "status": "uncited",
+      "newCitation": null,
+      "note": "No legal authority is cited for the grant deed. It supports the JADU covenant in p1-5.",
+      "sourceUrl": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist"
+     }
+    ],
+    "timelines": [],
+    "hcdLetters": {
+     "letters": [
+      {
+       "title": "HCD findings letter on Anaheim's ADU and SB 9 ordinance",
+       "date": "2025-03-24",
+       "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf"
+      }
+     ],
+     "note": "Per reference/cities.md, Finding 1 of HCD's March 24, 2025 letter told Anaheim to replace the deleted sections 65852.2, 65852.22 and 65852.26. The Nov 2025 Z412 checklist (p1-5) still cites 65852.2 and 65852.22. HCD did not raise the JADU owner-occupancy covenant, so p1-5's possible conflict is a separate lead. We didn't re-read the letter today."
+    },
+    "packageGaps": [],
+    "couldntVerify": [
+     "The APR Table A2 fetch failed today (url_too_long). One web search found only a third-party site, so no ADU permit counts are reported. reference/cities.md lists values from 2026-11-07 (2018: 8, 2019: 37, 2020: 108, 2021: 157, 2022: 337, 2023: 349, 2024: 429, 2025: 441), but we couldn't re-confirm them today.",
+     "Leginfo wasn't read live. Gov. Code, §§ 66317 and 66333 rely on the browser hand-check recorded in reference/sources.md (2026-11-07) and the attached HCD ADU Handbook (Mar 2026).",
+     "The Anaheim checklist URL returns 403, so this audit used the parsed checklist text from the coordinator.",
+     "The text of AMC 18.38.015 and 18.38.015.110 wasn't checked today.",
+     "All Anaheim fees are unknown: the planning fee page returns 403, and the checklist doesn't state the address request fee. A search snippet in reference/cities.md about impact fees taking effect 2026-05-25 is unconfirmed.",
+     "The HCD March 24, 2025 Anaheim letter wasn't re-fetched today; its summary comes from reference/cities.md.",
+     "It's unknown whether the Public Works sewer reply and the meter spot report count toward the Gov. Code, § 66317 clock. The Handbook defines a permitting agency to include utilities (Gov. Code, § 66313, subd. (k)).",
+     "We didn't check the HCD ADU Handbook landing page for a version newer than Mar 2026.",
+     "p1-1 \"Planning staff reviews Accessory Dwelling Units (ADUs) and Junior Accessory Dwe…\": This is an information line. It cites local code only (AMC 18.38.015) and no state statute. The AMC text wasn't checked today, so we can't confirm the section is current."
+    ],
+    "markdown": "## Fast Path Check: Anaheim, ADU\n**Date checked:** 2026-11-07 · **Prototype · not legal advice**\n\n### At a glance\n| Path found | Stale citations | Possible conflicts | Package gaps |\n|---|---|---|---|\n| ADU / JADU ministerial approval | 2 | 1 | no package provided |\n\n### Findings\nWe reviewed the City of Anaheim's Accessory Dwelling Unit Submittal Requirements Checklist (Z412) (dated NOV 2025) against State ADU Law (Gov. Code, §§ 66310–66342) on 2026-11-07. Of its 8 lines, 1 may not match current state law, as noted below.\n\n1. **Line p1-5 (page 1) – *Owner Occupancy*** – The checklist states, \"☐ 1. OWNER OCCUPANCY COVENANT: AMC Section 18.38.015.110 requires the recordation of an owner occupancy covenant for all JADUs, authorized by the California Government Code Sections 65852.2 and 65852.22. The covenant for the JADU will be drafted by the City Attorney’s office and must be recorded wi…\" However, Gov. Code, § 66333, subd. (b) requires owner occupancy for a JADU only when it shares sanitation facilities with the main house. It isn't required when the JADU has its own bathroom, or when the owner is a governmental agency, land trust or housing organization. Separately, SB 477 (2024) renumbered Gov. Code, §§ 65852.2 and 65852.22 as §§ 66310–66342. Current sections: 65852.2 → 66310–66342 (ADU approvals: 66314–66331); 65852.22 → 66333–66339 (owner-occupancy and deed restriction: 66333). **Suggested fix:** Replace 65852.2 and 65852.22 with Gov. Code, § 66333, and apply the owner-occupancy clause only to JADUs that share sanitation with the main house. *Possible conflict, confirm with city staff or counsel.* ([source](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66333), checked 2026-11-07)\n\n**What the city can do:** update the checklist to cite the current sections, and review each possible conflict with city staff or counsel. This is a prototype check, not an HCD finding.\n\n### 1. Path and legal clock\n- **Path:** ADU / JADU ministerial approval\n- **Clock:** 15 business days to decide completeness, with a written list of every incomplete item and how to fix it (deemed complete if late), then 60 days from a complete application to approve or deny (deemed approved if late). Source: [Gov. Code, § 66317, subds. (a)(2)–(a)(3), hand-checked in a browser 2026-11-07, per reference/sources.md; the HCD ADU Handbook (Mar 2026), pp. 14 and 34–35, cites the same rule (Gov. Code, § 66317, subd. (a)(2)(A) and (a)(3))](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66317), checked 2026-11-07.\n- **Why this path:** The ADU / JADU ministerial approval path fits because this is an ADU project and Anaheim's Z412 checklist has Planning review zoning compliance during Building plan check, which falls under the state clock (15 business days for completeness, then 60 days to approve or deny; Gov. Code, § 66317, subds. (a)(2)–(a)(3), per the browser hand-check in reference/sources.md and the HCD ADU Handbook (Mar 2026), pp. 14 and 34–35, https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf, checked 2026-11-07; leginfo was not read live). The data names no alternative path, such as SB 9 (2021) or a § 66323 unit, as evaluated, so no other path was confirmed; ASSUMPTION: the project is a standard ADU or JADU and not a § 66323-only unit.\n\n### 2. Steps, fees and timelines\n| # | Step | Fee | Time | Source |\n|---|---|---|---|---|\n| 1 | Before plan check, email PWPermits@anaheim.net to request sewer deficiency verification from Public Works. | unknown | Up to four days for an email reply (per checklist) (outside the legal clock) | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 2 | If you are adding, upgrading or moving an electric meter, request a meter spot report (Anaheim.net/3472 or 714-765-6847) and include it with your plan check submittal. | unknown | A utility inspector contacts you within two to three business days (per checklist) (outside the legal clock) | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 3 | Before plan submittal, send a New Address Request Application and site plan to BusinessAssistance@anaheim.net, then pay through the AnaheimNext link. | unknown | Same-day processing if you submit in person by 11:00 am (per checklist) (outside the legal clock) | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 4 | Submit the building plan check package. Planning reviews zoning compliance during Building Division plan check. | unknown | State law: completeness decision within 15 business days, then approve or deny within 60 days of a complete application (Gov. Code, § 66317) | [source](https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf) |\n| 5 | JADUs only: email the title report (prepared within the last 6 months) and grant deed to your assigned planner. The City Attorney drafts the covenant. | unknown | unknown | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 6 | JADUs only: the owner(s) sign the covenant at the City Clerk's office, and it is recorded with the Orange County Clerk-Recorder before the building permit is issued. | unknown | unknown | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n\n### 3. Checklist audit\nSource checklist: Accessory Dwelling Unit Submittal Requirements Checklist (Z412)\n\n| # | Checklist line | Cites | Status | Current law / note | Source |\n|---|---|---|---|---|---|\n| 1 | Planning staff reviews Accessory Dwelling Units (ADUs) and Junior Accessory Dwelling Units (JADUs) to determine compliance with applicable zoning code requirem… | Anaheim Municipal Code (AMC) Section 18.38.015 | Unknown | This is an information line. It cites local code only (AMC 18.38.015) and no state statute. The AMC text wasn't checked today, so we can't confirm the section is current. | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 2 | ☐ 1. SEWER DEFICIENCY VERIFICATION: Provide a copy of written verification from the Public Works Department verifying that there is sewer capacity to add an AD… | none | Uncited | No legal authority is cited for the sewer check. State law lets a city limit where ADUs go based on sewer adequacy (Gov. Code, § 66314, subd. (a)), but HCD says those limits can't block § 66323 units (Handbook p. 42). The checklist's 'up to four days' reply isn't tied to the state clock. | [source](https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf) |\n| 3 | ☐ 2. METER SPOT REPORT: Complete this step if you are adding a new electric meter, upgrading an existing meter, and/or relocating an existing meter. Request a … | none | Uncited | No legal authority is cited for the meter spot report. It's a utility step that applies only when a meter is added, upgraded or moved. | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 4 | ☐ 3. NEW ADDRESS REQUEST: Complete this step prior to plan submittal to avoid any time delays. Submit a completed New Address Request Application and site plan… | none | Uncited | No legal authority is cited for the new address request. The checklist mentions a payment link but doesn't state the fee, so the fee is unknown. | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 5 | ☐ 1. OWNER OCCUPANCY COVENANT: AMC Section 18.38.015.110 requires the recordation of an owner occupancy covenant for all JADUs, authorized by the California Go… | AMC Section 18.38.015.110; California Government Code Section 65852.2; California Government Code Section 65852.22 | **Possible conflict**; stale: 65852.2 → 66310–66342 (ADU approvals: 66314–66331); 65852.22 → 66333–66339 (owner-occupancy and deed restriction: 66333) | The checklist requires an owner-occupancy covenant for all JADUs under local AMC 18.38.015.110. It also cites two sections SB 477 renumbered: 65852.22 is now §§ 66333–66339 and 65852.2 is now §§ 66310–66342. Current Gov. Code, § 66333, subd. (b) requires owner occupancy only for JADUs that share sanitation, but the covenant's no-separate-sale clause does match § 66333, subd. (c). Possible conflict, confirm with city staff or counsel. | [source](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=66333) |\n| 6 | Email the following documents to your assigned project Planner as soon as possible for the City to verify current ownership of the property. The current owner(… | none | Uncited | This line asks for ownership documents to prepare the JADU covenant and cites no authority itself. It depends on the covenant in p1-5, so if p1-5 changes, this line may only be needed for some JADUs. | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 7 | ☐ TITLE REPORT (Must have been prepared within the last 6 months of submittal date) | none | Uncited | No legal authority is cited for requiring a title report from the last 6 months. It supports the JADU covenant in p1-5. | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n| 8 | ☐ GRANT DEED | none | Uncited | No legal authority is cited for the grant deed. It supports the JADU covenant in p1-5. | [source](https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist) |\n\n*Possible conflict: confirm with city staff or counsel. This is not a ruling.*\n\n### 4. Package gaps\nNo applicant package was provided.\n\n### 5. Local numbers and HCD letters\nNo local timeline data checked today.\n\n- [HCD findings letter on Anaheim's ADU and SB 9 ordinance](https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/ordinance-review-letters/anaheim-adu-sb9-findings-032425.pdf) (2025-03-24)\nHCD letters: Per reference/cities.md, Finding 1 of HCD's March 24, 2025 letter told Anaheim to replace the deleted sections 65852.2, 65852.22 and 65852.26. The Nov 2025 Z412 checklist (p1-5) still cites 65852.2 and 65852.22. HCD did not raise the JADU owner-occupancy covenant, so p1-5's possible conflict is a separate lead. We didn't re-read the letter today.\n\n### 6. What we couldn't verify today\n- The APR Table A2 fetch failed today (url_too_long). One web search found only a third-party site, so no ADU permit counts are reported. reference/cities.md lists values from 2026-11-07 (2018: 8, 2019: 37, 2020: 108, 2021: 157, 2022: 337, 2023: 349, 2024: 429, 2025: 441), but we couldn't re-confirm them today.\n- Leginfo wasn't read live. Gov. Code, §§ 66317 and 66333 rely on the browser hand-check recorded in reference/sources.md (2026-11-07) and the attached HCD ADU Handbook (Mar 2026).\n- The Anaheim checklist URL returns 403, so this audit used the parsed checklist text from the coordinator.\n- The text of AMC 18.38.015 and 18.38.015.110 wasn't checked today.\n- All Anaheim fees are unknown: the planning fee page returns 403, and the checklist doesn't state the address request fee. A search snippet in reference/cities.md about impact fees taking effect 2026-05-25 is unconfirmed.\n- The HCD March 24, 2025 Anaheim letter wasn't re-fetched today; its summary comes from reference/cities.md.\n- It's unknown whether the Public Works sewer reply and the meter spot report count toward the Gov. Code, § 66317 clock. The Handbook defines a permitting agency to include utilities (Gov. Code, § 66313, subd. (k)).\n- We didn't check the HCD ADU Handbook landing page for a version newer than Mar 2026.\n- p1-1 \"Planning staff reviews Accessory Dwelling Units (ADUs) and Junior Accessory Dwe…\": This is an information line. It cites local code only (AMC 18.38.015) and no state statute. The AMC text wasn't checked today, so we can't confirm the section is current.\n"
+   }
+  ],
+  "comparison": null
+ }
+}

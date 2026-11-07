@@ -15,7 +15,7 @@ const RANK: Record<ItemStatus, number> = {
   current: 0,
 };
 
-const uniq = (xs: (string | null)[]) => [...new Set(xs.filter((x): x is string => !!x && x.trim() !== ""))];
+const uniq = (xs: (string | null | undefined)[]) => [...new Set(xs.filter((x): x is string => !!x && x.trim() !== ""))];
 
 /** Merge every finding for one line into a single row. */
 export function mergeFindings(rows: Finding[]): Finding {
@@ -23,10 +23,15 @@ export function mergeFindings(rows: Finding[]): Finding {
   const sorted = [...rows].sort((a, b) => RANK[b.status] - RANK[a.status]);
   const top = sorted[0];
   const citations = uniq(sorted.map((r) => r.newCitation));
+  const rules = uniq(sorted.map((r) => r.stateRule));
+  const fixes = uniq(sorted.map((r) => r.suggestedFix));
   return {
     id: top.id,
     status: top.status,
+    topic: uniq(sorted.map((r) => r.topic)).join(" / "),
     newCitation: citations.length ? citations.join("; ") : null,
+    stateRule: rules.length ? rules.join(" ") : null,
+    suggestedFix: fixes.length ? fixes.join(" ") : null,
     note: uniq(sorted.map((r) => r.note)).join(" "),
     sourceUrl: top.sourceUrl ?? sorted.find((r) => r.sourceUrl)?.sourceUrl ?? null,
   };
