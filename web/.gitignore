@@ -31,7 +31,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
+# Real keys live in .env / .env.local and are never committed.
+# .env.example is the shared template, so it is committed.
 .env*
+!.env.example
 
 # vercel
 .vercel
