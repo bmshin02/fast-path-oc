@@ -65,18 +65,40 @@ export async function POST(request: Request) {
     return Response.json({ message: err instanceof Error ? err.message : "Couldn't read the form." }, { status: 400 });
   }
 
+  // If the visitor leaves mid-turn, stop the Claude call (so it isn't billed
+  // for nothing) and stop writing to the closed stream.
+  const abort = new AbortController();
+  request.signal.addEventListener("abort", () => abort.abort());
+  let closed = false;
+
   const encoder = new TextEncoder();
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
-      const send = (ev: ServerEvent) => controller.enqueue(encoder.encode(`${JSON.stringify(ev)}\n`));
+      const send = (ev: ServerEvent) => {
+        if (closed) return;
+        try {
+          controller.enqueue(encoder.encode(`${JSON.stringify(ev)}\n`));
+        } catch {
+          closed = true;
+        }
+      };
       try {
-        await runTurn(body, doc, model, send);
+        await runTurn(body, doc, model, send, abort.signal);
       } catch (err) {
-        console.error("[api/fill]", err);
-        send({ type: "error", message: friendlyError(err) });
+        if (!abort.signal.aborted) {
+          console.error("[api/fill]", err);
+          send({ type: "error", message: friendlyError(err) });
+        }
       } finally {
-        controller.close();
+        if (!closed) {
+          closed = true;
+          controller.close();
+        }
       }
+    },
+    cancel() {
+      closed = true;
+      abort.abort();
     },
   });
 
@@ -90,6 +112,7 @@ async function runTurn(
   doc: { block: DocBlock; label: string; curated: boolean },
   model: string,
   send: (ev: ServerEvent) => void,
+  signal: AbortSignal,
 ) {
   const firstTurn = body.transcript.length === 0;
   send({ type: "status", text: firstTurn ? "Reading your form…" : "Thinking about your answer…" });
@@ -107,7 +130,7 @@ async function runTurn(
 
   let final: Anthropic.Beta.BetaMessage | null = null;
   // A turn that uses web search can pause; send it back so it continues.
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < 4 && !signal.aborted; attempt++) {
     const stream = client.beta.messages.stream({
       model,
       max_tokens: 32000,
@@ -119,7 +142,7 @@ async function runTurn(
       system: SYSTEM_PROMPT,
       tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 3 }],
       messages,
-    });
+    }, { signal });
     for await (const ev of stream) {
       if (ev.type === "content_block_start" && ev.content_block.type === "server_tool_use") {
         send({ type: "status", text: "Looking that up online…" });
