@@ -1,47 +1,85 @@
 @import "tailwindcss";
 
+/* Direction: the permit counter. Cool paper neutrals, one ballpoint-ink accent.
+   The sample form sheet stays paper-white in both themes. */
+
 :root {
-  --background: #f7f6f2;
+  --background: #f5f7fa;
   --surface: #ffffff;
-  --foreground: #1c1f1d;
-  --muted: #5c625e;
-  --border: #dcdad3;
-  --accent: #1f6f4a;
-  --accent-hover: #185a3c;
-  --accent-soft: #e3f0e8;
+  --raised: #eceff4;
+  --foreground: #111827;
+  --secondary: #4b5565;
+  --muted: #6b7487;
+  --border: rgb(17 24 39 / 0.09);
+  --accent: #2346b0;
+  --accent-hover: #1b3891;
+  --accent-soft: #e6ecfa;
   --on-accent: #ffffff;
+  --primary-fill: #111827;
+  --on-primary: #ffffff;
+
+  --paper: #fdfdfb;
+  --paper-line: rgb(17 24 39 / 0.14);
+  --paper-text: #1f2430;
+  --paper-muted: #6b7180;
+  --ink: #2346b0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #121513;
-    --surface: #1a1e1b;
-    --foreground: #ecefec;
-    --muted: #a3aaa5;
-    --border: #2e3430;
-    --accent: #5cc08d;
-    --accent-hover: #74cf9f;
-    --accent-soft: #1f3328;
-    --on-accent: #0d1a12;
+    --background: #0b0d14;
+    --surface: #11141c;
+    --raised: #1a1e28;
+    --foreground: #eef0f5;
+    --secondary: #a3a9b8;
+    --muted: #7a8296;
+    --border: rgb(238 240 245 / 0.08);
+    --accent: #93acff;
+    --accent-hover: #adc0ff;
+    --accent-soft: #1a2240;
+    --on-accent: #0b0d14;
+    --primary-fill: #eef0f5;
+    --on-primary: #0b0d14;
   }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-raised: var(--raised);
   --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-on-accent: var(--on-accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary-fill: var(--primary-fill);
+  --color-on-primary: var(--on-primary);
+  --color-paper: var(--paper);
+  --color-paper-line: var(--paper-line);
+  --color-paper-text: var(--paper-text);
+  --color-paper-muted: var(--paper-muted);
+  --color-ink: var(--ink);
+  --font-sans: var(--font-public-sans);
+  --font-mono: var(--font-plex-mono);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-public-sans), system-ui, sans-serif;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -1,21 +1,27 @@
 import Link from "next/link";
 
+// The mark is a ticked form box: the one thing this product does.
 export function SiteHeader() {
   return (
     <header className="w-full border-b border-border">
-      <div className="mx-auto flex h-14 max-w-5xl items-center px-4 sm:px-6">
+      <div className="mx-auto flex h-14 max-w-6xl items-center px-4 sm:px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 font-semibold tracking-tight"
+          className="flex items-center gap-2 rounded-md text-[17px] font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
-          <span
+          <svg
+            viewBox="0 0 20 20"
+            className="h-5 w-5 text-accent"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+            strokeLinejoin="round"
             aria-hidden
-            className="grid h-7 w-7 place-items-center rounded-md bg-accent text-on-accent"
           >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h10M11 6l6 6-6 6" />
-            </svg>
-          </span>
+            <rect x="2.5" y="2.5" width="15" height="15" rx="2.5" />
+            <path d="M6.5 10.25l2.5 2.5 4.75-5.5" />
+          </svg>
           Fast Track
         </Link>
       </div>

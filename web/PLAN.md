@@ -80,9 +80,9 @@ type FillEvent =
 
 Each step ends with something to check at http://localhost:3000. Don't start the next step until the current one looks right.
 
-- [ ] **0. Setup**: `npm install` in `web/`, `npm run dev`, replace the starter page, set the tab title to "Fast Track".
+- [x] **0. Setup**: `npm install` in `web/`, `npm run dev`, replace the starter page, set the tab title to "Fast Track".
   *Check:* the app runs and shows a blank Fast Track page.
-- [ ] **1. Landing page**: headline, one-line explanation, upload icon, disclaimer.
+- [x] **1. Landing page** (redesigned with the unslop + frontend-design skills): headline, one-line explanation, upload icon, disclaimer.
   *Check:* wording and look; it works at phone width.
 - [ ] **2. Pick or upload a form**: the upload button plus a list of the forms above. PDFs only, with a size limit. Choosing a form goes to `/fill`.
   *Check:* each way in reaches `/fill` with the right form.
